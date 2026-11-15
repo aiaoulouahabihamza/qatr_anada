@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>قطر الندى</title>
+  <link rel="icon" href="assets/img/logo.png">
+  <link rel="stylesheet" href="var.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  
+  <!-- شاشة البداية -->
+  <div id="splash" class="splash">
+    <div class="splash-content">
+      <img src="assets/img/logo.png" alt="قطر الندى">
+      <h1>قَطْرُ النَّدَىٰ</h1>
+      <p>QATR AL NADA</p>
+      <div class="hero">
+        سلامٌ لقلبك الذي دلّه الله إلى هنا </div>
+      
+      <div class="loader"><span></span></div>
+      <p></p>
+    </div>
+  </div>
+  
+  <!-- الهيدر -->
+  <header class="header">
+    <div class="header-top">
+      <div class="logo">
+        <b>قَطْرُ النَّدَىٰ</b>
+        <small>QATR AL NADA</small>
+      </div>
+      <div class="header-btns">
+        <button onclick="openSettings()">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+            <circle cx="12" cy="12" r="3" />
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+          </svg>
+        </button>
+        <button onclick="openDrawer()">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="15" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="greeting">
+      <h1>السلام عليكم<br><span>يومك يبدأ بآية</span></h1>
+      <p>تابع من حيث توقفت</p>
+    </div>
+  </header>
+  
+  <main class="content">
+    
+    <!-- آخر قراءة -->
+    <section class="card1">
+      <div class="last-head">
+        <small>آخر قراءة</small>
+        <span class="badge">حفظ تلقائي</span>
+      </div>
+      <div class="empty-box">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+          </svg>
+        </div>
+        <b>لا توجد قراءة سابقة</b>
+        <p>ابدأ الآن ليتم حفظ موضعك تلقائيًا</p>
+        <button class="btn" onclick="startReading()">ابدأ القراءة</button>
+      </div>
+    </section>
+    
+    <!-- أوقات الصلاة -->
+    <section class="card2">
+      <div class="prayer-head">
+        <h3>أوقات الصلاة</h3>
+        <span>المغرب بعد ساعتين</span>
+      </div>
+      <div class="prayer-row"><span>الفجر</span><b>05:42</b></div>
+      <div class="prayer-row"><span>الظهر</span><b>12:45</b></div>
+      <div class="prayer-row active"><span>العصر <span class="now">الآن</span></span><b>15:30</b></div>
+      <div class="prayer-row"><span>المغرب</span><b>18:05</b></div>
+      <div class="prayer-row"><span>العشاء</span><b>19:30</b></div>
+    </section>
+    
+    <h3 class="sec-title">أقسام الموقع</h3>
+    
+    <div class="featured">
+      <div>
+        <h3>القرآن الكريم</h3>
+        <p>114 سورة • ورش وحفص</p>
+      </div>
+      <button>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+          <path d="M5 12h14" />
+          <path d="M12 5l7 7-7 7" />
+        </svg>
+      </button>
+    </div>
+    
+    <div class="item">
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 6v6l4 2" />
+        </svg></div>
+      <div><b>الأذكار</b><span>الصباح والمساء والنوم</span></div>
+    </div>
+    <div class="item">
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg></div>
+      <div><b>الحديث</b><span>الأربعون النووية</span></div>
+    </div>
+    <div class="item">
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+          <circle cx="11" cy="11" r="7" />
+          <path d="M21 21l-4.3-4.3" />
+        </svg></div>
+      <div><b>التفسير</b><span>التفسير الميسر</span></div>
+    </div>
+    <div class="item">
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+          <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+        </svg></div>
+      <div><b>الأدعية</b><span>من الكتاب والسنة</span></div>
+    </div>
+  </main>
+  
+  <!-- القائمة الجانبية -->
+  <div id="overlay" class="overlay" onclick="closeDrawer()"></div>
+  <aside id="drawer" class="drawer">
+   <!-- <div class="drawer-header">
+    <b>قَطْرُ النَّدَىٰ</b>
+
+      <small>QATR AL NADA</small>
+    </div>
+    <div>
+      <img src="assets/img/logo-s.png" alt="" />
+    </div>-->
+    <div class="drawer-header">
+  <div class="drawer-top">
+    <div>
+      <b>قَطْرُ النَّدَىٰ</b>
+      <small>QATR AL NADA</small>
+    </div>
+    <img src="assets/img/logo-s.png" alt="قطر الندى" class="drawer-logo" />
+  </div>
+</div>
+    <div class="drawer-menu">
+      <button>الرئيسية <span>›</span></button>
+      <button>القرآن الكريم <span>›</span></button>
+      <button>الأذكار <span>›</span></button>
+      <button>الحديث <span>›</span></button>
+      <button>التفسير <span>›</span></button>
+      <button>الأدعية <span>›</span></button>
+      <button onclick="openSettings()">الإعدادات <span>›</span></button>
+    </div>
+  </aside>
+  
+  <!-- الإعدادات -->
+  <div id="settingsModal" class="modal" onclick="if(event.target===this) closeSettings()">
+    <div class="modal-content">
+      <h3>الإعدادات</h3>
+      <div class="setting">
+        <div>
+          <b>الرواية</b><br>
+          <small style="color:var(--muted);font-size:12px">اختر رواية القراءة</small>
+        </div>
+        <div class="pills">
+          <button class="active" onclick="setRiwaya('warsh')">ورش</button>
+          <button onclick="setRiwaya('hafs')">حفص</button>
+        </div>
+      </div>
+      <div class="setting">
+        <div>
+          <b>حجم الخط</b><br>
+          <small style="color:var(--muted);font-size:12px">لنص القرآن</small>
+        </div>
+        <div class="pills">
+          <button onclick="setFontSize('small')">صغير</button>
+          <button class="active" onclick="setFontSize('medium')">متوسط</button>
+          <button onclick="setFontSize('large')">كبير</button>
+        </div>
+      </div>
+      <button class="btn" style="width:100%;margin-top:18px" onclick="closeSettings()">تم</button>
+    </div>
+  </div>
+  
+  <script src="main.js"></script>
+</body>
+
+</html>

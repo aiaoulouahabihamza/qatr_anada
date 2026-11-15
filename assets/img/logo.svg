@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <!-- الشريط الكحلي: شريط واحد متصل، بسماكة 19 -->
+  <g fill="none" stroke="#1A2333" stroke-width="19" stroke-linecap="square" stroke-linejoin="miter">
+    <!-- المعين العلوي - الجانب الأيمن -->
+    <path d="M200 12 L302 115 L242 168" />
+    <!-- المعين العلوي - الجانب الأيسر -->
+    <path d="M200 12 L98 115 L158 168" />
+    <!-- الوصلة الوسطى المائلة - قلب الشعار -->
+    <path d="M242 168 L158 232" />
+    <!-- المعين السفلي -->
+    <path d="M158 232 L98 285 L200 388 L302 285 L242 232" />
+  </g>
+
+  <!-- المعينان الأزرقان الداخليان - مركزهما مضبوط -->
+  <rect x="174" y="92" width="52" height="52" transform="rotate(45 200 118)" fill="#7FA0BC" />
+  <rect x="174" y="256" width="52" height="52" transform="rotate(45 200 282)" fill="#7FA0BC" />
+
+  <!-- المربعات الجانبية - 8 مربعات، كل واحد 36×36، مائل 45 درجة -->
+  <!-- اليسار -->
+  <rect x="34" y="182" width="36" height="36" transform="rotate(45 52 200)" fill="#7FA0BC" />
+  <rect x="80" y="140" width="36" height="36" transform="rotate(45 98 158)" fill="#A98A5F" />
+  <rect x="80" y="224" width="36" height="36" transform="rotate(45 98 242)" fill="#7FA0BC" />
+  <rect x="126" y="182" width="36" height="36" transform="rotate(45 144 200)" fill="#A98A5F" />
+  <!-- اليمين -->
+  <rect x="238" y="182" width="36" height="36" transform="rotate(45 256 200)" fill="#7FA0BC" />
+  <rect x="284" y="140" width="36" height="36" transform="rotate(45 302 158)" fill="#A98A5F" />
+  <rect x="284" y="224" width="36" height="36" transform="rotate(45 302 242)" fill="#A98A5F" />
+  <rect x="330" y="182" width="36" height="36" transform="rotate(45 348 200)" fill="#7FA0BC" />
+</svg>

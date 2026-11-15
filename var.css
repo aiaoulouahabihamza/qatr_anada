@@ -1,0 +1,42 @@
+@font-face {
+  font-family: "amiri";
+  src: url(assets/font/Amiri-Regular.ttf);
+}
+@font-face {
+  font-family: "cario";
+  src: url(assets/font/Cairo-Regular.ttf);
+}
+@font-face {
+  font-family: "tajawal";
+  src: url(assets/font/Tajawal-Medium.ttf);
+ 
+}
+ @font-face {
+    font-family: "almarai";
+    src: url(assets/font/almarai-regular.ttf);
+  }
+  
+:root {
+  --bg:          #F9F7F2;
+  --primary:     #5A091C;
+  --accent:      rgba(30, 77, 58, 1);
+  --gold:        #C9A66B;
+  --card:        #FFFFFF;
+  --border:      #E8E0D4;
+  --text:        #2A2A2A;
+  --muted:       #6B6560;
+
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-ui); }
+body {
+  background: var(--bg);
+  color: var(--text);
+  direction: rtl;
+  min-height: 100vh;
+  line-height: 1.65;
+      font-family: "almarai";
+
+}
+button { font-family: var(--font-ui); cursor: pointer; border: none; background: none; }
+.hidden { display: none !important; }
