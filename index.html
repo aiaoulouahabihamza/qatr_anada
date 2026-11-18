@@ -61,7 +61,7 @@
     <section class="card1">
       <div class="last-head">
         <small>آخر قراءة</small>
-        <span class="badge">حفظ تلقائي</span>
+        <span class="badge" id="lastBadge">حفظ تلقائي</span>
       </div>
       <div class="empty-box">
         <div class="icon">
@@ -70,9 +70,9 @@
             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
           </svg>
         </div>
-        <b>لا توجد قراءة سابقة</b>
-        <p>ابدأ الآن ليتم حفظ موضعك تلقائيًا</p>
-        <button class="btn" onclick="startReading()">ابدأ القراءة</button>
+        <b id="lastTitle">لا توجد قراءة سابقة</b>
+        <p id="lastSub">ابدأ الآن ليتم حفظ موضعك تلقائيًا</p>
+        <button class="btn" id="lastBtn" onclick="startReading()">ابدأ القراءة</button>
       </div>
     </section>
     
@@ -91,12 +91,12 @@
     
     <h3 class="sec-title">أقسام الموقع</h3>
     
-    <div class="featured">
+    <div class="featured" onclick="openQuran()" style="cursor:pointer">
       <div>
         <h3>القرآن الكريم</h3>
         <p>114 سورة • ورش وحفص</p>
       </div>
-      <button>
+      <button onclick="openQuran()">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
           <path d="M5 12h14" />
           <path d="M12 5l7 7-7 7" />
@@ -154,7 +154,7 @@
 </div>
     <div class="drawer-menu">
       <button>الرئيسية <span>›</span></button>
-      <button>القرآن الكريم <span>›</span></button>
+      <button onclick="openQuran()">القرآن الكريم <span>›</span></button>
       <button>الأذكار <span>›</span></button>
       <button>الحديث <span>›</span></button>
       <button>التفسير <span>›</span></button>
@@ -173,8 +173,9 @@
           <small style="color:var(--muted);font-size:12px">اختر رواية القراءة</small>
         </div>
         <div class="pills">
-          <button class="active" onclick="setRiwaya('warsh')">ورش</button>
-          <button onclick="setRiwaya('hafs')">حفص</button>
+          <button class="active" data-riwaya="warsh" onclick="setRiwaya('warsh')">ورش</button>
+          <button data-riwaya="hafs" onclick="setRiwaya('hafs')">حفص</button>
+          <button data-riwaya="warsh_ma" onclick="setRiwaya('warsh_ma')">ورش بالرسم المغربي</button>
         </div>
       </div>
       <div class="setting">
@@ -183,9 +184,9 @@
           <small style="color:var(--muted);font-size:12px">لنص القرآن</small>
         </div>
         <div class="pills">
-          <button onclick="setFontSize('small')">صغير</button>
-          <button class="active" onclick="setFontSize('medium')">متوسط</button>
-          <button onclick="setFontSize('large')">كبير</button>
+          <button data-size="small" onclick="setFontSize('small')">صغير</button>
+          <button class="active" data-size="medium" onclick="setFontSize('medium')">متوسط</button>
+          <button data-size="large" onclick="setFontSize('large')">كبير</button>
         </div>
       </div>
       <button class="btn" style="width:100%;margin-top:18px" onclick="closeSettings()">تم</button>

@@ -1,0 +1,258 @@
+/* ==========================================================================
+   قطر الندى — quran/style.css
+   يُحمَّل بعد ../var.css و ../style.css، ويعيد استعمال أصناف الرئيسية نفسها
+   (.header .card1 .badge .btn .modal ...) فيبدو القسم نسخة منها.
+   ========================================================================== */
+
+:root {
+  --font-hafs: "hafs", "amiri", serif;
+  --font-warsh: "warsh", "amiri", serif;
+  --font-maghribi: "maghribi", "amiri", serif;
+  --font-surah: "surah-names", "amiri", serif;
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
+
+/* ===================== فهرس السور ===================== */
+.qindex .content { max-width: 560px; margin-inline: auto; }
+.qindex .header { max-width: none; }
+
+.qindex .header-top { margin-bottom: 18px; }
+
+/* البحث داخل المربع الأحمر */
+.search {
+  display: flex; align-items: center; gap: 10px;
+  height: 44px; padding: 0 14px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.12);
+}
+.search svg { width: 19px; height: 19px; stroke: var(--gold); flex-shrink: 0; }
+.search input {
+  flex: 1; min-width: 0; height: 100%;
+  background: none; border: 0; outline: 0;
+  color: #fff;
+  font: 400 14px "tajawal", "almarai", sans-serif;
+}
+.search input::placeholder { color: rgba(255, 255, 255, .7); }
+.search:focus-within { background: rgba(255, 255, 255, 0.2); }
+
+/* آخر قراءة: هي بطاقة الرئيسية نفسها */
+.qlast { display: block; color: inherit; text-decoration: none; }
+.qlast .empty-box .btn { display: inline-block; }
+
+/* صف السورة: على نمط .item في الرئيسية */
+.srow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  color: var(--text);
+  text-decoration: none;
+}
+.srow:active { background: #FBF9F4; }
+.srow:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.srow .icon {
+  width: 44px; height: 44px;
+  background: #F5EFE6;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font: 400 16px "amiri", serif;
+  color: var(--primary);
+}
+.sinfo { flex: 1; min-width: 0; display: block; }
+.sname { display: block; font-size: 28px; line-height: 1.25; color: var(--primary); }
+.smeta { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+.smeta img { width: 14px; height: 14px; flex-shrink: 0; }
+.srow .badge { flex-shrink: 0; white-space: nowrap; }
+
+.qempty { text-align: center; color: var(--muted); padding: 40px 0; font-size: 14px; }
+.qload { display: flex; justify-content: center; padding: 50px 0; }
+.qload span {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 3px solid var(--border); border-top-color: var(--primary);
+  animation: spin .9s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ===================== شاشة اختيار الرواية ===================== */
+body.gated { overflow: hidden; }
+.gate {
+  position: fixed; inset: 0; z-index: 100;
+  background: var(--bg);
+  overflow-y: auto;
+}
+.gate[hidden] { display: none; }
+.gate .content { max-width: 560px; margin-inline: auto; }
+.gate .greeting h1 { font-size: 24px; }
+
+.rcard {
+  display: block; width: 100%;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px 16px 12px;
+  margin-bottom: 10px;
+  text-align: right;
+}
+.rcard:active { background: #FBF9F4; }
+.rcard:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.rcard-top { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+.rcard-top b { font-size: 15px; color: var(--primary); }
+.rcard-top small { font-size: 12px; color: var(--muted); }
+.rcard-sample { display: block; text-align: center; font-size: 26px; line-height: 1.9; color: var(--text); }
+
+/* ===================== صفحة العرض (المصحف) ===================== */
+body.reader {
+  background: var(--bg);
+  overflow: hidden;
+  height: 100vh;
+  height: 100dvh;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* المربع الأحمر العلوي: نفس رأس الرئيسية بزوايا مدورة من الأسفل */
+.rbar {
+  position: fixed;
+  top: 0; right: 0; left: 0;
+  height: 60px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 0 0 24px 24px;
+  transition: transform .3s ease;
+}
+body.immersive .rbar { transform: translateY(-110%); }
+
+.rbtn {
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.12);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.rbtn svg { width: 20px; height: 20px; stroke: #fff; }
+.rtitle { flex: 1; min-width: 0; text-align: center; }
+.rtitle b { display: block; font: 400 19px/1.3 "amiri", serif; }
+.rtitle small { display: block; font-size: 11.5px; color: var(--gold); line-height: 1.3; }
+
+.pager {
+  position: fixed;
+  inset: 0;
+  padding-top: 60px;
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+}
+.pager::-webkit-scrollbar { display: none; }
+.pager.drag { cursor: grabbing; }
+
+.pg {
+  flex: 0 0 100%;
+  width: 100%;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 8px;
+}
+
+/* الصفحة: بلا ورق ولا صورة خلفية */
+.paper {
+  position: relative;
+  flex-shrink: 0;
+  color: var(--text);
+}
+
+.mbody {
+  position: absolute;
+  direction: rtl;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 400;
+  line-height: 1;
+}
+.mbody.short { justify-content: center; }
+
+.ln {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  white-space: nowrap;
+  direction: rtl;
+  color: var(--text);
+}
+.ln .t { white-space: nowrap; display: inline-flex; align-items: center; }
+.ln.ctr, .ln.bsm { justify-content: center; gap: .3em; }
+.ln.head { justify-content: center; }
+
+/* إطار اسم السورة: الاسم صورة مقصوصة على حدود الحبر، فيقع في المنتصف تمامًا */
+.sf { position: relative; }
+.sf .fr { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.sf .sn { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: block; }
+
+/* رقم الآية في الرسم المغربي */
+.av {
+  position: relative;
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-style: normal;
+  vertical-align: middle;
+}
+.av img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.av b { position: relative; font-family: "amiri", serif; font-weight: 400; color: #4A281E; line-height: 1; margin-top: 6%; }
+
+/* رقم الصفحة: أسفل اليسار */
+.pnum {
+  position: absolute;
+  z-index: 2;
+  display: flex; align-items: center; justify-content: center;
+}
+.pnum img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.pnum span { position: relative; font-family: "amiri", serif; color: #4A281E; line-height: 1; margin-top: 2%; }
+
+.miss {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 30px;
+  color: var(--muted); font-size: 15px;
+}
+
+.veil {
+  position: fixed; inset: 0; z-index: 30;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity .35s, visibility .35s;
+}
+.veil.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+.veil span {
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 3px solid var(--border); border-top-color: var(--primary);
+  animation: spin .9s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .veil span, .qload span { animation-duration: 3s; }
+  .rbar { transition: none; }
+}

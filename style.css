@@ -526,3 +526,7 @@ border-radius: 18px;
   color: white;
   border-color: var(--primary);
 }
+
+/* ===== إضافات: ثلاثة أزرار للرواية تلتف على سطرين عند ضيق العرض ===== */
+.setting { gap: 10px; }
+.pills { flex-wrap: wrap; justify-content: flex-end; }

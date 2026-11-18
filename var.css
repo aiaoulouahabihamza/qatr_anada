@@ -40,3 +40,26 @@ body {
 }
 button { font-family: var(--font-ui); cursor: pointer; border: none; background: none; }
 .hidden { display: none !important; }
+
+/* ===== خطوط المصحف (إضافة لصفحات القرآن) ===== */
+@font-face {
+  font-family: "hafs";
+  src: url(assets/font/hafs.otf);
+  font-display: block;
+}
+@font-face {
+  font-family: "warsh";
+  src: url(assets/font/warsh.ttf);
+  font-display: block;
+}
+@font-face {
+  font-family: "maghribi";
+  src: url(assets/font/aalmaghrabi.ttf);
+  font-display: block;
+}
+/* خط أسماء السور: يُكتب فيه رقم السورة بثلاثة أرقام، مثل 002 */
+@font-face {
+  font-family: "surah-names";
+  src: url("assets/font/%D8%AE%D8%B7%20%D8%A7%D8%B3%D9%85%D8%A7%D8%A1%20%D8%A7%D9%84%D8%B3%D9%88%D8%B1.ttf");
+  font-display: block;
+}

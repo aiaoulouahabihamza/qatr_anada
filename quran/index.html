@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#5A091C">
+  <title>القرآن الكريم — قطر الندى</title>
+  <link rel="icon" href="../assets/img/logo.png">
+  <link rel="stylesheet" href="../var.css">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="qindex">
+
+  <!-- اختيار الرواية: يظهر في أول زيارة ولا يُغلق إلا بالاختيار -->
+  <section id="gate" class="gate" hidden aria-labelledby="gateTitle">
+    <div class="header">
+      <div class="header-top">
+        <div class="logo">
+          <b>قَطْرُ النَّدَىٰ</b>
+          <small>QATR AL NADA</small>
+        </div>
+      </div>
+      <div class="greeting">
+        <h1 id="gateTitle">اختر <span>رواية القراءة</span></h1>
+        <p>تستطيع تغييرها لاحقًا من الإعدادات</p>
+      </div>
+    </div>
+    <div class="content">
+      <button class="rcard" data-pick="warsh">
+        <span class="rcard-top"><b>ورش</b><small>عن نافع · رسم المجمع</small></span>
+        <span class="rcard-sample" style="font-family:var(--font-warsh)">&#x0627;&#x0650;&#x06ec;&#x0644;&#x0652;&#x062d;&#x064e;&#x0645;&#x0652;&#x062f;&#x064f; &#x0644;&#x0650;&#x0644;&#x0647;&#x0650; &#x0631;&#x064e;&#x0628;&#x0651;&#x0650; &#x0627;&#x0650;&#x06ec;&#x0644;&#x0652;&#x0639;&#x064e;&#x0670;&#x0644;&#x064e;&#x0645;&#x0650;&#x064a;&#x0646;&#x064e;</span>
+      </button>
+      <button class="rcard" data-pick="hafs">
+        <span class="rcard-top"><b>حفص</b><small>عن عاصم</small></span>
+        <span class="rcard-sample" style="font-family:var(--font-hafs)">&#x0671;&#x0644;&#x06e1;&#x062d;&#x064e;&#x0645;&#x06e1;&#x062f;&#x064f; &#x0644;&#x0650;&#x0644;&#x0651;&#x064e;&#x0647;&#x0650; &#x0631;&#x064e;&#x0628;&#x0651;&#x0650; &#x0671;&#x0644;&#x06e1;&#x0639;&#x064e;&#x0670;&#x0644;&#x064e;&#x0645;&#x0650;&#x064a;&#x0646;&#x064e;</span>
+      </button>
+      <button class="rcard" data-pick="warsh_ma">
+        <span class="rcard-top"><b>ورش بالرسم المغربي</b><small>المصحف المحمدي</small></span>
+        <span class="rcard-sample" style="font-family:var(--font-maghribi)">&#x06f1;&#x0644;&#x0652;&#x062d;&#x064e;&#x0640;&#x0645;&#x0652;&#x062f;&#x064f; &#x0644;&#x0650;&#x0644;&#x0647;&#x0650; &#x0631;&#x064e;&#x0628;&#x0651;&#x0650; &#x06f1;&#x0644;&#x0652;&#x0639;&#x064e;&#x0640;&#x0670;&#x0644;&#x064e;&#x0645;&#x0650;&#x064a;&#x0640;&#x0640;&#x0646;&#x064e;</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- الرأس: نفس رأس الصفحة الرئيسية -->
+  <header class="header">
+    <div class="header-top">
+      <div class="logo">
+        <b>القرآن الكريم</b>
+        <small id="riwayaName">&nbsp;</small>
+      </div>
+      <div class="header-btns">
+        <button onclick="location.href='../index.html'" aria-label="الرئيسية">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+            <path d="M3 11l9-8 9 8" />
+            <path d="M5 10v10h14V10" />
+          </svg>
+        </button>
+        <button onclick="openSettings()" aria-label="الإعدادات">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+            <circle cx="12" cy="12" r="3" />
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <label class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" /></svg>
+      <input id="q" type="search" placeholder="ابحث عن سورة بالاسم أو الرقم" autocomplete="off" enterkeyhint="search">
+    </label>
+  </header>
+
+  <main class="content">
+
+    <!-- آخر قراءة: نفس بطاقة الصفحة الرئيسية -->
+    <a id="lastCard" class="card1 qlast" href="page.html" hidden>
+      <div class="last-head">
+        <small>آخر قراءة</small>
+        <span class="badge" id="lastBadge"></span>
+      </div>
+      <div class="empty-box">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+          </svg>
+        </div>
+        <b id="lastSurah"></b>
+        <p id="lastMeta"></p>
+        <span class="btn">تابع القراءة</span>
+      </div>
+    </a>
+
+    <div id="list" class="qlist" aria-live="polite"></div>
+    <p id="empty" class="qempty" hidden>لا توجد سورة بهذا الاسم</p>
+  </main>
+
+  <!-- الإعدادات -->
+  <div id="settingsModal" class="modal" onclick="if(event.target===this) closeSettings()">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+      <h3 id="settingsTitle">الإعدادات</h3>
+      <div class="setting">
+        <div>
+          <b>الرواية</b><br>
+          <small class="setting-sub">اختر رواية القراءة</small>
+        </div>
+        <div class="pills">
+          <button data-riwaya="hafs" onclick="pickRiwaya('hafs')">حفص</button>
+          <button data-riwaya="warsh" onclick="pickRiwaya('warsh')">ورش</button>
+          <button data-riwaya="warsh_ma" onclick="pickRiwaya('warsh_ma')">ورش بالرسم المغربي</button>
+        </div>
+      </div>
+      <button class="btn" onclick="closeSettings()">تم</button>
+    </div>
+  </div>
+
+  <script src="core.js"></script>
+  <script src="index.js"></script>
+</body>
+
+</html>
