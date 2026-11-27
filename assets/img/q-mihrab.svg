@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 300" width="240" height="300">
+  <!-- محراب مدبّب بنجمة في قمته: يتوّج شاشة اختيار الرواية -->
+  <defs>
+    <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#CDB380" stop-opacity="1"/>
+      <stop offset="1" stop-color="#CDB380" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <path d="M16 300V140C16 88 94 60 120 6C146 60 224 88 224 140V300" fill="none" stroke="url(#fade)" stroke-width="2.4" stroke-linejoin="round"/>
+  <path d="M32 300V142C32 98 100 72 120 26C140 72 208 98 208 142V300" fill="none" stroke="url(#fade)" stroke-width="1" opacity=".8"/>
+  <!-- نجمة المحراب -->
+  <g transform="translate(120 112)">
+    <g fill="#E8DDCB" stroke="#CDB380" stroke-width="1.6" stroke-linejoin="round">
+      <rect x="-21" y="-21" width="42" height="42" rx="2"/>
+      <rect x="-21" y="-21" width="42" height="42" rx="2" transform="rotate(45)"/>
+    </g>
+    <circle r="15" fill="#036564"/>
+    <circle r="15" fill="none" stroke="#CDB380" stroke-width="1"/>
+    <path d="M-8 4c0-3 2.5-5 8-5s8 2 8 5M-8 4h16M0-8v6" fill="none" stroke="#E8DDCB" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+  <!-- معيّنات صغيرة على جانبي الشعار -->
+  <g fill="#036564" stroke="#CDB380" stroke-width="1">
+    <rect x="52" y="146" width="9" height="9" transform="rotate(45 56.5 150.5)"/>
+    <rect x="179" y="146" width="9" height="9" transform="rotate(45 183.5 150.5)"/>
+  </g>
+</svg>

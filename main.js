@@ -120,7 +120,7 @@ function renderLastRead() {
   const b = document.getElementById("lastBtn");
   const badge = document.getElementById("lastBadge");
   if (t) t.textContent = last.name ? "سورة " + last.name : "المصحف الشريف";
-  if (s) s.textContent = "صفحة " + arNum(last.p) + (last.juz ? " · الجزء " + arNum(last.juz) : "") + " · برواية " + RIWAYA_NAMES[last.r];
+  if (s) s.textContent = "صفحة " + arNum(last.r === "warsh_ma" ? last.p - 1 : last.p) + (last.juz ? " · الجزء " + arNum(last.juz) : "") + " · برواية " + RIWAYA_NAMES[last.r];
   if (b) b.textContent = "تابع القراءة";
   if (badge) badge.textContent = "حفظ تلقائي";
 }
@@ -142,3 +142,36 @@ document.addEventListener("keydown", (e) => {
     closeDrawer();
   }
 });
+
+/* فتح قسم الأذكار */
+function openAdkar() {
+  location.href = "adkar/index.html";
+}
+
+/* بطاقة أوقات الصلاة في الرئيسية (من قسم prayer) */
+(function () {
+  if (!window.Prayer) return;
+  var ORDER = [0, 2, 3, 4, 5];
+  function draw() {
+    Prayer.next(Prayer.cityCode()).then(function (n) {
+      var t = n.today.t, h = Math.floor(n.secs / 3600), m = Math.floor((n.secs % 3600) / 60);
+      document.getElementById("prayerNext").textContent = n.name + " بعد " + (h ? h + " س " : "") + m + " د";
+      document.getElementById("prayerRows").innerHTML = ORDER.map(function (i) {
+        var on = !n.tomorrow ? n.i === i : i === 0;
+        return '<div class="prayer-row' + (on ? " active" : "") + '"><span>' + Prayer.NAMES[i] + (on ? ' <span class="now">القادمة</span>' : "") + "</span><b>" + Prayer.fmt(t[i]) + "</b></div>";
+      }).join("");
+    }).catch(function () { /* تبقى القيم الافتراضية */ });
+  }
+  draw();
+  setInterval(draw, 60000);
+})();
+
+/* فتح صفحة مواقيت الصلاة */
+function openPrayer() {
+  location.href = "prayer/index.html";
+}
+
+/* فتح قسم الحديث (الأربعون النووية) */
+function openHadith() {
+  location.href = "hadith/index.html";
+}

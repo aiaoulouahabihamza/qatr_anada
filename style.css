@@ -24,16 +24,16 @@
   width: 200px;
   height: 200px;
   margin-bottom: 25px;
-  border: #5A091C 4px solid;
+  border: var(--primary) 4px solid;
   border-radius: 15px;
-  background: #Ffffff;
+  background: #fff;
   
   
 }
 .hero{
-  color: #5A091C;
-  background: #F9F7F2;
-  box-shadow: 5px 4px 1px#1E4D3A;
+  color: var(--primary);
+  background: var(--bg);
+  box-shadow: 5px 4px 1pxvar(--accent);
   border-radius: 10px;
   width: 270px;
   padding: 5px;
@@ -162,18 +162,16 @@
 
 /* البطاقة العامة */
 .card1 {
-  background-image: linear-gradient(rgba(147, 81, 49, 0.37), rgba(35, 123, 88, 0.73)), url("assets/img/2.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background: var(--card);
   border-radius: 18px;
   padding: 18px;
   margin-bottom: 14px;
   border: 1px solid var(--border);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+  border-top: 3px solid var(--gold);
+  box-shadow: 0 8px 20px -14px color-mix(in srgb, var(--ink) 40%, transparent);
 }
 .card2 {
-background: #E8E0D4; 
+background: var(--card); 
 border-radius: 18px;
   padding: 18px;
   margin-bottom: 14px;
@@ -191,7 +189,7 @@ border-radius: 18px;
 .last-head small {
   font-sizce: 12px;
   color: var(--accent);
-  background: #F5EFE6;
+  background: var(--tint);
   font-weight: 600;
   border-radius: 20px;
   padding: 4px 10px;
@@ -200,7 +198,7 @@ border-radius: 18px;
 
 .badge {
   font-size: 11px;
-  background: #F5EFE6;
+  background: var(--tint);
   color: var(--accent);
   padding: 4px 10px;
   border-radius: 20px;
@@ -214,7 +212,7 @@ border-radius: 18px;
 .empty-box .icon {
   width: 56px;
   height: 56px;
-  background: #F5EFE6;
+  background: var(--tint);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -272,7 +270,7 @@ border-radius: 18px;
   display: flex;
   justify-content: space-between;
   padding: 11px 14px;
-  background: #F9F6F0;
+  background: var(--cream);
   border-radius: 12px;
   margin-bottom: 7px;
   font-size: 14px;
@@ -351,7 +349,7 @@ border-radius: 18px;
 .item .icon {
   width: 44px;
   height: 44px;
-  background: #F5EFE6;
+  background: var(--tint);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -424,12 +422,12 @@ border-radius: 18px;
 .drawer-logo {
   width: 82px;
   height: 82px;
-  border: 3px solid #1E4D3A;
-  outline: 3px solid #C9A86A;
+  border: 3px solid var(--accent);
+  outline: 3px solid var(--gold);
   outline-offset: 2px;
 
   flex-shrink: 0;
-  background: #F9F7F2;
+  background: var(--bg);
   border-radius: 30px;
   padding: 6px;
 }
@@ -459,13 +457,13 @@ border-radius: 18px;
   font-size: 14.5px;
   color: var(--text);
   display: flex;
-  background: #FFFFFF;
+  background: #fff;
   justify-content: space-between;
   margin-bottom: 4px;
 }
 
 .drawer-menu button:hover {
-  background: #F0EBE3;
+  background: var(--sage);
 }
 
 /* المودال */

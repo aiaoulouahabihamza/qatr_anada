@@ -1,31 +1,50 @@
-@font-face {
-  font-family: "amiri";
-  src: url(assets/font/Amiri-Regular.ttf);
-}
-@font-face {
-  font-family: "cario";
-  src: url(assets/font/Cairo-Regular.ttf);
-}
-@font-face {
-  font-family: "tajawal";
-  src: url(assets/font/Tajawal-Medium.ttf);
- 
-}
- @font-face {
-    font-family: "almarai";
-    src: url(assets/font/almarai-regular.ttf);
-  }
-  
-:root {
-  --bg:          #F9F7F2;
-  --primary:     #5A091C;
-  --accent:      rgba(30, 77, 58, 1);
-  --gold:        #C9A66B;
-  --card:        #FFFFFF;
-  --border:      #E8E0D4;
-  --text:        #2A2A2A;
-  --muted:       #6B6560;
+@font-face { font-family: "amiri"; src: url(assets/font/Amiri-Regular.ttf); font-display: swap; }
+@font-face { font-family: "cario"; src: url(assets/font/Cairo-Regular.ttf); font-display: swap; }
+@font-face { font-family: "almarai"; src: url(assets/font/almarai-regular.ttf); font-display: swap; }
+@font-face { font-family: "tajawal"; font-weight: 300; src: url(assets/font/Tajawal-Light.ttf); font-display: swap; }
+@font-face { font-family: "tajawal"; font-weight: 400; src: url(assets/font/Tajawal-Regular.ttf); font-display: swap; }
+@font-face { font-family: "tajawal"; font-weight: 500 700; src: url(assets/font/Tajawal-Medium.ttf); font-display: swap; }
+@font-face { font-family: "thuluth"; src: url(assets/font/DecoType_Thuluth_Regular.ttf); font-display: swap; }
+@font-face { font-family: "din"; src: url(assets/font/DIN.ttf); font-display: swap; }
 
+/* ===== الألوان الخمسة الموحّدة (كل ألوان الموقع مشتقّة منها) ===== */
+:root {
+  /* ===== الألوان الخمسة ===== */
+  --cream:  #E8DDCB;   /* كريمي رملي: الخلفية */
+  --sand:   #CDB380;   /* رملي ذهبي: الزخارف والتحديد */
+  --teal:   #036564;   /* أخضر مزرق: الأزرار والعناصر الفعّالة */
+  --petrol: #033649;   /* أزرق بترولي: الترويسة والعناوين */
+  --navy:   #031634;   /* كحلي: النصوص والخلفيات الداكنة */
+
+  /* ===== أدوار الألوان ===== */
+  --gold:      var(--sand);
+  --ink:       var(--navy);
+  --primary:   var(--petrol);
+  --accent:    var(--teal);
+  --bg:        var(--cream);
+  --card:      color-mix(in srgb, var(--cream) 38%, #fff);
+  --sage:      color-mix(in srgb, var(--cream) 62%, #fff);
+  --tint:      color-mix(in srgb, var(--teal) 9%, var(--card));
+  --text:      var(--navy);
+  --border:    color-mix(in srgb, var(--sand) 55%, var(--cream));
+  --muted:     color-mix(in srgb, var(--navy) 58%, var(--cream));
+  --gold-ink:  color-mix(in srgb, var(--sand) 42%, var(--navy));
+
+  /* ===== النسبة الذهبية: φ = 1.618 ، وجذرها √φ = 1.272 ===== */
+  --phi: 1.618;
+  --base: 16px;
+  --t-1: calc(var(--base) / 1.272);   /* ≈ 12.6 */
+  --t0:  var(--base);                 /*    16   */
+  --t1:  calc(var(--base) * 1.272);   /* ≈ 20.4 */
+  --t2:  calc(var(--base) * 1.618);   /* ≈ 25.9 */
+  --t3:  calc(var(--base) * 2.058);   /* ≈ 32.9 */
+  /* مسافات وأنصاف أقطار بمتتالية فيبوناتشي: 3 5 8 13 21 34 55 */
+  --f3: 3px; --f5: 5px; --f8: 8px; --f13: 13px; --f21: 21px; --f34: 34px; --f55: 55px;
+  --angle: 137.5deg;                  /* الزاوية الذهبية لتدرّج الترويسة */
+
+  --fx-ui: "tajawal", "almarai", sans-serif;
+  --fx-text: "amiri", serif;
+  --fx-title: "thuluth", "amiri", serif;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-ui); }
@@ -35,8 +54,8 @@ body {
   direction: rtl;
   min-height: 100vh;
   line-height: 1.65;
-      font-family: "almarai";
-
+      font-family: "tajawal", "almarai", sans-serif;
+  font-weight: 400;
 }
 button { font-family: var(--font-ui); cursor: pointer; border: none; background: none; }
 .hidden { display: none !important; }
@@ -44,7 +63,7 @@ button { font-family: var(--font-ui); cursor: pointer; border: none; background:
 /* ===== خطوط المصحف (إضافة لصفحات القرآن) ===== */
 @font-face {
   font-family: "hafs";
-  src: url(assets/font/hafs.otf);
+  src: url(assets/font/hafs.ttf);
   font-display: block;
 }
 @font-face {
@@ -63,3 +82,63 @@ button { font-family: var(--font-ui); cursor: pointer; border: none; background:
   src: url("assets/font/%D8%AE%D8%B7%20%D8%A7%D8%B3%D9%85%D8%A7%D8%A1%20%D8%A7%D9%84%D8%B3%D9%88%D8%B1.ttf");
   font-display: block;
 }
+
+/* ==========================================================================
+   الهوية الإسلامية الموحّدة (تُحمَّل في كل الصفحات)
+   محراب في زاوية الترويسة، حدّ ذهبي، أرقام بشكل محراب، وفواصل ذهبية
+   ========================================================================== */
+.header, .abar { position: relative; border-bottom: 3px solid var(--gold); background: linear-gradient(var(--angle), var(--navy), var(--petrol) 61.8%); }
+.header { overflow: hidden; }
+.header::before, .abar::before {
+  content: ""; position: absolute; pointer-events: none; z-index: 0;
+  left: -34px; top: -34px; width: 144px; height: 233px; opacity: .22;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 194' fill='none' stroke='%23CDB380' stroke-width='2'%3E%3Cpath d='M8 194V74Q8 28 60 6Q112 28 112 74V194'/%3E%3Cpath d='M25 194V78Q25 42 60 24Q95 42 95 78V194'/%3E%3Cpath d='M42 194V82Q42 56 60 42Q78 56 78 82V194'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+.abar::before { width: 90px; height: 110px; left: -16px; top: -14px; }
+.header > *, .abar > * { position: relative; z-index: 1; }
+
+/* عناوين بخط الثلث / أميري */
+.logo b, .drawer-header b { font-family: var(--fx-text); }
+.splash h1 { font-family: var(--fx-title); font-weight: 400; font-size: 40px; line-height: 1.5; }
+
+/* أرقام وأيقونات على شكل محراب */
+.arow .icon, .item .icon { border-radius: 22px 22px 10px 10px; background: var(--tint); border: 1px solid var(--border); }
+.hintro .icon { border-radius: 12px; }
+
+/* عناوين الأقسام بفاصل ذهبي */
+.sec-title { display: flex; align-items: center; gap: 10px; font-family: var(--fx-text); font-size: 19px; font-weight: 400; }
+.sec-title::after { content: ""; flex: 1; height: 1px; background: linear-gradient(to left, var(--gold), transparent); }
+
+/* بطاقات: ظل خفيف موحّد */
+.item, .arow, .hcard, .dcard { box-shadow: 0 1px 0 color-mix(in srgb, var(--gold) 14%, transparent), 0 6px 14px -10px color-mix(in srgb, var(--ink) 30%, transparent); }
+.btn { background: var(--accent); box-shadow: inset 0 -2px 0 var(--gold); }
+.modal-content { border-top: 3px solid var(--gold); background: var(--card); }
+.modal-content h3 { font-family: var(--fx-text); font-size: 21px; font-weight: 400; }
+.content { position: relative; z-index: 2; }
+.header::before { opacity: .2; }
+.abar { overflow: hidden; }
+.pnext { z-index: 2; }
+
+/* أيقونات: خط رئيسي بلون العنصر ولمسة ذهبية */
+svg .ac { stroke: var(--gold) !important; }
+svg .af { fill: var(--gold) !important; stroke: none !important; }
+svg { stroke-linecap: round; stroke-linejoin: round; }
+.featured button svg .ac { stroke: var(--primary) !important; }
+
+/* ===== تطبيق النسبة الذهبية وفيبوناتشي ===== */
+.header { padding-bottom: var(--f34); border-radius: 0 0 var(--f34) var(--f34); }
+.abar { border-radius: 0 0 var(--f21) var(--f21); }
+.item, .arow, .card1, .card2, .hcard, .dcard, .qcard { border-radius: var(--f21); }
+.arow .icon, .item .icon { width: var(--f55); height: var(--f55); border-radius: 34px 34px var(--f13) var(--f13); }
+.arow { padding: var(--f8) var(--f13); gap: var(--f13); margin-bottom: var(--f8); }
+.hintro .icon { border-radius: var(--f13); }
+.arow .aname { font-size: var(--t0); } .arow .ameta { font-size: var(--t-1); }
+.sec-title { font-size: var(--t1); }
+.modal-content h3 { font-size: var(--t1); }
+.greeting h1 { font-size: var(--t2); line-height: 1.382; } /* 1/φ² */
+svg .fl { fill: color-mix(in srgb, var(--sand) 40%, transparent) !important; stroke: none !important; }
+.item .icon svg .ac, .arow .icon svg .ac, .empty-box svg .ac, .item .icon svg, .arow .icon svg { }
+.item .icon svg .ac, .arow .icon svg .ac, .empty-box svg .ac { stroke: var(--teal) !important; }
+.item .icon svg .fl, .arow .icon svg .fl, .empty-box svg .fl { fill: color-mix(in srgb, var(--sand) 55%, transparent) !important; }
+.header-btns svg .fl, .abtn svg .fl, .rbtn svg .fl, .citybtn svg .fl, .featured svg .fl { fill: rgba(255,255,255,.16) !important; }
+.item .icon svg, .arow .icon svg { width: 30px; height: 30px; }

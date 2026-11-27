@@ -35,17 +35,10 @@
       </div>
       <div class="header-btns">
         <button onclick="openSettings()">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
-            <circle cx="12" cy="12" r="3" />
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-          </svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path class="fl" d="M10.37 2.74L13.63 2.74L14.20 5.04L15.37 5.52L17.39 4.30L19.70 6.61L18.48 8.63L18.96 9.80L21.26 10.37L21.26 13.63L18.96 14.20L18.48 15.37L19.70 17.39L17.39 19.70L15.37 18.48L14.20 18.96L13.63 21.26L10.37 21.26L9.80 18.96L8.63 18.48L6.61 19.70L4.30 17.39L5.52 15.37L5.04 14.20L2.74 13.63L2.74 10.37L5.04 9.80L5.52 8.63L4.30 6.61L6.61 4.30L8.63 5.52L9.80 5.04z" /><path d="M10.37 2.74L13.63 2.74L14.20 5.04L15.37 5.52L17.39 4.30L19.70 6.61L18.48 8.63L18.96 9.80L21.26 10.37L21.26 13.63L18.96 14.20L18.48 15.37L19.70 17.39L17.39 19.70L15.37 18.48L14.20 18.96L13.63 21.26L10.37 21.26L9.80 18.96L8.63 18.48L6.61 19.70L4.30 17.39L5.52 15.37L5.04 14.20L2.74 13.63L2.74 10.37L5.04 9.80L5.52 8.63L4.30 6.61L6.61 4.30L8.63 5.52L9.80 5.04z" /><circle class="ac" cx="12" cy="12" r="3" /></svg>
         </button>
         <button onclick="openDrawer()">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
-            <line x1="3" y1="6" x2="21" y2="6" />
-            <line x1="3" y1="12" x2="15" y2="12" />
-            <line x1="3" y1="18" x2="21" y2="18" />
-          </svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M4 7h16M4 17h16" /><path class="ac" d="M10 12h10" /></svg>
         </button>
       </div>
     </div>
@@ -65,10 +58,7 @@
       </div>
       <div class="empty-box">
         <div class="icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
-            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-          </svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path class="fl" d="M12 7c-2-1.6-5-2-8-1.5V18c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5V5.5c-3-.5-6-.1-8 1.5z" /><path d="M12 7c-2-1.6-5-2-8-1.5V18c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5V5.5c-3-.5-6-.1-8 1.5z" /><path class="ac" d="M12 7v12.5" /></svg>
         </div>
         <b id="lastTitle">لا توجد قراءة سابقة</b>
         <p id="lastSub">ابدأ الآن ليتم حفظ موضعك تلقائيًا</p>
@@ -77,16 +67,18 @@
     </section>
     
     <!-- أوقات الصلاة -->
-    <section class="card2">
+    <section class="card2" id="prayerCard" onclick="location.href='prayer/index.html'" style="cursor:pointer">
       <div class="prayer-head">
         <h3>أوقات الصلاة</h3>
-        <span>المغرب بعد ساعتين</span>
+        <span id="prayerNext">—</span>
       </div>
-      <div class="prayer-row"><span>الفجر</span><b>05:42</b></div>
-      <div class="prayer-row"><span>الظهر</span><b>12:45</b></div>
-      <div class="prayer-row active"><span>العصر <span class="now">الآن</span></span><b>15:30</b></div>
-      <div class="prayer-row"><span>المغرب</span><b>18:05</b></div>
-      <div class="prayer-row"><span>العشاء</span><b>19:30</b></div>
+      <div id="prayerRows">
+        <div class="prayer-row"><span>الفجر</span><b>--:--</b></div>
+        <div class="prayer-row"><span>الظهر</span><b>--:--</b></div>
+        <div class="prayer-row"><span>العصر</span><b>--:--</b></div>
+        <div class="prayer-row"><span>المغرب</span><b>--:--</b></div>
+        <div class="prayer-row"><span>العشاء</span><b>--:--</b></div>
+      </div>
     </section>
     
     <h3 class="sec-title">أقسام الموقع</h3>
@@ -97,37 +89,24 @@
         <p>114 سورة • ورش وحفص</p>
       </div>
       <button onclick="openQuran()">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-          <path d="M5 12h14" />
-          <path d="M12 5l7 7-7 7" />
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M5 12h13" /><path class="ac" d="M13 6l6 6-6 6" /></svg>
       </button>
     </div>
     
-    <div class="item">
-      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
-          <circle cx="12" cy="12" r="10" />
-          <path d="M12 6v6l4 2" />
-        </svg></div>
+    <div class="item" onclick="openPrayer()" style="cursor:pointer">
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path class="fl" d="M7.5 20v-5.5C7.5 11 9.5 9 12 6.8c2.5 2.2 4.5 4.2 4.5 7.7V20z" /><path d="M7.5 20v-5.5C7.5 11 9.5 9 12 6.8c2.5 2.2 4.5 4.2 4.5 7.7V20M2.5 20h19M3.5 20V10l1.5-2.6L6.5 10v10M17.5 20V10L19 7.4l1.5 2.6v10" /><path class="ac" d="M13.8 2.1A2.7 2.7 0 1 0 13.8 6.5 2.2 2.2 0 1 1 13.8 2.1z" /></svg></div>
+      <div><b>مواقيت الصلاة</b><span>حسب مدينتك</span></div>
+    </div>
+    <div class="item" onclick="openAdkar()" style="cursor:pointer">
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path class="fl" d="M12 3.8a6.6 6.6 0 1 0 .01 0z" /><circle cx="12.00" cy="3.80" r="1.05" /><circle cx="16.24" cy="5.34" r="1.05" /><circle cx="18.50" cy="9.25" r="1.05" /><circle cx="17.72" cy="13.70" r="1.05" /><circle cx="14.26" cy="16.60" r="1.05" /><circle cx="9.74" cy="16.60" r="1.05" /><circle cx="6.28" cy="13.70" r="1.05" /><circle cx="5.50" cy="9.25" r="1.05" /><circle cx="7.76" cy="5.34" r="1.05" /><path class="ac" d="M12 17.4v3.4" /></svg></div>
       <div><b>الأذكار</b><span>الصباح والمساء والنوم</span></div>
     </div>
-    <div class="item">
-      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-        </svg></div>
+    <div class="item" onclick="openHadith()" style="cursor:pointer">
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path class="fl" d="M6 3h8l4 4v14H6z" /><path d="M6 3h8l4 4v14H6zM14 3v4h4" /><path class="ac" d="M9 12h6M9 16h4" /></svg></div>
       <div><b>الحديث</b><span>الأربعون النووية</span></div>
     </div>
-    <div class="item">
-      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
-          <circle cx="11" cy="11" r="7" />
-          <path d="M21 21l-4.3-4.3" />
-        </svg></div>
-      <div><b>التفسير</b><span>التفسير الميسر</span></div>
-    </div>
-    <div class="item">
-      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
-          <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
-        </svg></div>
+        <div class="item">
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path class="fl" d="M3.5 13.5c0 3.8 3.8 6.8 8.5 6.8s8.5-3 8.5-6.8z" /><path d="M3.5 13.5c0 3.8 3.8 6.8 8.5 6.8s8.5-3 8.5-6.8M3.5 13.5l1.6-4M20.5 13.5l-1.6-4" /><path class="ac" d="M12 3.5l1.2 2.9 2.9 1.2-2.9 1.2L12 11.7l-1.2-2.9-2.9-1.2 2.9-1.2z" /></svg></div>
       <div><b>الأدعية</b><span>من الكتاب والسنة</span></div>
     </div>
   </main>
@@ -155,9 +134,9 @@
     <div class="drawer-menu">
       <button>الرئيسية <span>›</span></button>
       <button onclick="openQuran()">القرآن الكريم <span>›</span></button>
-      <button>الأذكار <span>›</span></button>
-      <button>الحديث <span>›</span></button>
-      <button>التفسير <span>›</span></button>
+      <button onclick="openPrayer()">مواقيت الصلاة <span>›</span></button>
+      <button onclick="openAdkar()">الأذكار <span>›</span></button>
+      <button onclick="openHadith()">الحديث <span>›</span></button>
       <button>الأدعية <span>›</span></button>
       <button onclick="openSettings()">الإعدادات <span>›</span></button>
     </div>
@@ -193,6 +172,8 @@
     </div>
   </div>
   
+  <script src="prayer/calc.js"></script>
+  <script src="prayer/core.js"></script>
   <script src="main.js"></script>
 </body>
 

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 20" width="280" height="20">
+  <!-- فاصل زخرفي: معيّن مركزي وخطان يخفتان إلى الطرفين -->
+  <defs>
+    <linearGradient id="l" x1="0" x2="1"><stop offset="0" stop-color="#CDB380" stop-opacity="0"/><stop offset="1" stop-color="#CDB380"/></linearGradient>
+    <linearGradient id="r" x1="0" x2="1"><stop offset="0" stop-color="#CDB380"/><stop offset="1" stop-color="#CDB380" stop-opacity="0"/></linearGradient>
+  </defs>
+  <rect x="0" y="9.4" width="112" height="1.2" fill="url(#l)"/>
+  <rect x="168" y="9.4" width="112" height="1.2" fill="url(#r)"/>
+  <rect x="135" y="5" width="10" height="10" transform="rotate(45 140 10)" fill="#036564" stroke="#CDB380" stroke-width="1.2"/>
+  <rect x="118.5" y="7.5" width="5" height="5" transform="rotate(45 121 10)" fill="#CDB380"/>
+  <rect x="156.5" y="7.5" width="5" height="5" transform="rotate(45 159 10)" fill="#CDB380"/>
+</svg>
