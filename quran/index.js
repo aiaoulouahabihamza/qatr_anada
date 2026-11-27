@@ -46,7 +46,7 @@
     card.href = Q.pageUrl({ r: lr.r, p: lr.p });
     document.getElementById("lastBadge").textContent = Q.EDITIONS[lr.r].name;
     document.getElementById("lastSurah").textContent = s ? "سورة " + s.ar : "المصحف";
-    document.getElementById("lastMeta").textContent = "صفحة " + Q.ar(lr.p) + (s ? " · الجزء " + Q.ar(s.juz) : "");
+    document.getElementById("lastMeta").textContent = "صفحة " + Q.ar(Q.showPage(lr.r, lr.p)) + (s ? " · الجزء " + Q.ar(s.juz) : "");
   }
 
   /* ---------- القائمة ---------- */
@@ -57,7 +57,7 @@
       '<span class="icon">' + Q.ar(s.n) + "</span>" +
       '<span class="sinfo">' +
         '<span class="sname" style="font-family:var(--font-surah)">' + Q.pad3(s.n) + "</span>" +
-        '<span class="smeta"><img src="../assets/img/' + icon + '" alt="">' + place + " · " + Q.ar(s.aya) + " آية · ص " + Q.ar(s.page) + "</span>" +
+        '<span class="smeta"><img src="../assets/img/' + icon + '" alt="">' + place + " · " + Q.ar(s.aya) + " آية · ص " + Q.ar(Q.showPage(Q.riwaya(), s.page)) + "</span>" +
       "</span>" +
       '<span class="badge">الجزء ' + Q.ar(s.juz) + "</span>" +
       '<span class="sr-only">سورة ' + Q.esc(s.ar) + "</span></a>";

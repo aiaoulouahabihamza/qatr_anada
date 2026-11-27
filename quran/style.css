@@ -56,16 +56,16 @@
   color: var(--text);
   text-decoration: none;
 }
-.srow:active { background: #FBF9F4; }
+.srow:active { background: var(--cream); }
 .srow:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
 .srow .icon {
   width: 44px; height: 44px;
-  background: #F5EFE6;
+  background: var(--tint);
   border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
   font: 400 16px "amiri", serif;
-  color: var(--primary);
+  color: var(--accent);
 }
 .sinfo { flex: 1; min-width: 0; display: block; }
 .sname { display: block; font-size: 28px; line-height: 1.25; color: var(--primary); }
@@ -102,7 +102,7 @@ body.gated { overflow: hidden; }
   margin-bottom: 10px;
   text-align: right;
 }
-.rcard:active { background: #FBF9F4; }
+.rcard:active { background: var(--cream); }
 .rcard:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
 .rcard-top { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
 .rcard-top b { font-size: 15px; color: var(--primary); }
@@ -111,7 +111,8 @@ body.gated { overflow: hidden; }
 
 /* ===================== صفحة العرض (المصحف) ===================== */
 body.reader {
-  background: var(--bg);
+  --read-bg: var(--sage);
+  background: var(--read-bg);
   overflow: hidden;
   height: 100vh;
   height: 100dvh;
@@ -146,7 +147,18 @@ body.immersive .rbar { transform: translateY(-110%); }
 .rbtn svg { width: 20px; height: 20px; stroke: #fff; }
 .rtitle { flex: 1; min-width: 0; text-align: center; }
 .rtitle b { display: block; font: 400 19px/1.3 "amiri", serif; }
-.rtitle small { display: block; font-size: 11.5px; color: var(--gold); line-height: 1.3; }
+.rsub { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 2px; }
+.rsub small { font-size: 11.5px; color: var(--gold); line-height: 1.3; }
+/* نوع الرواية المختارة: بالأخضر الزيتوني */
+.rpill {
+  background: var(--accent);
+  color: #fff;
+  font-size: 10.5px;
+  line-height: 1.6;
+  padding: 0 9px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
 
 .pager {
   position: fixed;
@@ -221,7 +233,7 @@ body.immersive .rbar { transform: translateY(-110%); }
   vertical-align: middle;
 }
 .av img { position: absolute; inset: 0; width: 100%; height: 100%; }
-.av b { position: relative; font-family: "amiri", serif; font-weight: 400; color: #4A281E; line-height: 1; margin-top: 6%; }
+.av b { position: relative; font-family: "amiri", serif; font-weight: 400; color: var(--accent); line-height: 1; margin-top: 6%; }
 
 /* رقم الصفحة: أسفل اليسار */
 .pnum {
@@ -230,7 +242,7 @@ body.immersive .rbar { transform: translateY(-110%); }
   display: flex; align-items: center; justify-content: center;
 }
 .pnum img { position: absolute; inset: 0; width: 100%; height: 100%; }
-.pnum span { position: relative; font-family: "amiri", serif; color: #4A281E; line-height: 1; margin-top: 2%; }
+.pnum span { position: relative; font-family: "amiri", serif; color: var(--accent); line-height: 1; margin-top: 2%; }
 
 .miss {
   position: absolute; inset: 0;
@@ -241,7 +253,7 @@ body.immersive .rbar { transform: translateY(-110%); }
 
 .veil {
   position: fixed; inset: 0; z-index: 30;
-  background: var(--bg);
+  background: var(--read-bg);
   display: flex; align-items: center; justify-content: center;
   transition: opacity .35s, visibility .35s;
 }
@@ -256,3 +268,55 @@ body.immersive .rbar { transform: translateY(-110%); }
   .veil span, .qload span { animation-duration: 3s; }
   .rbar { transition: none; }
 }
+
+/* ===== العلامات المرجعية ===== */
+.t { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+.t.bm { background: color-mix(in srgb, var(--bm) 16%, transparent); box-shadow: inset 0 -0.14em 0 var(--bm); border-radius: 3px; }
+.bm-where { font-size: 13px; color: var(--text-light, var(--muted)); margin: -8px 0 14px; }
+.bm-lab { display: block; font-size: 12px; margin: 10px 0 6px; color: var(--text-light, var(--muted)); }
+.bm-input { width: 100%; padding: 11px 12px; border: 1px solid var(--border); border-radius: 12px; font-size: 15px; background: #fff; font-family: inherit; }
+.bm-colors { display: flex; gap: 12px; margin-bottom: 18px; }
+.sw { width: 34px; height: 34px; border-radius: 50%; background: var(--c); border: 3px solid #fff; box-shadow: 0 0 0 1.5px var(--border); }
+.sw.on { box-shadow: 0 0 0 2.5px var(--c); }
+.bm-actions { display: flex; gap: 8px; }
+.bm-actions .btn { flex: 1; }
+.btn.ghost { background: transparent; color: var(--primary); border: 1px solid var(--border); }
+.hbtn-bm { position: relative; }
+.bmrow { display: flex; align-items: center; gap: 12px; background: #fff; border-radius: 14px; padding: 12px 14px; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.05); color: inherit; text-decoration: none; }
+.bmrow .dot { width: 14px; height: 36px; border-radius: 7px; background: var(--c); flex: none; }
+.bmrow .bmi { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.bmrow b { font-size: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bmrow small { font-size: 12px; color: var(--text-light, var(--muted)); }
+.bmrow .x { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; color: var(--muted); }
+.bmrow .x svg { width: 18px; height: 18px; stroke: currentColor; }
+.bmfilter { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+.bmfilter button { padding: 6px 12px; border-radius: 16px; border: 1px solid var(--border); font-size: 12px; background: #fff; display: flex; align-items: center; gap: 6px; }
+.bmfilter button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+.bmfilter i { width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
+
+/* ---------- تفسير الآية ---------- */
+.t.tsel { background: color-mix(in srgb, var(--sand) 45%, transparent); border-radius: 6px; }
+.tfmodal .tfbox { display: flex; flex-direction: column; height: min(82vh, 720px); max-width: 560px; padding: var(--f13) var(--f21) var(--f13); }
+.tf-grab { width: var(--f55); height: 4px; border-radius: 2px; background: var(--border); margin: 0 auto var(--f8); flex-shrink: 0; }
+.tf-head { display: flex; align-items: center; justify-content: space-between; gap: var(--f8); flex-shrink: 0; }
+.tf-head h3 { margin: 0; font-family: var(--fx-text); font-size: var(--t1); font-weight: 700; color: var(--primary); }
+.tf-tools { display: flex; gap: 6px; }
+.tf-tools button { min-width: 36px; height: 36px; border-radius: 12px; background: var(--tint); border: 1px solid var(--border); color: var(--primary); font: 700 14px var(--fx-ui); }
+.tf-tabs { display: flex; gap: var(--f8); margin: var(--f13) 0 var(--f8); flex-shrink: 0; }
+.tf-tabs button { flex: 1; height: 38px; border-radius: 19px; background: var(--tint); border: 1px solid var(--border); color: var(--primary); font: 700 13px var(--fx-ui); }
+.tf-tabs button.on { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: inset 0 -2px 0 var(--gold); }
+.tf-body { flex: 1; overflow-y: auto; font-family: var(--fx-text); line-height: 2.05; color: var(--text); text-align: justify; padding: var(--f8) 2px var(--f13); overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+.tf-body p { margin: 0 0 .55em; }
+.tf-body b { color: var(--primary); }
+.tf-body .tq { color: var(--accent); font-weight: 700; }
+.tf-src { font: 500 12px var(--fx-ui); color: var(--gold-ink); background: var(--tint); border-radius: 10px; padding: 5px 10px; margin-bottom: var(--f8); display: inline-block; line-height: 1.6; }
+.tf-h { margin: .6em 0 .2em; font-size: .9em; color: var(--primary); border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+.tf-note { font: 400 12px var(--fx-ui); color: var(--muted); }
+.tf-wait { text-align: center; color: var(--muted); font: 400 14px var(--fx-ui); padding: var(--f34) 0; }
+.tf-foot { display: flex; gap: var(--f8); flex-shrink: 0; padding-top: var(--f8); }
+.tf-foot .btn { flex: 1; margin: 0; height: 42px; font-size: 13px; padding: 0 6px; }
+.tf-foot .btn:disabled { opacity: .35; }
+.tf-tabs { overflow-x: auto; scrollbar-width: none; }
+.tf-tabs::-webkit-scrollbar { display: none; }
+.tf-tabs button { flex: 0 0 auto; padding: 0 var(--f21); }
+.tf-wait small { font-size: 12px; }

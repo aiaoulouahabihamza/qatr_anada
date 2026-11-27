@@ -34,6 +34,9 @@
     return r;
   };
 
+  /* رقم الصفحة المعروض: ملفات الرسم المغربي تبدأ من 2، والمعروض يبدأ من 1 */
+  Q.showPage = function (r, p) { return r === "warsh_ma" ? p - 1 : p; };
+
   /* ---------- أدوات النص ---------- */
   const AR_DIGITS = "٠١٢٣٤٥٦٧٨٩";
   Q.ar = function (n) { return String(n).replace(/\d/g, d => AR_DIGITS[d]); };
@@ -65,6 +68,27 @@
     return null;
   };
   Q.saveLast = function (r, p, s, name, juz) { Q.set("lastRead", JSON.stringify({ r: r, p: p, s: s || 0, name: name || "", juz: juz || 0, ts: Date.now() })); };
+
+  /* ---------- العلامات المرجعية ---------- */
+  Q.BM_COLORS = [
+    { id: "olive", hex: "#036564", name: "أخضر" },
+    { id: "red", hex: "#A33B32", name: "أحمر" },
+    { id: "gold", hex: "#CDB380", name: "رملي" },
+    { id: "blue", hex: "#2F6690", name: "أزرق" },
+    { id: "purple", hex: "#6B4E8C", name: "بنفسجي" }
+  ];
+  Q.bmColor = function (id) { return (Q.BM_COLORS.find(x => x.id === id) || Q.BM_COLORS[0]).hex; };
+  Q.bms = function () {
+    try { const a = JSON.parse(Q.get("bookmarks", "[]")); return Array.isArray(a) ? a : []; } catch (e) { return []; }
+  };
+  Q.bmSave = function (a) { Q.set("bookmarks", JSON.stringify(a)); };
+  Q.bmFind = function (r, v) { return Q.bms().find(b => b.r === r && b.v === v); };
+  Q.bmPut = function (b) {
+    const a = Q.bms().filter(x => !(x.r === b.r && x.v === b.v));
+    a.unshift(b);
+    Q.bmSave(a);
+  };
+  Q.bmDel = function (r, v) { Q.bmSave(Q.bms().filter(x => !(x.r === r && x.v === v))); };
 
   /* ---------- روابط ---------- */
   Q.pageUrl = function (o) {

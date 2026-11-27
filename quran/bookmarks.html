@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#033649">
+  <title>العلامات المرجعية — قطر الندى</title>
+  <link rel="icon" href="../assets/img/logo.png">
+  <link rel="stylesheet" href="../var.css">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="qindex">
+  <header class="header" style="padding-bottom:44px">
+    <div class="header-top">
+      <div class="logo">
+        <b>العلامات المرجعية</b>
+        <small id="bmCount">&nbsp;</small>
+      </div>
+      <div class="header-btns">
+        <button onclick="location.href='index.html'" aria-label="فهرس السور">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M10 6l6 6-6 6" /></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="content">
+    <div id="filters" class="bmfilter"></div>
+    <div id="list"></div>
+    <p id="empty" class="qempty" hidden>لا توجد علامات بعد.<br>اضغط مطوّلًا على أي آية في المصحف لإضافة علامة.</p>
+  </main>
+
+  <script src="core.js"></script>
+  <script src="bookmarks.js"></script>
+</body>
+
+</html>

@@ -9,9 +9,11 @@
   const IMG = "../assets/img/";
   const FRAME_RATIO = 1040.5 / 118.5;      /* نسبة عرض إطار السورة إلى ارتفاعه */
   const BAR_H = 56;
+  const SPF = 0.55;                        /* أقل مسافة بين الكلمات نسبةً إلى المسافة الطبيعية: تسمح بحجم خط واحد لكل الصفحات */
   const CAP = 0.64;                        /* أقصى حجم خط نسبة إلى ارتفاع السطر */
-  /* أقصى حجم خط (نسبة إلى عرض السطر) لكل رواية. كل صفحة تأخذ أكبر حجم يسعها حتى هذا الحد، فلا يتباعد الكلام ولا يكبر الخط حين تقل الكلمات */
-  const K = { hafs: 0.0660, warsh: 0.0625, warsh_ma: 0.0660 };
+  /* حجم الخط (نسبة إلى عرض السطر) واحد في كل صفحات الرواية، بما فيها الفاتحة وأول البقرة.
+     أضيق الصفحات كلمًا فقط تنزل عنه قليلًا حتى تتسع. */
+  const K = { hafs: 0.0517, warsh: 0.0491, warsh_ma: 0.0651 };
 
   /* ---------- حالة ---------- */
   const params = new URLSearchParams(location.search);
@@ -40,7 +42,7 @@
     let ph = Math.min(availH, pw / 0.5);
     if (pw / ph > 0.5625) pw = ph * 0.5625;
     pw = Math.floor(pw); ph = Math.floor(ph);
-    const side = pw * 0.045;
+    const side = pw * 0.035;
     const top = ph * 0.02, bottom = ph * 0.085;
     return { vw, vh, pw, ph, side, top, bottom, W: pw - 2 * side, H: ph - top - bottom };
   }
@@ -102,12 +104,14 @@
       items.forEach(it => {
         if (it.gap === "bsm") {
           const tk = Q.tokenize(it.text);
-          const nat = tk.reduce((a, t) => a + measure(t, fam), 0) + sp * (tk.length - 1);
+          const nat = tk.reduce((a, t) => a + measure(t, fam), 0) + sp * SPF * (tk.length - 1);
           cap = Math.min(cap, 100 * widths[g] * 0.97 / nat);
         }
         if (it.gap) g++;
       });
     }
+
+    let spf = SPF;      /* أقل مسافة بين الكلمات؛ تنخفض فقط في الصفحات الأكثر كثافة */
 
     function lineOK(i, j, lineNo, constrained) {
       if (!constrained) return true;
@@ -139,7 +143,7 @@
           }
           for (let j = i + 1; j <= n; j++) {
             if (items[j - 1].gap) break;
-            const nat = (pre[j] - pre[i] + sp * (j - i - 1)) * k;
+            const nat = (pre[j] - pre[i] + sp * spf * (j - i - 1)) * k;
             if (nat > WL) break;
             if (!lineOK(i, j, l + 1, constrained)) continue;
             const isEnd = !oval && items[j - 1].end && items[j - 1].seg.endsSurah;
@@ -179,10 +183,16 @@
     if (!res && hasC) { res = best(false); fell = true; }
     if (!res) return null;
     if (fell) stats.fallback++;
+    /* صفحة كثيفة لا يسعها الحجم الموحّد: نضيّق المسافات بين كلماتها بدل تصغير الخط */
+    if (res.f < fT) {
+      spf = 0.15;
+      const r2 = best(res.c);
+      if (r2 && r2.f > res.f) res = r2; else spf = SPF;
+    }
     const fMax = res.f;
 
     /* حجم ثابت: لا نكبّر الخط لأن الكلمات قليلة */
-    const lim = oval ? fT * 1.7 : fT;
+    const lim = fT;
     let f = res.f, path = res.path;
     if (lim < f) {
       const q = solve(lim, res.c);
@@ -194,13 +204,19 @@
     path.forEach(([s, e], idx) => {
       if (items[s].gap) { const g = items[s]; g.w = widths[idx]; lines.push(g); return; }
       const toks = items.slice(s, e).map(x => x.t.s);
+      const vss = items.slice(s, e).map(x => x.t.vs);
       const nat = (pre[e] - pre[s] + sp * (e - s - 1)) * f / 100;
       const isEnd = !oval && items[e - 1].end && items[e - 1].seg.endsSurah;
-      const L = { toks: toks, w: widths[idx], center: isEnd && nat < W * 0.72 };
-      /* سطر فيه فراغ كبير لا يُشدّ بين كلماته فتتباعد، بل يُوسَّط بمسافات معتدلة */
-      const spPx = sp * f / 100;
-      const gapPx = toks.length > 1 ? (widths[idx] - nat) / (toks.length - 1) : 0;
-      if (!L.center && gapPx > 3.2 * spPx) { L.center = true; L.g = 2.2 * spPx; }
+      const L = { toks: toks, vss: vss, w: widths[idx], center: isEnd && nat < W * 0.72 };
+      /* ضبط الحجم لكل سطر ليملأ عرضه بمسافات طبيعية: حل وسط بين تغيير الخط ومدّ المسافات */
+      if (!L.center && toks.length > 1) {
+        const words = pre[e] - pre[s], k = e - s;
+        const ffit = 100 * widths[idx] / (words + sp * spf * (k - 1)) * 0.995;
+        const fnat = 100 * widths[idx] / (words + sp * (k - 1));
+        L.fs = Math.min(ffit, Math.max(0.9 * f, Math.min(fnat, 1.12 * f)));
+        const gapPx = (widths[idx] - words * L.fs / 100) / (k - 1);
+        if (gapPx > 0.9 * L.fs) { L.center = true; L.g = 0.3 * L.fs; }
+      } else if (!L.center) L.center = true;
       lines.push(L);
     });
     return { f: f, fMax: fMax, lines: lines, constrainedFail: fell, sp: sp, oval: oval };
@@ -216,7 +232,7 @@
     const oval = rows === 8;
     const widths = lineWidths(rows, W);
     const lineH = G.H / (oval ? 10 : 15);
-    let f = Math.min(lineH * CAP, oval ? fT * 1.7 : fT);
+    let f = Math.min(lineH * CAP, fT);
     const out = [];
     let idx = 0, fMax = Infinity;
     for (const ln of raw.lines) {
@@ -228,10 +244,11 @@
       }
       const toks = ln.words.map(x => ({
         s: String(x.text).replace(/\s+/g, " ").trim(),
+        v: x.surah_number + ":" + x.verse.verse_number,
         m: x.is_last_word === "1" ? x.verse.verse_number : null
       })).filter(x => x.s);
       let nat = 0;
-      toks.forEach((t, i) => { nat += measure(t.s, fam); if (t.m) nat += 112; if (i) nat += sp; });
+      toks.forEach((t, i) => { nat += measure(t.s, fam); if (t.m) nat += 112; if (i) nat += sp * SPF; });
       const L = { toks: toks, nat: nat, w: wl };
       if (nat) {
         const fl = 100 * wl / nat * 0.995;
@@ -240,9 +257,14 @@
         /* السطر الأعرض من المتوسط يصغر وحده ليبقى داخل الإطار */
         L.fs = Math.min(f, fl);
         L.center = !oval && nat * L.fs / 100 < wl * 0.7;
-        const spPx = sp * L.fs / 100;
-        const gapPx = toks.length > 1 ? (wl - nat * L.fs / 100) / (toks.length - 1) : 0;
-        if (!L.center && gapPx > 3.2 * spPx) { L.center = true; L.g = 2.2 * spPx; }
+        const k = toks.length;
+        if (!L.center && k > 1) {
+          const words = nat - sp * SPF * (k - 1);
+          const fnat = 100 * wl / (words + sp * (k - 1));
+          L.fs = Math.min(fl, Math.max(0.9 * f, Math.min(fnat, 1.12 * f)));
+          const gapPx = (wl - words * L.fs / 100) / (k - 1);
+          if (gapPx > 0.9 * L.fs) { L.center = true; L.g = 0.3 * L.fs; }
+        }
       }
       out.push(L);
     }
@@ -251,10 +273,12 @@
       f = Math.min(f, fMax);
       out.forEach(L => {
         if (!L.nat) return;
-        L.fs = f; L.center = false; L.g = 0;
-        const spPx = sp * f / 100, k = L.toks.length;
-        const gapPx = k > 1 ? (L.w - L.nat * f / 100) / (k - 1) : 0;
-        if (gapPx > 3.2 * spPx) { L.center = true; L.g = 2.2 * spPx; }
+        L.center = false; L.g = 0;
+        const k = L.toks.length;
+        const words = L.nat - sp * SPF * (k - 1);
+        const fnat = k > 1 ? 100 * L.w / (words + sp * (k - 1)) : f;
+        L.fs = Math.min(L.fl, Math.max(0.92 * f, Math.min(fnat, 1.08 * f)));
+        if (k < 2) { L.fs = Math.min(f, L.fl); L.center = true; }
       });
     }
     return { f: f, fMax: fMax, lines: out, sp: sp, oval: oval };
@@ -318,7 +342,7 @@
     const w = G.pw * 0.24;
     const h = w * 51.939 / 180.439;
     return '<div class="pnum" style="width:' + w + "px;height:" + h + "px;left:" + G.side + "px;bottom:" + (G.ph * 0.018) + 'px">' +
-      '<img src="' + IMG + 'page_frame_box_brown.svg" alt=""><span style="font-size:' + (h * 0.5) + 'px">' + Q.ar(p) + "</span></div>";
+      '<img src="' + IMG + 'page_frame_box_brown.svg" alt=""><span style="font-size:' + (h * 0.5) + 'px">' + Q.ar(Q.showPage(r, p)) + "</span></div>";
   }
 
   function markerHTML(num, f) {
@@ -361,9 +385,9 @@
           }
           return;
         }
-        const toks = L.toks.map(t => {
-          if (typeof t === "string") return '<span class="t">' + Q.esc(t) + "</span>";
-          return '<span class="t">' + Q.esc(t.s) + (t.m ? markerHTML(t.m, lf) : "") + "</span>";
+        const toks = L.toks.map((t, i) => {
+          if (typeof t === "string") return '<span class="t"' + (L.vss && L.vss[i] ? ' data-v="' + L.vss[i] + '"' : "") + ">" + Q.esc(t) + "</span>";
+          return '<span class="t" data-v="' + t.v + '">' + Q.esc(t.s) + (t.m ? markerHTML(t.m, lf) : "") + "</span>";
         }).join("");
         body += '<div class="ln' + (L.center ? " ctr" : "") + '" style="' + style + (L.g ? "gap:" + L.g + "px;" : "") + '">' + toks + "</div>";
       });
@@ -396,6 +420,7 @@
       }
       if (my !== epoch) return;
       sec.innerHTML = h || "";
+      paintMarks(sec);
       sec.dataset.ep = String(epoch);
       sec.dataset.done = "1";
       sec.classList.add("ready");
@@ -422,10 +447,30 @@
   let surahNames = null;
 
   async function updateBar(p) {
-    const s = await Q.surahAtPage(r, p);
-    if (!s) return;
-    elTitle.textContent = "سورة " + s.ar;
-    elSub.textContent = "الجزء " + Q.ar(s.juz) + " · ص " + Q.ar(p);
+    const list = await Q.surahs(r);
+    const pg = await Q.getPage(r, p);
+    let startsTop = false;
+    if (pg.raw) startsTop = !!(pg.raw.lines[0] && pg.raw.lines[0].is_surah_title === "1");
+    else startsTop = !!(pg.segs && pg.segs[0] && pg.segs[0].kind === "head");
+    const here = list.filter(x => x.page === p).sort((x, y) => x.n - y.n);
+    const names = [];
+    if (!startsTop || !here.length) {
+      const c = await Q.surahAtPage(r, here.length ? p - 1 : p);
+      if (c && !here.includes(c)) names.push(c);
+    }
+    here.forEach(x => names.push(x));
+    if (pg.raw) {
+      for (const ln of pg.raw.lines) {
+        if (ln.is_surah_title !== "1") continue;
+        const n = await Q.maSurahByTitle(ln.surah_title_ar);
+        const x = list.find(y => y.n === n);
+        if (x && !names.includes(x)) names.push(x);
+      }
+    }
+    const s = names[0] || (await Q.surahAtPage(r, p));
+    elTitle.textContent = names.length > 1 ? names.map(x => x.ar).join(" · ") : "سورة " + s.ar;
+    elTitle.style.fontSize = names.length > 2 ? "13px" : names.length > 1 ? "15px" : "";
+    elSub.textContent = "الجزء " + Q.ar(s.juz) + " · ص " + Q.ar(Q.showPage(r, p));
     return s;
   }
 
@@ -501,10 +546,91 @@
     });
   }
 
+  /* ---------- العلامات المرجعية: ضغطة مطوّلة على الآية ---------- */
+  let bmDraft = null;
+  const sheet = document.getElementById("bmSheet");
+  function paintMarks(root) {
+    const map = {};
+    Q.bms().forEach(b => { if (b.r === r) map[b.v] = b.color; });
+    (root || pager).querySelectorAll(".t[data-v]").forEach(el => {
+      const c = map[el.dataset.v];
+      if (c) { el.classList.add("bm"); el.style.setProperty("--bm", Q.bmColor(c)); }
+      else { el.classList.remove("bm"); el.style.removeProperty("--bm"); }
+    });
+  }
+  async function openBm(v, p) {
+    const [sn, an] = v.split(":").map(Number);
+    const list = await Q.surahs(r);
+    const s = list.find(x => x.n === sn);
+    const ex = Q.bmFind(r, v);
+    bmDraft = { r: r, v: v, p: p, surah: sn, aya: an, sname: s ? s.ar : "", juz: s ? s.juz : 0, color: ex ? ex.color : "olive", exists: !!ex };
+    document.getElementById("bmWhere").textContent = "سورة " + bmDraft.sname + " · الآية " + Q.ar(an) + " · ص " + Q.ar(Q.showPage(r, p));
+    const nm = document.getElementById("bmName");
+    nm.value = ex ? ex.name : "";
+    nm.placeholder = bmDraft.sname + " ـ " + Q.ar(an);
+    document.getElementById("bmDel").hidden = !ex;
+    document.getElementById("bmTitle").textContent = ex ? "تعديل العلامة" : "علامة مرجعية جديدة";
+    drawColors();
+    sheet.classList.add("show");
+  }
+  function drawColors() {
+    document.getElementById("bmColors").innerHTML = Q.BM_COLORS.map(c =>
+      '<button type="button" class="sw' + (c.id === bmDraft.color ? " on" : "") + '" data-c="' + c.id + '" style="--c:' + c.hex + '" aria-label="' + c.name + '"></button>').join("");
+  }
+  document.getElementById("bmColors").addEventListener("click", e => {
+    const b = e.target.closest("[data-c]");
+    if (!b) return;
+    bmDraft.color = b.dataset.c; drawColors();
+  });
+  window.closeBm = function () { sheet.classList.remove("show"); bmDraft = null; };
+  window.saveBm = function () {
+    if (!bmDraft) return;
+    const nm = document.getElementById("bmName").value.trim();
+    Q.bmPut({ r: bmDraft.r, v: bmDraft.v, p: bmDraft.p, surah: bmDraft.surah, aya: bmDraft.aya, sname: bmDraft.sname, juz: bmDraft.juz,
+      name: nm || (bmDraft.sname + " ـ " + Q.ar(bmDraft.aya)), color: bmDraft.color, ts: Date.now() });
+    closeBm(); paintMarks();
+  };
+  window.delBm = function () {
+    if (!bmDraft) return;
+    Q.bmDel(bmDraft.r, bmDraft.v); closeBm(); paintMarks();
+  };
+  sheet.addEventListener("click", e => { if (e.target === sheet) closeBm(); });
+
+  (function longPress() {
+    let timer = null, sx = 0, sy = 0, fired = false;
+    const cancel = () => { clearTimeout(timer); timer = null; };
+    pager.addEventListener("pointerdown", e => {
+      const t = e.target.closest(".t[data-v]");
+      if (!t || (e.pointerType === "mouse" && e.button !== 0)) return;
+      sx = e.clientX; sy = e.clientY; fired = false;
+      const sec = t.closest("section");
+      timer = setTimeout(() => {
+        timer = null; fired = true;
+        if (navigator.vibrate) { try { navigator.vibrate(18); } catch (x) { /* لا شيء */ } }
+        openBm(t.dataset.v, sec ? +sec.dataset.p : cur);
+      }, 550);
+    });
+    pager.addEventListener("pointermove", e => { if (timer && Math.hypot(e.clientX - sx, e.clientY - sy) > 9) cancel(); });
+    ["pointerup", "pointercancel", "pointerleave"].forEach(n => pager.addEventListener(n, cancel));
+    pager.addEventListener("scroll", cancel, { passive: true });
+    pager.addEventListener("contextmenu", e => e.preventDefault());
+    /* بعد الضغطة المطوّلة لا نعدّها نقرة (لا يُخفى الشريط) */
+    pager.addEventListener("click", e => { if (fired) { fired = false; e.stopImmediatePropagation(); } }, true);
+  })();
+
   /* ---------- إخفاء/إظهار الشريط عند النقر ---------- */
-  pager.addEventListener("click", () => {
+  /* نقرة على آية = تفسيرها، نقرتان = العلامة المرجعية، نقرة خارج الآيات = إخفاء الشريط */
+  QTafsir.onBookmark = (v, p) => openBm(v, p);
+  let tapTimer = null, lastTap = null;
+  pager.addEventListener("click", e => {
     if (pager.dataset.moved === "1") { pager.dataset.moved = ""; return; }
-    document.body.classList.toggle("immersive");
+    const t = e.target.closest(".t[data-v]");
+    if (!t) { document.body.classList.toggle("immersive"); return; }
+    const v = t.dataset.v, sec = t.closest("section"), p = sec ? +sec.dataset.p : cur, now = Date.now();
+    clearTimeout(tapTimer);
+    if (lastTap && lastTap.v === v && now - lastTap.t < 320) { lastTap = null; openBm(v, p); return; }
+    lastTap = { v: v, t: now };
+    tapTimer = setTimeout(() => { lastTap = null; QTafsir.open(r, v, p); }, 300);
   });
 
   /* ---------- لوحة المفاتيح ---------- */
