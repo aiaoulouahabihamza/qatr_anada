@@ -4,11 +4,16 @@
    مع التحديث التلقائي للكاش وحفظ الصفحات دون اتصال
    ========================================================================== */
 
-const SHELL_CACHE = "qatr-shell-v19";
+/* زِد رقم الإصدار عند تعديل صفحات HTML أو الصور أو الخطوط ليتحدث الكاش عند المستخدمين */
+const SHELL_CACHE = "qatr-shell-v21";
 const DATA_CACHE = "qatr-data-v6";
 const AUDIO_CACHE = "qatr-audio-v2";
 
-const SHELL_ASSETS = [
+/* مسار المجلد الذي يوجد فيه sw.js: "/" على نطاق رئيسي، و"/اسم-المستودع/" على GitHub Pages */
+const BASE = new URL("./", self.location).pathname;
+const abs = (list) => list.map((u) => BASE + u.replace(/^\//, ""));
+
+const SHELL_ASSETS = abs([
   "/",
   "/index.html",
   "/manifest.webmanifest",
@@ -82,9 +87,9 @@ const SHELL_ASSETS = [
   "/assets/font/aalmaghrabi.ttf",
   "/assets/font/surah-names.ttf",
   "/assets/font/%D8%AE%D8%B7%20%D8%A7%D8%B3%D9%85%D8%A7%D8%A1%20%D8%A7%D9%84%D8%B3%D9%88%D8%B1.ttf"
-];
+]);
 
-const CORE_DATA_ASSETS = [
+const CORE_DATA_ASSETS = abs([
   "/assets/quran_hafs/surah.json",
   "/assets/quran_hafs/page.json",
   "/assets/quran_hafs/juz.json",
@@ -99,7 +104,7 @@ const CORE_DATA_ASSETS = [
   "/assets/json/arba3un.json",
   "/assets/json/prayer_cities.json",
   "/assets/json/horaires-2026-11.js"
-];
+]);
 
 /* عند التثبيت: تحميل الأصول الأساسية والخطوط في الكاش */
 self.addEventListener("install", (event) => {
@@ -133,7 +138,7 @@ self.addEventListener("message", (event) => {
 });
 
 function isHtmlRequest(req, url) {
-  return req.mode === "navigate" || url.pathname === "/" || url.pathname.endsWith(".html");
+  return req.mode === "navigate" || url.pathname === BASE || url.pathname.endsWith(".html");
 }
 
 function isFontOrImage(url) {
@@ -141,7 +146,7 @@ function isFontOrImage(url) {
 }
 
 function isJsonData(url) {
-  return /\.json$/i.test(url.pathname) || url.pathname.startsWith("/assets/json/");
+  return /\.json$/i.test(url.pathname) || url.pathname.startsWith(BASE + "assets/json/");
 }
 
 self.addEventListener("fetch", (event) => {
@@ -232,7 +237,7 @@ self.addEventListener("fetch", (event) => {
           await shell.match(p, { ignoreSearch: true }) ||
           await shell.match(p.endsWith("/") ? p + "index.html" : p + ".html", { ignoreSearch: true });
         if (cached) return cached;
-        return (await shell.match("/index.html")) || new Response("Offline", { status: 503 });
+        return (await shell.match(BASE + "index.html")) || new Response("Offline", { status: 503 });
       }
     })());
     return;

@@ -216,11 +216,8 @@
   function syncInstallButtons() {
     var btn = document.getElementById("pwaInstallBtn");
     if (!btn) return;
-    if (isStandalone()) {
-      btn.hidden = true;
-      return;
-    }
-    btn.hidden = !(deferredPrompt || isIOS());
+    /* الزر يظهر دائمًا ما لم يكن التطبيق مثبّتًا، ليحصل المستخدم على استجابة في كل المتصفحات */
+    btn.hidden = isStandalone();
   }
   window.addEventListener("beforeinstallprompt", function (e) {
     e.preventDefault();
@@ -233,29 +230,43 @@
     syncInstallButtons();
   });
 
+  var iosStepsHTML = null;
+  var OTHER_STEPS = "<li>افتح قائمة المتصفح (<b>⋮</b> أو <b>⋯</b>).</li>" +
+    "<li>اختر <b>تثبيت التطبيق</b> أو <b>إضافة إلى الشاشة الرئيسية</b>.</li>" +
+    "<li>إن لم يظهر الخيار فافتح الموقع في Chrome أو Edge أو Safari مباشرةً، وليس من داخل تطبيق آخر مثل فيسبوك أو واتساب.</li>";
+
+  function showInstallHelp(ios) {
+    var m = document.getElementById("iosInstallModal");
+    if (!m) return false;
+    var ol = m.querySelector(".ios-steps");
+    if (ol) {
+      if (iosStepsHTML === null) iosStepsHTML = ol.innerHTML;
+      ol.innerHTML = ios ? iosStepsHTML : OTHER_STEPS;
+    }
+    if (typeof window.closeDrawer === "function") window.closeDrawer();
+    m.classList.add("show");
+    return true;
+  }
+
   window.QatrPWA = {
     isStandalone: isStandalone,
     isIOS: isIOS,
-    canInstall: function () { return !isStandalone() && !!(deferredPrompt || isIOS()); },
+    canInstall: function () { return !isStandalone(); },
     promptInstall: async function () {
+      if (isStandalone()) return false;
       if (deferredPrompt) {
-        deferredPrompt.prompt();
+        var p = deferredPrompt;
+        deferredPrompt = null; /* prompt() يُستدعى مرة واحدة فقط لكل حدث */
         try {
-          var res = await deferredPrompt.userChoice;
-          if (res && res.outcome === "accepted") deferredPrompt = null;
+          if (typeof window.closeDrawer === "function") window.closeDrawer();
+          p.prompt();
+          await p.userChoice;
         } catch (e) { /* لا شيء */ }
         syncInstallButtons();
         return true;
       }
-      if (isIOS() && !isStandalone()) {
-        var m = document.getElementById("iosInstallModal");
-        if (m) {
-          if (typeof window.closeDrawer === "function") window.closeDrawer();
-          m.classList.add("show");
-          return true;
-        }
-      }
-      return false;
+      /* لا يوجد طلب تثبيت من المتصفح: نعرض الخطوات اليدوية */
+      return showInstallHelp(isIOS());
     }
   };
 

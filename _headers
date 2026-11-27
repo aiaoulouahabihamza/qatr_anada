@@ -1,0 +1,29 @@
+# ==============================================================================
+# قطر الندى — _headers (Cloudflare)
+# ترويسات الأمان والتحكم في التخزين المؤقت.
+# ملاحظة: القواعد المتطابقة تُدمج قيم الترويسة نفسها، لذلك لا نضع قاعدة عامة
+# لـ Cache-Control على /*.js أو /*.css حتى لا تتداخل مع sw.js. الافتراضي في
+# Cloudflare (إعادة التحقق عبر ETag) مناسب لهما، والـ Service Worker يتولى الباقي.
+# ==============================================================================
+
+/*
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()
+
+# ملف خدمة العامل وملف البيان: دائمًا طازجان
+/sw.js
+  Cache-Control: no-cache
+
+/manifest.webmanifest
+  Cache-Control: no-cache
+  Content-Type: application/manifest+json; charset=utf-8
+
+# الخطوط والصور: أسماء الملفات غير مُرقَّمة، لذلك شهر واحد بدل immutable
+/assets/font/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+  Access-Control-Allow-Origin: *
+
+/assets/img/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
