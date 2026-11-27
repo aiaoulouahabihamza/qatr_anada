@@ -1,0 +1,65 @@
+/* ==========================================================================
+   قطر الندى — hadith/style.css
+   يُحمَّل بعد ../var.css و ../style.css ويعيد استعمال أصنافهما (.header .btn .modal .setting)
+   ========================================================================== */
+/* ---------- الفهرس ---------- */
+.hindex .content { max-width: 560px; margin-inline: auto; }
+.hindex .header-top { margin-bottom: 18px; }
+.search { display: flex; align-items: center; gap: 10px; height: 44px; padding: 0 14px; border-radius: 12px; background: rgba(255,255,255,.12); }
+.search svg { width: 19px; height: 19px; stroke: var(--gold); flex-shrink: 0; }
+.search input { flex: 1; min-width: 0; height: 100%; background: none; border: 0; outline: 0; color: #fff; font: 400 14px "tajawal","almarai",sans-serif; }
+.search input::placeholder { color: rgba(255,255,255,.7); }
+.search:focus-within { background: rgba(255,255,255,.2); }
+
+.arow { display: flex; align-items: center; gap: 14px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 12px 14px; margin-bottom: 10px; color: var(--text); text-decoration: none; }
+.arow:active { background: var(--cream); }
+.arow:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.arow .icon { width: 44px; height: 44px; background: var(--tint); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font: 400 17px "amiri",serif; color: var(--accent); }
+.arow .icon svg { width: 22px; height: 22px; stroke: var(--accent); }
+.arow .ainfo { flex: 1; min-width: 0; }
+.arow .aname { display: block; font-size: 15px; font-weight: 700; color: var(--primary); line-height: 1.5; }
+.arow .ameta { display: block; font-size: 13px; color: var(--muted); line-height: 1.6; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: "amiri", serif; }
+.arow .done { color: var(--accent); font-size: 12px; white-space: nowrap; }
+.hresume { border-color: var(--accent); background: var(--tint); }
+.hresume[hidden] { display: none; }
+.hintro { margin-bottom: 16px; }
+.qempty { text-align: center; color: var(--muted); padding: 40px 0; font-size: 14px; }
+
+/* ---------- القراءة ---------- */
+body.areader { --read-bg: var(--sage); background: var(--read-bg); min-height: 100vh; }
+.abar { position: sticky; top: 0; z-index: 30; background: var(--primary); color: #fff; border-radius: 0 0 24px 24px; padding: 10px 14px 12px; }
+.abar-row { display: flex; align-items: center; gap: 10px; max-width: 560px; margin: 0 auto; }
+.abtn { width: 40px; height: 40px; border-radius: 12px; background: rgba(255,255,255,.12); display: grid; place-items: center; flex-shrink: 0; }
+.abtn svg { width: 20px; height: 20px; stroke: #fff; }
+.atitle { flex: 1; min-width: 0; text-align: center; }
+.atitle b { display: block; font-size: 15px; line-height: 1.5; font-weight: 700; }
+.atitle small { font-size: 12px; color: var(--gold); }
+
+.htabs { display: flex; gap: 8px; overflow-x: auto; max-width: 560px; margin: 10px auto 0; padding-bottom: 2px; scrollbar-width: none; }
+.htabs::-webkit-scrollbar { display: none; }
+.htabs button { flex-shrink: 0; height: 34px; padding: 0 14px; border-radius: 17px; background: rgba(255,255,255,.12); color: #fff; font: 700 13px "tajawal","almarai",sans-serif; white-space: nowrap; }
+.htabs button.on { background: var(--gold); color: var(--primary); }
+
+.hbody { max-width: 560px; margin: 0 auto; padding: 16px 16px 24px; }
+.hcard { background: #fff; border: 1px solid var(--border); border-radius: 18px; padding: 18px 18px 20px; }
+.hcard.hhadith { border-color: var(--accent); }
+.hsrc { font-size: 12px; color: var(--accent); background: var(--tint); border-radius: 10px; padding: 5px 10px; margin-bottom: 14px; display: inline-block; font-family: "tajawal","almarai",sans-serif; }
+.htxt { font-family: "amiri", serif; font-size: var(--hfs, 22px); line-height: 2.1; color: var(--text); text-align: justify; overflow-wrap: anywhere; }
+.hhadith .htxt { text-align: center; }
+.htxt .pb { display: block; height: .55em; }
+.htxt b { font-weight: 700; }
+.htxt .hh { display: block; font-weight: 700; color: var(--primary); font-size: 1.05em; margin: .4em 0 .1em; }
+.htxt .c-q { color: var(--accent); font-weight: 700; }
+.htxt .c-t { color: var(--primary); }
+.htxt .c-a { color: var(--gold-ink); }
+.htxt .c-r { color: var(--primary); font-weight: 700; }
+.htxt .c-h { color: var(--accent); }
+
+.hnav { display: flex; gap: 10px; max-width: 560px; margin: 0 auto; padding: 0 16px 40px; }
+.hnav .btn { flex: 1; margin: 0; }
+.hnav .btn:disabled { opacity: .35; }
+.hnav .ghost { background: #fff; color: var(--primary); border: 1px solid var(--border); }
+
+.fs-pills { display: flex; gap: 6px; }
+.fs-pills button { padding: 6px 14px; border-radius: 16px; border: 1px solid var(--border); font-size: 12px; }
+.fs-pills button.active { background: var(--accent); color: #fff; border-color: var(--primary); }
