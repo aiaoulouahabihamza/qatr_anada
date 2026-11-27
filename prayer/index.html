@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#033649">
+  <title>مواقيت الصلاة — قطر الندى</title>
+  <link rel="icon" href="../assets/img/logo.png">
+  <link rel="stylesheet" href="../var.css">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="pindex">
+  <header class="header">
+    <div class="header-top">
+      <div class="logo">
+        <b>مواقيت الصلاة</b>
+        <small>أوقات الصلاة في مدن المغرب</small>
+      </div>
+      <div class="header-btns">
+        <button onclick="openSettings()" aria-label="الإعدادات">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path class="fl" d="M10.37 2.74L13.63 2.74L14.20 5.04L15.37 5.52L17.39 4.30L19.70 6.61L18.48 8.63L18.96 9.80L21.26 10.37L21.26 13.63L18.96 14.20L18.48 15.37L19.70 17.39L17.39 19.70L15.37 18.48L14.20 18.96L13.63 21.26L10.37 21.26L9.80 18.96L8.63 18.48L6.61 19.70L4.30 17.39L5.52 15.37L5.04 14.20L2.74 13.63L2.74 10.37L5.04 9.80L5.52 8.63L4.30 6.61L6.61 4.30L8.63 5.52L9.80 5.04z" /><path d="M10.37 2.74L13.63 2.74L14.20 5.04L15.37 5.52L17.39 4.30L19.70 6.61L18.48 8.63L18.96 9.80L21.26 10.37L21.26 13.63L18.96 14.20L18.48 15.37L19.70 17.39L17.39 19.70L15.37 18.48L14.20 18.96L13.63 21.26L10.37 21.26L9.80 18.96L8.63 18.48L6.61 19.70L4.30 17.39L5.52 15.37L5.04 14.20L2.74 13.63L2.74 10.37L5.04 9.80L5.52 8.63L4.30 6.61L6.61 4.30L8.63 5.52L9.80 5.04z" /><circle class="ac" cx="12" cy="12" r="3" /></svg>
+        </button>
+        <button onclick="location.href='../index.html'" aria-label="الرئيسية">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path class="fl" d="M5.5 9.7V20h13V9.7L12 4z" /><path d="M3.5 11.2 12 3.8l8.5 7.4M5.5 9.7V20h13V9.7" /><path class="ac" d="M10.2 20v-3.6a1.8 1.8 0 0 1 3.6 0V20" /></svg>
+        </button>
+      </div>
+    </div>
+    <button class="citybtn" onclick="openCities()" aria-label="تغيير المدينة">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path class="fl" d="M12 21c-4-4.2-6.5-7.2-6.5-10.5a6.5 6.5 0 0 1 13 0C18.5 13.8 16 16.8 12 21z" /><path d="M12 21c-4-4.2-6.5-7.2-6.5-10.5a6.5 6.5 0 0 1 13 0C18.5 13.8 16 16.8 12 21z" /><circle class="ac" cx="12" cy="10.5" r="2.3" /></svg>
+      <span id="cityName">…</span>
+    </button>
+  </header>
+
+  <main class="content">
+    <section class="pnext">
+      <small id="nextLabel">الصلاة القادمة</small>
+      <b id="nextName">—</b>
+      <div class="count" id="nextCount">--:--:--</div>
+    </section>
+
+    <div class="pdate">
+      <button id="nextDay" aria-label="اليوم التالي"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M14 6l-6 6 6 6" /></svg></button>
+      <div class="mid"><b id="dayTitle"></b><small id="dayHijri"></small></div>
+      <button id="prevDay" aria-label="اليوم السابق"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M10 6l6 6-6 6" /></svg></button>
+    </div>
+
+    <div id="rows"></div>
+    <p class="psrc" id="src"></p>
+  </main>
+
+  <div id="setModal" class="modal" onclick="if(event.target===this) closeSettings()">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="sTitle" style="max-height:88vh;overflow-y:auto">
+      <h3 id="sTitle">إعدادات الصلاة</h3>
+      <p class="shead">ضبط الدقائق (زيادة أو نقصان)</p>
+      <div id="adjList"></div>
+      <button class="linkbtn" id="resetAdj">إعادة الضبط إلى الصفر</button>
+      <p class="shead">نظام الساعة</p>
+      <div class="pills" id="h12"><button data-h="0">٢٤ ساعة</button><button data-h="1">١٢ ساعة</button></div>
+      <p class="shead">خط العدّاد</p>
+      <div class="pills wrap" id="fontPills"></div>
+      <div class="fprev" id="fontPreview"></div>
+      <button class="btn" onclick="closeSettings()">تم</button>
+    </div>
+  </div>
+
+  <div id="citiesModal" class="modal" onclick="if(event.target===this) closeCities()">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="cTitle">
+      <h3 id="cTitle">اختر المدينة</h3>
+      <input id="csearch" class="csearch" type="search" placeholder="ابحث عن مدينة" autocomplete="off">
+      <div id="cities" class="cities"></div>
+      <button class="btn" onclick="closeCities()">إغلاق</button>
+    </div>
+  </div>
+
+  <script src="calc.js"></script>
+  <script src="core.js"></script>
+  <script src="prayer.js"></script>
+</body>
+
+</html>
