@@ -5,4 +5,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://aiaoulouahabihamza.github.io/qatr_anada/sitemap.xml
+Sitemap: https://qatrnada.surge.sh/sitemap.xml

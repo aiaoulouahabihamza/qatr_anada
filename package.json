@@ -1,0 +1,13 @@
+{
+  "name": "qatr-al-nada",
+  "version": "1.0.0",
+  "private": true,
+  "description": "قطر الندى — القرآن الكريم ومواقيت الصلاة والأذكار والأربعون النووية والأدعية",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
