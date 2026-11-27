@@ -5,4 +5,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://qatr-al-nada.pages.dev/sitemap.xml
+Sitemap: https://aiaoulouahabihamza.github.io/qatr_anada/sitemap.xml
