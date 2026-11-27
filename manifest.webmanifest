@@ -1,0 +1,47 @@
+{
+  "id": "/",
+  "name": "قطر الندى",
+  "short_name": "قطر الندى",
+  "description": "منصة إسلامية شاملة: القرآن الكريم بروايتي ورش بالرسم المغربي وحفص، التفسير الميسر، الاستماع الصوتي المتزامن، الأذكار اليومية، الأربعون النووية، الأدعية ومواقيت الصلاة.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#033649",
+  "background_color": "#E8DDCB",
+  "categories": ["books", "education", "lifestyle"],
+  "icons": [
+    {
+      "src": "/assets/img/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/img/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/img/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/img/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/img/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

@@ -29,6 +29,7 @@
   window.resetToday = function () { A.saveProg({ d: A.prog().d, c: {} }); closeSettings(); render(qEl.value); };
 
   qEl.addEventListener("input", () => render(qEl.value));
+  window.addEventListener("pageshow", () => { if (cats.length) render(qEl.value); });
   A.load().then(d => { cats = d; render(); window.__ready = true; })
     .catch(() => { listEl.innerHTML = '<p class="qempty">تعذّر تحميل الأذكار</p>'; });
 })();

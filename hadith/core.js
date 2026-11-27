@@ -68,8 +68,8 @@
     document.querySelectorAll("[data-fs]").forEach(b => b.classList.toggle("active", b.dataset.fs === k));
   };
   window.setFs = k => { H.set("hadithFont", k); H.applyFs(); };
-  window.openSettings = () => { H.applyFs(); document.getElementById("settingsModal").classList.add("show"); };
-  window.closeSettings = () => document.getElementById("settingsModal").classList.remove("show");
+  window.openSettings = () => { H.applyFs(); const m = document.getElementById("settingsModal"); if (m) m.classList.add("show"); };
+  window.closeSettings = () => { const m = document.getElementById("settingsModal"); if (m) m.classList.remove("show"); };
   document.addEventListener("keydown", e => { if (e.key === "Escape") window.closeSettings(); });
   document.addEventListener("DOMContentLoaded", H.applyFs);
 })();

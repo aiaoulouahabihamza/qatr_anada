@@ -5,8 +5,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#033649">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="قطر الندى">
   <title>المصحف — قطر الندى</title>
-  <link rel="icon" href="../assets/img/logo.png">
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="icon" href="../assets/img/icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/img/icon-180.png">
   <link rel="stylesheet" href="../var.css">
   <link rel="stylesheet" href="../style.css">
   <link rel="stylesheet" href="style.css">
@@ -88,7 +94,21 @@
         <section class="vs-pg" data-k="au">
           <div class="vs-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path class="fl" d="M4 10v4h3.5l4.5 3.5v-11L7.5 10z" /><path d="M4 10v4h3.5l4.5 3.5v-11L7.5 10z" /><path class="ac" d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" /></svg></div>
           <b>الاستماع</b>
-          <select id="vsRec" class="vs-sel" aria-label="القارئ"></select>
+          <div id="vsRecBox" class="rec-box">
+            <button id="vsRecBtn" type="button" class="rec-btn" aria-haspopup="listbox" aria-expanded="false" aria-controls="vsRecDrop">
+              <span class="rec-btn-info">
+                <span id="vsRecName" class="rec-btn-name">جارٍ جلب القرّاء…</span>
+                <span id="vsRecSub" class="rec-btn-sub"></span>
+              </span>
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M6 9l6 6 6-6" /></svg>
+            </button>
+            <div id="vsRecDrop" class="rec-drop" hidden>
+              <div id="vsRecSearchWrap" class="rec-search-wrap" hidden>
+                <input id="vsRecSearch" class="rec-search" type="search" placeholder="ابحث عن قارئ…" autocomplete="off">
+              </div>
+              <div id="vsRecList" class="rec-list" role="listbox" aria-label="اختيار القارئ"></div>
+            </div>
+          </div>
           <p id="vsNote" class="vs-note"></p>
           <button id="vsPlay" class="btn" onclick="vsDo('au')">شغّل من هذه الآية</button>
         </section>

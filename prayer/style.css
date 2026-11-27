@@ -64,3 +64,20 @@
 .linkbtn { color: var(--primary); font-size: 13px; padding: 10px 0 0; text-decoration: underline; }
 .fprev { text-align: center; font-size: 30px; font-weight: 700; color: var(--gold); direction: ltr; margin: 14px 0 6px; font-family: var(--cfont, "tajawal"), sans-serif; }
 .pnext { background: var(--primary); border: 1px solid color-mix(in srgb, var(--gold) 60%, transparent); }
+
+/* ===== الوضع الليلي لقسم مواقيت الصلاة (الرمادي الفحمي المحايد) ===== */
+:root[data-theme="dark"] .pnext { background: #1B1E23; border-color: #2A2F37; box-shadow: 0 8px 20px rgba(0, 0, 0, .45); color: #E6E2D8; }
+:root[data-theme="dark"] .pnext small { color: #9BA1A6; opacity: 1; }
+:root[data-theme="dark"] .pnext .count,
+:root[data-theme="dark"] .fprev { color: #4F8A82; }
+:root[data-theme="dark"] .prow { background: #1B1E23; border-color: #2A2F37; min-height: 52px; margin-bottom: 8px; }
+:root[data-theme="dark"] .prow.next { background: #22262D; border-color: #4F8A82; box-shadow: 0 4px 14px rgba(0, 0, 0, .35); }
+:root[data-theme="dark"] .prow.next::before { background: #4F8A82; }
+:root[data-theme="dark"] .prow.next .tm { color: #4F8A82; }
+:root[data-theme="dark"] .prow .nm em { background: #4F8A82; color: #ffffff; }
+:root[data-theme="dark"] .pdate button { background: #1B1E23; border-color: #2A2F37; }
+:root[data-theme="dark"] .pills button { background: #121417; color: #9BA1A6; border-color: #2A2F37; }
+:root[data-theme="dark"] .pills button.on { background: #4F8A82; color: #ffffff; border-color: #4F8A82; }
+:root[data-theme="dark"] .step button { background: #121417; color: #E6E2D8; border-color: #2A2F37; }
+
+

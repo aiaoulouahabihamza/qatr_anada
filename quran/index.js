@@ -46,7 +46,7 @@
     card.href = Q.pageUrl({ r: lr.r, p: lr.p });
     document.getElementById("lastBadge").textContent = Q.EDITIONS[lr.r].name;
     document.getElementById("lastSurah").textContent = s ? "سورة " + s.ar : "المصحف";
-    document.getElementById("lastMeta").textContent = "صفحة " + Q.ar(Q.showPage(lr.r, lr.p)) + (s ? " · الجزء " + Q.ar(s.juz) : "");
+    document.getElementById("lastMeta").textContent = "صفحة " + Q.ar(Q.showPage(lr.r, lr.p)) + (lr.a ? " · الآية " + Q.ar(lr.a) : "") + (s ? " · الجزء " + Q.ar(s.juz) : "");
   }
 
   /* ---------- القائمة ---------- */
@@ -101,5 +101,8 @@
   /* ---------- البدء ---------- */
   if (!Q.chosen()) showGate();
   load();
+  window.addEventListener("pageshow", () => {
+    if (surahs.length) renderLast();
+  });
   window.__ready = true;
 })();

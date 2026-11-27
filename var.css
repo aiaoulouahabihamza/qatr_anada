@@ -1,4 +1,5 @@
 @font-face { font-family: "amiri"; src: url(assets/font/Amiri-Regular.ttf); font-display: swap; }
+@font-face { font-family: "cairo"; src: url(assets/font/Cairo-Regular.ttf); font-display: swap; }
 @font-face { font-family: "cario"; src: url(assets/font/Cairo-Regular.ttf); font-display: swap; }
 @font-face { font-family: "almarai"; src: url(assets/font/almarai-regular.ttf); font-display: swap; }
 @font-face { font-family: "tajawal"; font-weight: 300; src: url(assets/font/Tajawal-Light.ttf); font-display: swap; }
@@ -43,21 +44,23 @@
   --angle: 137.5deg;                  /* الزاوية الذهبية لتدرّج الترويسة */
 
   --fx-ui: "tajawal", "almarai", sans-serif;
+  --font-ui: var(--fx-ui);
   --fx-text: "amiri", serif;
   --fx-title: "thuluth", "amiri", serif;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-ui); }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { font-family: var(--font-ui); }
 body {
   background: var(--bg);
   color: var(--text);
   direction: rtl;
   min-height: 100vh;
   line-height: 1.65;
-      font-family: "tajawal", "almarai", sans-serif;
   font-weight: 400;
 }
-button { font-family: var(--font-ui); cursor: pointer; border: none; background: none; }
+button, input, select, textarea { font-family: inherit; }
+button { cursor: pointer; border: none; background: none; }
 .hidden { display: none !important; }
 
 /* ===== خطوط المصحف (إضافة لصفحات القرآن) ===== */
@@ -79,7 +82,7 @@ button { font-family: var(--font-ui); cursor: pointer; border: none; background:
 /* خط أسماء السور: يُكتب فيه رقم السورة بثلاثة أرقام، مثل 002 */
 @font-face {
   font-family: "surah-names";
-  src: url("assets/font/%D8%AE%D8%B7%20%D8%A7%D8%B3%D9%85%D8%A7%D8%A1%20%D8%A7%D9%84%D8%B3%D9%88%D8%B1.ttf");
+  src: url("/assets/font/surah-names.ttf"), url("assets/font/surah-names.ttf"), url("assets/font/%D8%AE%D8%B7%20%D8%A7%D8%B3%D9%85%D8%A7%D8%A1%20%D8%A7%D9%84%D8%B3%D9%88%D8%B1.ttf");
   font-display: block;
 }
 
@@ -125,12 +128,12 @@ svg .af { fill: var(--gold) !important; stroke: none !important; }
 svg { stroke-linecap: round; stroke-linejoin: round; }
 .featured button svg .ac { stroke: var(--primary) !important; }
 
-/* ===== تطبيق النسبة الذهبية وفيبوناتشي ===== */
-.header { padding-bottom: var(--f34); border-radius: 0 0 var(--f34) var(--f34); }
-.abar { border-radius: 0 0 var(--f21) var(--f21); }
-.item, .arow, .card1, .card2, .hcard, .dcard, .qcard { border-radius: var(--f21); }
-.arow .icon, .item .icon { width: var(--f55); height: var(--f55); border-radius: 34px 34px var(--f13) var(--f13); }
-.arow { padding: var(--f8) var(--f13); gap: var(--f13); margin-bottom: var(--f8); }
+/* ===== تطبيق النسبة الذهبية وفيبوناتشي مع تقليل الهوامش الزائدة ===== */
+.header { padding-bottom: 24px; border-radius: 0 0 24px 24px; }
+.abar { border-radius: 0 0 18px 18px; }
+.item, .arow, .card1, .card2, .hcard, .dcard, .qcard { border-radius: 16px; }
+.arow .icon, .item .icon { width: 48px; height: 48px; border-radius: 28px 28px 12px 12px; }
+.arow { padding: 8px 12px; gap: 12px; margin-bottom: 8px; }
 .hintro .icon { border-radius: var(--f13); }
 .arow .aname { font-size: var(--t0); } .arow .ameta { font-size: var(--t-1); }
 .sec-title { font-size: var(--t1); }
@@ -162,31 +165,146 @@ img { max-width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }
 
-/* ===== الوضع الليلي: نفس الألوان الخمسة بأدوار مقلوبة ===== */
+/* ===== الوضع الليلي: لوحة الرمادي الفحمي المحايدة الموحّدة ===== */
+:root {
+  --paper: #fff;
+  --bg-main: var(--bg);
+  --bg-card: var(--card);
+  --text-primary: var(--text);
+  --text-secondary: var(--muted);
+}
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg:       #04101f;
-  --card:     color-mix(in srgb, var(--navy) 70%, var(--petrol));
-  --sage:     color-mix(in srgb, var(--navy) 55%, var(--petrol));
-  --tint:     color-mix(in srgb, var(--teal) 22%, var(--card));
-  --text:     var(--cream);
-  --ink:      var(--cream);
-  --border:   color-mix(in srgb, var(--sand) 22%, var(--navy));
-  --muted:    color-mix(in srgb, var(--cream) 62%, var(--navy));
-  --gold-ink: var(--sand);
-  --primary:  color-mix(in srgb, var(--teal) 80%, var(--petrol));
-  --accent:   color-mix(in srgb, var(--teal) 70%, var(--cream));
+  --bg-main:        #121417;
+  --bg-card:        #1B1E23;
+  --text-primary:   #E6E2D8;
+  --text-secondary: #9BA1A6;
+  --accent:         #4F8A82;
+
+  --bg:       var(--bg-main);
+  --card:     var(--bg-card);
+  --paper:    var(--bg-card);
+  --sage:     var(--bg-main);
+  --tint:     #22262D;
+  --cream:    #171A1F;
+  --text:     var(--text-primary);
+  --ink:      var(--text-primary);
+  --border:   #2A2F37;
+  --muted:    var(--text-secondary);
+  --gold:     var(--accent);
+  --gold-ink: var(--text-secondary);
+  --primary:  var(--text-primary);
 }
-:root[data-theme="dark"] body { background: var(--bg); color: var(--text); }
-:root[data-theme="dark"] .header, :root[data-theme="dark"] .abar { background-image: linear-gradient(var(--angle,137.5deg), #021022, var(--petrol)); }
-:root[data-theme="dark"] .item .icon svg .ac, :root[data-theme="dark"] .arow .icon svg .ac, :root[data-theme="dark"] .empty-box svg .ac { stroke: var(--sand) !important; }
-:root[data-theme="dark"] .modal-content, :root[data-theme="dark"] .drawer { background: var(--card); color: var(--text); }
-:root[data-theme="dark"] input, :root[data-theme="dark"] select, :root[data-theme="dark"] textarea { background: var(--sage); color: var(--text); border-color: var(--border); }
-:root[data-theme="dark"] img.logo-img, :root[data-theme="dark"] .splash img { filter: none; }
-:root { --paper: #fff; }
-:root[data-theme="dark"] { --paper: var(--card); }
-:root[data-theme="dark"] .toast { color: var(--navy); }
-:root[data-theme="dark"] .prayer-row, :root[data-theme="dark"] .arow:active { background: var(--sage); }
-:root[data-theme="dark"] .htxt .c-q, :root[data-theme="dark"] .htxt .c-h { color: #7fd6cf; }
-:root[data-theme="dark"] .htxt .c-t, :root[data-theme="dark"] .htxt .c-r, :root[data-theme="dark"] .htxt .hh, :root[data-theme="dark"] .arow .aname { color: var(--cream); }
-:root[data-theme="dark"] .htxt .c-a { color: var(--sand); }
+:root[data-theme="dark"] body { background: var(--bg-main); color: var(--text-primary); }
+:root[data-theme="dark"] .header,
+:root[data-theme="dark"] .abar,
+:root[data-theme="dark"] .rbar,
+:root[data-theme="dark"] .drawer-top {
+  background: var(--bg-card);
+  border-bottom: 1px solid #2A2F37;
+  color: var(--text-primary);
+}
+:root[data-theme="dark"] .header::before,
+:root[data-theme="dark"] .abar::before {
+  opacity: .08;
+  filter: grayscale(1) brightness(1.35);
+}
+:root[data-theme="dark"] .item,
+:root[data-theme="dark"] .arow,
+:root[data-theme="dark"] .hcard,
+:root[data-theme="dark"] .dcard,
+:root[data-theme="dark"] .card1,
+:root[data-theme="dark"] .card2 {
+  background: var(--bg-card);
+  border: 1px solid #2A2F37;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .35);
+}
+:root[data-theme="dark"] .card1 { border-top: 2px solid var(--accent); }
+:root[data-theme="dark"] .btn {
+  background: var(--accent);
+  color: #ffffff;
+  box-shadow: none;
+}
+:root[data-theme="dark"] .btn.ghost,
+:root[data-theme="dark"] .hnav .ghost {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid #2A2F37;
+  box-shadow: none;
+}
+:root[data-theme="dark"] .arow .icon,
+:root[data-theme="dark"] .item .icon {
+  background: #22262D;
+  border-color: #2A2F37;
+}
+:root[data-theme="dark"] .item .icon svg .ac,
+:root[data-theme="dark"] .arow .icon svg .ac,
+:root[data-theme="dark"] .empty-box svg .ac,
+:root[data-theme="dark"] svg .ac {
+  stroke: var(--accent) !important;
+}
+:root[data-theme="dark"] svg .af {
+  fill: var(--accent) !important;
+}
+:root[data-theme="dark"] svg .fl {
+  fill: rgba(79, 138, 130, .16) !important;
+}
+:root[data-theme="dark"] .featured button svg .ac {
+  stroke: #ffffff !important;
+}
+:root[data-theme="dark"] .modal-content {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border-top: 1px solid #2A2F37;
+}
+:root[data-theme="dark"] .drawer {
+  background: var(--bg-main);
+  color: var(--text-primary);
+  border-left: 1px solid #2A2F37;
+}
+:root[data-theme="dark"] input,
+:root[data-theme="dark"] select,
+:root[data-theme="dark"] textarea {
+  background: var(--bg-main);
+  color: var(--text-primary);
+  border-color: #2A2F37;
+}
+:root[data-theme="dark"] .search {
+  background: var(--bg-main);
+  border: 1px solid #2A2F37;
+}
+:root[data-theme="dark"] .search input {
+  background: transparent;
+  color: var(--text-primary);
+}
+:root[data-theme="dark"] .search input::placeholder { color: var(--text-secondary); }
+:root[data-theme="dark"] img.logo-img,
+:root[data-theme="dark"] .splash img { filter: none; }
+:root[data-theme="dark"] .toast {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid #2A2F37;
+}
+:root[data-theme="dark"] .prayer-row,
+:root[data-theme="dark"] .arow:active,
+:root[data-theme="dark"] .srow:active,
+:root[data-theme="dark"] .rcard:active {
+  background: #22262D;
+}
+:root[data-theme="dark"] .badge,
+:root[data-theme="dark"] .last-head small {
+  background: #22262D;
+  color: var(--accent);
+}
+:root[data-theme="dark"] .sec-title::after {
+  background: linear-gradient(to left, #2A2F37, transparent);
+}
+:root[data-theme="dark"] .htxt .c-q,
+:root[data-theme="dark"] .htxt .c-h { color: var(--accent); }
+:root[data-theme="dark"] .htxt .c-t,
+:root[data-theme="dark"] .htxt .c-r,
+:root[data-theme="dark"] .htxt .hh,
+:root[data-theme="dark"] .arow .aname { color: var(--text-primary); }
+:root[data-theme="dark"] .htxt .c-a { color: var(--text-secondary); }
+
+

@@ -3,9 +3,57 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>قطر الندى</title>
-  <link rel="icon" href="assets/img/logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#033649">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="قطر الندى">
+  <title>قطر الندى — القرآن الكريم والأذكار ومواقيت الصلاة</title>
+  <meta name="description" content="منصة إسلامية شاملة تضم المصحف الشريف بروايتي ورش بالرسم المغربي وحفص، التفسير الميسر، الاستماع الصوتي المتزامن، الأذكار اليومية، مواقيت الصلاة والأحاديث النبوية.">
+  <link rel="canonical" href="https://qatr-al-nada.pages.dev/">
+  
+  <!-- Open Graph / بطاقات المشاركة الاجتماعية -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="قطر الندى — القرآن الكريم والأذكار ومواقيت الصلاة">
+  <meta property="og:description" content="منصة إسلامية شاملة تضم المصحف الشريف بروايتي ورش بالرسم المغربي وحفص، التفسير الميسر، الاستماع الصوتي المتزامن، الأذكار اليومية، مواقيت الصلاة والأحاديث النبوية.">
+  <meta property="og:site_name" content="قطر الندى">
+  <meta property="og:url" content="https://qatr-al-nada.pages.dev/">
+  <meta property="og:image" content="https://qatr-al-nada.pages.dev/assets/img/icon-512.png">
+  <meta property="og:locale" content="ar_AR">
+
+  <!-- بطاقات Twitter / X -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="قطر الندى — القرآن الكريم والأذكار ومواقيت الصلاة">
+  <meta name="twitter:description" content="منصة إسلامية شاملة تضم المصحف الشريف بروايتي ورش بالرسم المغربي وحفص، التفسير الميسر، الاستماع الصوتي المتزامن، الأذكار اليومية، مواقيت الصلاة والأحاديث النبوية.">
+  <meta name="twitter:image" content="https://qatr-al-nada.pages.dev/assets/img/icon-512.png">
+
+  <!-- أيقونات PWA وملف البيان -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="assets/img/icon-192.svg">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/img/icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/img/icon-180.png">
+  
+  <!-- Schema.org بيانات منظمة لمحركات البحث (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "قطر الندى",
+    "alternateName": "Qatr Al Nada",
+    "url": "https://qatr-al-nada.pages.dev/",
+    "description": "منصة إسلامية شاملة تضم المصحف الشريف بروايتي ورش بالرسم المغربي وحفص، التفسير الميسر، الاستماع الصوتي المتزامن، الأذكار اليومية، مواقيت الصلاة والأحاديث النبوية.",
+    "applicationCategory": "LifestyleApplication",
+    "operatingSystem": "All",
+    "inLanguage": "ar",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+
   <link rel="stylesheet" href="var.css">
   <link rel="stylesheet" href="style.css">
   <script src="nav.js"></script>
@@ -97,7 +145,7 @@
         <h3>القرآن الكريم</h3>
         <p>114 سورة • ورش وحفص</p>
       </div>
-      <button onclick="openQuran()">
+      <button onclick="event.stopPropagation(); openQuran()" aria-label="فتح القرآن الكريم">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M5 12h13" /><path class="ac" d="M13 6l6 6-6 6" /></svg>
       </button>
     </div>
@@ -141,14 +189,14 @@
   </div>
 </div>
     <div class="drawer-menu">
-      <button>الرئيسية <span>›</span></button>
+      <button onclick="closeDrawer()">الرئيسية <span>›</span></button>
       <button onclick="openQuran()">القرآن الكريم <span>›</span></button>
       <button onclick="openPrayer()">مواقيت الصلاة <span>›</span></button>
       <button onclick="openAdkar()">الأذكار <span>›</span></button>
-      <button onclick="openDuaa()">الأدعية <span>›</span></button>
-      <button onclick="toggleTheme()">الوضع الليلي <span>◐</span></button>
       <button onclick="openHadith()">الحديث <span>›</span></button>
-      <button>الأدعية <span>›</span></button>
+      <button onclick="openDuaa()">الأدعية <span>›</span></button>
+      <button onclick="toggleTheme(); closeDrawer()">الوضع الليلي <span>◐</span></button>
+      <button id="pwaInstallBtn" onclick="QatrPWA.promptInstall()" hidden>تثبيت التطبيق <span>⬇</span></button>
       <button onclick="openSettings()">الإعدادات <span>›</span></button>
     </div>
   </aside>
@@ -182,10 +230,32 @@
       <button class="btn" style="width:100%;margin-top:18px" onclick="closeSettings()">تم</button>
     </div>
   </div>
+
+  <!-- دليل التثبيت على iOS -->
+  <div id="iosInstallModal" class="modal" onclick="if(event.target===this) this.classList.remove('show')">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="iosInstallTitle">
+      <h3 id="iosInstallTitle">تثبيت قطر الندى</h3>
+      <ol class="ios-steps">
+        <li>اضغط على زر <b>المشاركة</b> في شريط Safari بالأسفل.</li>
+        <li>اختر <b>إضافة إلى الشاشة الرئيسية</b> (Add to Home Screen).</li>
+        <li>اضغط <b>إضافة</b> ليظهر التطبيق على جهازك ويعمل دون إنترنت.</li>
+      </ol>
+      <button class="btn" style="width:100%" onclick="document.getElementById('iosInstallModal').classList.remove('show')">حسناً</button>
+    </div>
+  </div>
   
   <script src="prayer/calc.js"></script>
   <script src="prayer/core.js"></script>
   <script src="main.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("./sw.js")
+          .then(function (reg) { if (reg && reg.update) reg.update(); })
+          .catch(function () {});
+      });
+    }
+  </script>
 </body>
 
 </html>

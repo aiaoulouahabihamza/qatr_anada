@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192" role="img" aria-label="قطر الندى">
+  <defs>
+    <linearGradient id="bg192" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#031634"/>
+      <stop offset="100%" stop-color="#033649"/>
+    </linearGradient>
+    <mask id="cres192">
+      <rect width="192" height="192" fill="#fff"/>
+      <circle cx="107" cy="118" r="21" fill="#000"/>
+    </mask>
+  </defs>
+  <rect width="192" height="192" rx="40" fill="url(#bg192)"/>
+  <path d="M40 166V88Q40 44 96 20Q152 44 152 88V166" fill="none" stroke="#CDB380" stroke-width="5.5" stroke-linecap="round"/>
+  <path d="M54 166V90Q54 55 96 36Q138 55 138 90V166" fill="none" stroke="#036564" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M96 58C96 58 69 91 69 119a27 27 0 0 0 54 0C123 91 96 58 96 58z" fill="#E8DDCB"/>
+  <circle cx="96" cy="118" r="17" fill="#033649" mask="url(#cres192)"/>
+  <path d="M116 64l3 6.5 6.5 3-6.5 3-3 6.5-3-6.5-6.5-3 6.5-3z" fill="#CDB380"/>
+  <path d="M28 166h136" stroke="#CDB380" stroke-width="5" stroke-linecap="round"/>
+</svg>

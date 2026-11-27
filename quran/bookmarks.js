@@ -29,7 +29,20 @@
     const x = e.target.closest(".x");
     if (!x) return;
     e.preventDefault();
-    if (confirm("حذف هذه العلامة؟")) { Q.bmDel(x.dataset.r, x.dataset.v); render(); }
+    if (!x.classList.contains("confirm")) {
+      listEl.querySelectorAll(".x.confirm").forEach(b => {
+        b.classList.remove("confirm");
+        b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path class="fl" d="M7 7l1 13h8l1-13z" /><path d="M4.5 7h15M9 7V4h6v3M7 7l1 13h8l1-13" /><path class="ac" d="M10.2 11v6M13.8 11v6" /></svg>';
+      });
+      x.classList.add("confirm");
+      x.textContent = "حذف؟";
+      setTimeout(() => {
+        if (x.isConnected && x.classList.contains("confirm")) render();
+      }, 3000);
+      return;
+    }
+    Q.bmDel(x.dataset.r, x.dataset.v);
+    render();
   });
   render();
 })();

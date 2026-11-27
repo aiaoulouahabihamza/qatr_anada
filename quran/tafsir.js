@@ -26,7 +26,10 @@
   function loadSurah(s) {
     let e = mem.find(x => x.s === s);
     if (e) return e.p;
-    const p = fetch(BASE + SLUGS[s - 1] + ".json").then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(d => d.ayahs);
+    const p = fetch(BASE + SLUGS[s - 1] + ".json").then(r => {
+      if (!r.ok) { const err = new Error(r.status); err.status = r.status; throw err; }
+      return r.json();
+    }).then(d => d.ayahs);
     e = { s: s, p: p }; mem.unshift(e); if (mem.length > 2) mem.pop();
     p.catch(() => { const i = mem.indexOf(e); if (i >= 0) mem.splice(i, 1); });
     return p;
@@ -96,7 +99,7 @@
   /* ---------- الحالة والواجهة ---------- */
   let st = null;          /* { r, s, a, p, sname, total } */
   let pick = (function () { try { const v = localStorage.getItem("tafsirPick"); return LIST.some(x => x.id === v) ? v : "muyassar"; } catch (e) { return "muyassar"; } })();
-  let fs = (function () { try { return Math.max(16, Math.min(30, +localStorage.getItem("tafsirFs") || 20)); } catch (e) { return 20; } })();
+  let fs = (function () { try { return Math.max(14, Math.min(26, +localStorage.getItem("tafsirFs") || 17)); } catch (e) { return 17; } })();
   let token = 0;
 
   function mark() {
@@ -130,21 +133,27 @@
       body.innerHTML = h; body.scrollTop = 0;
     } catch (e) {
       if (my !== token) return;
-      body.innerHTML = '<p class="tf-wait">تعذّر تحميل التفسير. تأكد من الاتصال ثم حاول مرة أخرى.</p>';
+      body.innerHTML = e && e.status === 404
+        ? '<p class="tf-wait">تفسير هذه السورة غير متوفر حاليًا ضمن ملفات الموقع المحلية.</p>'
+        : '<p class="tf-wait">تعذّر تحميل التفسير. تأكد من الاتصال ثم حاول مرة أخرى.</p>';
     }
   }
 
   T.open = async function (r, v, p) {
     const q = window.Q, [s, a] = v.split(":").map(Number);
-    const list = await q.surahs(r), sl = list.find(x => x.n === s);
-    st = { r: r, s: s, a: a, p: p, sname: sl ? sl.ar : "", total: sl ? sl.aya : a };
+    st = { r: r, s: s, a: a, p: p, sname: "", total: a };
+    el("tfWhere").textContent = "الآية " + q.ar(a);
     el("tfSheet").classList.add("show");
+    const list = await q.surahs(r), sl = list.find(x => x.n === s);
+    if (!st || st.s !== s || st.a !== a) return;
+    st.sname = sl ? sl.ar : "";
+    st.total = sl ? sl.aya : a;
     render();
   };
   T.close = function () { el("tfSheet").classList.remove("show"); st = null; token++; mark(); };
   T.step = function (d) { if (!st) return; const n = st.a + d; if (n < 1 || n > st.total) return; st.a = n; render(); };
   T.bookmark = function () { if (!st || !T.onBookmark) return; const v = st.s + ":" + st.a, p = st.p; T.close(); T.onBookmark(v, p); };
-  T.size = function (d) { fs = Math.max(16, Math.min(30, fs + d)); try { localStorage.setItem("tafsirFs", fs); } catch (e) { /* لا شيء */ } el("tfBody").style.fontSize = fs + "px"; };
+  T.size = function (d) { fs = Math.max(14, Math.min(26, fs + d)); try { localStorage.setItem("tafsirFs", fs); } catch (e) { /* لا شيء */ } el("tfBody").style.fontSize = fs + "px"; };
 
   document.addEventListener("DOMContentLoaded", () => {
     el("tfTabs").addEventListener("click", e => {

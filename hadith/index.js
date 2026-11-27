@@ -25,15 +25,24 @@
     emptyEl.hidden = n > 0;
   }
 
-  qEl.addEventListener("input", () => render(qEl.value));
-  H.load().then(m => {
-    for (let i = 1; i <= H.TOTAL; i++) { const h = m["h" + i + "_hadith"] || ""; rows.push({ n: i, snip: snippet(h), full: H.plain(h) }); }
+  function updateResume() {
     const last = +H.get("hadithLast", "0");
+    const el = document.getElementById("resume");
     if (last > 0 && last <= H.TOTAL) {
-      const el = document.getElementById("resume");
       el.href = "page.html?n=" + last; el.hidden = false;
       el.innerHTML = '<span class="icon">' + H.ar(last) + '</span><span class="ainfo"><span class="aname">متابعة القراءة</span><span class="ameta">الحديث ' + H.ORD[last - 1] + "</span></span>";
+    } else {
+      el.hidden = true;
     }
+  }
+
+  qEl.addEventListener("input", () => render(qEl.value));
+  window.addEventListener("pageshow", () => {
+    if (rows.length) { updateResume(); render(qEl.value); }
+  });
+  H.load().then(m => {
+    for (let i = 1; i <= H.TOTAL; i++) { const h = m["h" + i + "_hadith"] || ""; rows.push({ n: i, snip: snippet(h), full: H.plain(h) }); }
+    updateResume();
     render(); window.__ready = true;
   }).catch(() => { listEl.innerHTML = '<p class="qempty">تعذّر تحميل الأحاديث</p>'; });
 })();

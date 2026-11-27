@@ -6,7 +6,7 @@
   const SELF = document.currentScript ? document.currentScript.src : location.href;
   const url = p => new URL("../assets/json/" + p, SELF).href;
 
-  /* التوقيت القانوني بالمغرب = GMT (حسب موقع الوزارة). غيّره هنا إن تغيّر. */
+  /* التوقيت المعتمد بالمغرب ثابت (GMT) دون تغيير صيفي (حسب مواقيت الوزارة). */
   const TZ = 0;
   const BIAS = [-0.1, 0, 0.2, 0, 0, 0]; /* تقريب كل وقت ليطابق جدول الوزارة */
   const KEYS = ["fajr", "sunrise", "dhuhr", "asr", "maghrib", "isha"];
@@ -29,7 +29,7 @@
   /* الجداول الشهرية الرسمية: assets/json/horaires-YYYY-MM.js (تُضاف شهرًا بشهر) */
   /* الأشهر التي لها جدول رسمي مرفوع (اتركها فارغة = حساب فقط بلا أي طلب شبكة إضافي).
      لإضافة شهر: ضع ملفه في assets/json ثم أضف مفتاحه هنا مثل "2026-12". */
-  const OFFICIAL = [];
+  const OFFICIAL = ["2026-11"];
   const months = {};
   window.HORAIRES_MOIS = window.HORAIRES_MOIS || [];
   function loadMonth(y, m) {
@@ -66,8 +66,12 @@
   P.adj = () => { try { const a = JSON.parse(P.get("prayerAdj", "[]")); return [0, 1, 2, 3, 4, 5].map(i => Math.max(-30, Math.min(30, +a[i] || 0))); } catch (e) { return [0, 0, 0, 0, 0, 0]; } };
   P.setAdj = a => P.set("prayerAdj", JSON.stringify(a));
   P.is12 = () => P.get("prayerH12", "0") === "1";
-  P.FONTS = { tajawal: "تجوال", almarai: "المراي", cario: "القاهرة", amiri: "أميري", mono: "رقمي" };
-  P.font = () => { const f = P.get("prayerFont", "tajawal"); return P.FONTS[f] ? f : "tajawal"; };
+  P.FONTS = { tajawal: "تجوال", almarai: "المراي", cairo: "القاهرة", amiri: "أميري", mono: "رقمي" };
+  P.font = () => {
+    let f = P.get("prayerFont", "tajawal");
+    if (f === "cario") f = "cairo";
+    return P.FONTS[f] ? f : "tajawal";
+  };
   P.fontCss = f => f === "mono" ? 'ui-monospace,"SF Mono",Menlo,Consolas,monospace' : '"' + f + '",sans-serif';
   const shift = (t, a) => t.map((s, i) => a[i] ? hm(P.toMin(s) + a[i]) : s);
   /* "17:25" ← "5:25 م" حسب النظام المختار */

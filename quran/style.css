@@ -133,9 +133,7 @@ body.reader {
   background: var(--primary);
   color: #fff;
   border-radius: 0 0 24px 24px;
-  transition: transform .3s ease;
 }
-body.immersive .rbar { transform: translateY(-110%); }
 
 .rbtn {
   width: 40px; height: 40px;
@@ -180,19 +178,23 @@ body.immersive .rbar { transform: translateY(-110%); }
 .pg {
   flex: 0 0 100%;
   width: 100%;
+  height: 100%;
   scroll-snap-align: center;
   scroll-snap-stop: always;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-bottom: 8px;
+  overflow: hidden;
+  padding: 4px 8px 6px;
 }
 
-/* الصفحة: بلا ورق ولا صورة خلفية */
-.paper {
+/* حاوية الصفحة الثابتة: قالب مصحف متكامل بلا تمرير عمودي */
+.paper,
+.page-container {
   position: relative;
   flex-shrink: 0;
   color: var(--text);
+  overflow: hidden;
 }
 
 .mbody {
@@ -204,20 +206,64 @@ body.immersive .rbar { transform: translateY(-110%); }
   font-weight: 400;
   line-height: 1;
 }
-.mbody.short { justify-content: center; }
+.mbody .ln,
+.mbody .t,
+.mbody .t * { font-family: inherit; }
+.mbody .t .av,
+.mbody .t .av b { font-family: "amiri", serif; }
+.ln .an {
+  color: var(--accent);
+  font-size: 1.26em;
+  line-height: 1;
+  vertical-align: -0.03em;
+}
+:root[data-riwaya="hafs"] .ln .an,
+:root[data-riwaya="warsh"] .ln .an {
+  font-size: 1.38em;
+}
 
+/* سطور المصحف: 15-16 سطراً متساوية الحواف من اليمين واليسار */
 .ln {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: block;
+  width: 100%;
   flex-shrink: 0;
-  white-space: nowrap;
   direction: rtl;
+  text-align: justify;
+  text-align-last: justify;
+  text-justify: inter-word;
+  white-space: normal;
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  -webkit-font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
   color: var(--text);
 }
-.ln .t { white-space: nowrap; display: inline-flex; align-items: center; }
-.ln.ctr, .ln.bsm { justify-content: center; gap: .3em; }
-.ln.head { justify-content: center; }
+.ln .t {
+  display: inline;
+  white-space: nowrap;
+}
+.ln.ctr,
+.ln.bsm {
+  text-align: center;
+  text-align-last: center;
+}
+.ln.head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* سورة الفاتحة وأول صفحة من سورة البقرة: 7 أسطر متدرجة ومتناظرة */
+.mbody.short {
+  justify-content: center;
+  left: 0 !important;
+  right: 0 !important;
+  max-width: 420px;
+  margin: 0 auto;
+  text-align: center;
+}
+.mbody.short .ln:not(.head) {
+  margin: 0 auto;
+}
 
 /* إطار اسم السورة: الاسم صورة مقصوصة على حدود الحبر، فيقع في المنتصف تمامًا */
 .sf { position: relative; }
@@ -289,6 +335,7 @@ body.immersive .rbar { transform: translateY(-110%); }
 .bmrow b { font-size: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .bmrow small { font-size: 12px; color: var(--text-light, var(--muted)); }
 .bmrow .x { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; color: var(--muted); }
+.bmrow .x.confirm { background: var(--accent); color: #fff; width: auto; padding: 0 10px; font-size: 12px; font-weight: 700; }
 .bmrow .x svg { width: 18px; height: 18px; stroke: currentColor; }
 .bmfilter { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
 .bmfilter button { padding: 6px 12px; border-radius: 16px; border: 1px solid var(--border); font-size: 12px; background: var(--paper, #fff); display: flex; align-items: center; gap: 6px; }
@@ -297,47 +344,92 @@ body.immersive .rbar { transform: translateY(-110%); }
 
 /* ---------- تفسير الآية ---------- */
 .t.tsel { background: color-mix(in srgb, var(--sand) 45%, transparent); border-radius: 6px; }
-.tfmodal .tfbox { display: flex; flex-direction: column; height: min(82vh, 720px); max-width: 560px; padding: var(--f13) var(--f21) var(--f13); }
-.tf-grab { width: var(--f55); height: 4px; border-radius: 2px; background: var(--border); margin: 0 auto var(--f8); flex-shrink: 0; }
-.tf-head { display: flex; align-items: center; justify-content: space-between; gap: var(--f8); flex-shrink: 0; }
-.tf-head h3 { margin: 0; font-family: var(--fx-text); font-size: var(--t1); font-weight: 700; color: var(--primary); }
+.tfmodal .tfbox { display: flex; flex-direction: column; height: min(84vh, 720px); max-width: 560px; padding: 10px 14px 10px; }
+.tf-grab { width: 44px; height: 4px; border-radius: 2px; background: var(--border); margin: 0 auto 6px; flex-shrink: 0; }
+.tf-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-shrink: 0; }
+.tf-head h3 { margin: 0; font-family: var(--fx-text); font-size: 18px; font-weight: 700; color: var(--primary); }
 .tf-tools { display: flex; gap: 6px; }
-.tf-tools button { min-width: 36px; height: 36px; border-radius: 12px; background: var(--tint); border: 1px solid var(--border); color: var(--primary); font: 700 14px var(--fx-ui); }
-.tf-tabs { display: flex; gap: var(--f8); margin: var(--f13) 0 var(--f8); flex-shrink: 0; }
-.tf-tabs button { flex: 1; height: 38px; border-radius: 19px; background: var(--tint); border: 1px solid var(--border); color: var(--primary); font: 700 13px var(--fx-ui); }
+.tf-tools button { min-width: 34px; height: 34px; border-radius: 10px; background: var(--tint); border: 1px solid var(--border); color: var(--primary); font: 700 13px var(--fx-ui); }
+.tf-tabs { display: flex; gap: 6px; margin: 8px 0 6px; flex-shrink: 0; overflow-x: auto; scrollbar-width: none; }
+.tf-tabs::-webkit-scrollbar { display: none; }
+.tf-tabs button { flex: 0 0 auto; height: 34px; padding: 0 14px; border-radius: 17px; background: var(--tint); border: 1px solid var(--border); color: var(--primary); font: 700 12.5px var(--fx-ui); }
 .tf-tabs button.on { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: inset 0 -2px 0 var(--gold); }
-.tf-body { flex: 1; overflow-y: auto; font-family: var(--fx-text); line-height: 2.05; color: var(--text); text-align: justify; padding: var(--f8) 2px var(--f13); overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
-.tf-body p { margin: 0 0 .55em; }
+.tf-body { flex: 1; overflow-y: auto; font-family: var(--fx-text); line-height: 1.85; color: var(--text); text-align: justify; padding: 4px 2px 8px; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+.tf-body, .tf-body * { font-family: var(--fx-text); }
+.tf-body .tf-src, .tf-body .tf-note, .tf-body .tf-wait { font-family: var(--fx-ui); }
+.tf-body p { margin: 0 0 .45em; }
 .tf-body b { color: var(--primary); }
 .tf-body .tq { color: var(--accent); font-weight: 700; }
-.tf-src { font: 500 12px var(--fx-ui); color: var(--gold-ink); background: var(--tint); border-radius: 10px; padding: 5px 10px; margin-bottom: var(--f8); display: inline-block; line-height: 1.6; }
-.tf-h { margin: .6em 0 .2em; font-size: .9em; color: var(--primary); border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+.tf-src { font: 500 11.5px var(--fx-ui); color: var(--gold-ink); background: var(--tint); border-radius: 8px; padding: 4px 9px; margin-bottom: 6px; display: inline-block; line-height: 1.5; }
+.tf-h { margin: .45em 0 .15em; font-size: .92em; color: var(--primary); border-bottom: 1px solid var(--border); padding-bottom: 2px; }
 .tf-note { font: 400 12px var(--fx-ui); color: var(--muted); }
-.tf-wait { text-align: center; color: var(--muted); font: 400 14px var(--fx-ui); padding: var(--f34) 0; }
-.tf-foot { display: flex; gap: var(--f8); flex-shrink: 0; padding-top: var(--f8); }
-.tf-foot .btn { flex: 1; margin: 0; height: 42px; font-size: 13px; padding: 0 6px; }
-.tf-foot .btn:disabled { opacity: .35; }
-.tf-tabs { overflow-x: auto; scrollbar-width: none; }
-.tf-tabs::-webkit-scrollbar { display: none; }
-.tf-tabs button { flex: 0 0 auto; padding: 0 var(--f21); }
+.tf-wait { text-align: center; color: var(--muted); font: 400 14px var(--fx-ui); padding: 24px 0; }
 .tf-wait small { font-size: 12px; }
+.tf-foot { display: flex; gap: 6px; flex-shrink: 0; padding-top: 6px; }
+.tf-foot .btn { flex: 1; margin: 0; height: 38px; font-size: 12.5px; padding: 0 6px; }
+.tf-foot .btn:disabled { opacity: .35; }
 
 /* ===== قائمة الآية السفلية: ثلاث صفحات مصغّرة ===== */
-.vsmodal .vsbox { max-width: 520px; padding: var(--f13) 0 var(--f21); text-align: center; }
-.vsbox h3 { margin: 4px 0 10px; }
+.vsmodal .vsbox { max-width: 520px; padding: 10px 0 14px; text-align: center; }
+.vsbox h3 { margin: 2px 0 8px; font-size: 18px; }
 .vs-pages { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; direction: rtl; gap: 0; overscroll-behavior-x: contain; }
 .vs-pages::-webkit-scrollbar { display: none; }
-.vs-pg { flex: 0 0 100%; scroll-snap-align: center; padding: 6px var(--f21) 4px; display: flex; flex-direction: column; align-items: center; gap: 8px; min-height: 210px; justify-content: center; }
-.vs-pg b { font-size: var(--t1); color: var(--primary); }
-.vs-pg p { margin: 0; color: var(--muted); font-size: var(--t-1); line-height: 1.8; max-width: 30ch; }
-.vs-pg .btn { margin-top: 6px; min-width: 190px; }
-.vs-ic { width: 56px; height: 56px; border-radius: 34px 34px 13px 13px; background: var(--tint); display: grid; place-items: center; }
-.vs-ic svg { width: 30px; height: 30px; }
-.vs-sel { width: min(100%, 320px); height: 44px; border-radius: 12px; border: 1px solid var(--border); background: var(--paper, #fff); color: var(--text); font: 400 15px "tajawal", sans-serif; padding: 0 10px; }
-.vs-dots { display: flex; justify-content: center; gap: 8px; margin-top: 10px; direction: rtl; }
+.vs-pg { flex: 0 0 100%; scroll-snap-align: center; padding: 4px 16px; display: flex; flex-direction: column; align-items: center; gap: 7px; min-height: 200px; justify-content: center; }
+.vs-pg b { font-size: 17px; color: var(--primary); }
+.vs-pg p { margin: 0; color: var(--muted); font-size: 12.5px; line-height: 1.65; max-width: 32ch; }
+.vs-pg .btn { margin-top: 4px; min-width: 185px; height: 40px; padding: 0 18px; }
+.vs-ic { width: 48px; height: 48px; border-radius: 28px 28px 12px 12px; background: var(--tint); display: grid; place-items: center; }
+.vs-ic svg { width: 26px; height: 26px; }
+
+/* منتقي القارئ المخصّص المدمج */
+.rec-box { width: min(100%, 340px); text-align: right; position: relative; }
+.rec-btn {
+  width: 100%; min-height: 44px; padding: 6px 12px;
+  border-radius: 12px; border: 1px solid var(--border);
+  background: var(--paper, #fff); color: var(--text);
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  text-align: right;
+}
+.rec-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.rec-btn-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.rec-btn-name { font-size: 13.5px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rec-btn-sub { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rec-btn svg { width: 16px; height: 16px; stroke: var(--muted); flex-shrink: 0; transition: transform .18s ease; }
+.rec-box.open .rec-btn svg { transform: rotate(180deg); stroke: var(--accent); }
+.rec-box.open .rec-btn { border-color: var(--accent); }
+.rec-drop {
+  margin-top: 6px; border-radius: 12px; border: 1px solid var(--border);
+  background: var(--paper, #fff); overflow: hidden;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .14);
+}
+.rec-drop[hidden] { display: none; }
+.rec-search-wrap { padding: 6px; border-bottom: 1px solid var(--border); background: var(--tint); }
+.rec-search {
+  width: 100%; height: 34px; padding: 0 10px;
+  border-radius: 9px; border: 1px solid var(--border);
+  background: var(--paper, #fff); color: var(--text);
+  font-size: 13px; outline: none;
+}
+.rec-search:focus { border-color: var(--accent); }
+.rec-list { max-height: 158px; overflow-y: auto; overscroll-behavior: contain; padding: 4px; }
+.rec-opt {
+  width: 100%; padding: 7px 10px; border-radius: 9px;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  text-align: right; color: var(--text); font-size: 13px;
+}
+.rec-opt:hover { background: var(--tint); }
+.rec-opt.on { background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--primary); font-weight: 700; }
+.rec-opt-txt { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.rec-opt-n { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rec-opt-m { font-size: 10.5px; color: var(--muted); font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rec-opt-chk { width: 16px; height: 16px; stroke: var(--accent); flex-shrink: 0; opacity: 0; }
+.rec-opt.on .rec-opt-chk { opacity: 1; }
+.rec-empty { padding: 14px 8px; text-align: center; font-size: 12.5px; color: var(--muted); }
+
+.vs-dots { display: flex; justify-content: center; gap: 8px; margin-top: 8px; direction: rtl; }
 .vs-dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--border); transition: background .2s, width .2s; }
 .vs-dots i.on { background: var(--accent); width: 22px; border-radius: 4px; }
-.vs-note { min-height: 1.4em; }
+.vs-note { min-height: 1.3em; }
 
 /* الآية الجارية في التلاوة */
 .t.aud { background: color-mix(in srgb, var(--accent) 24%, transparent); border-radius: 6px; box-shadow: inset 0 -0.14em 0 var(--accent); }
@@ -353,3 +445,46 @@ body.immersive .rbar { transform: translateY(-110%); }
 .qa-info b { font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .qa-info small { font-size: 12px; color: var(--gold); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 body.immersive .qabar { opacity: .92; }
+
+/* ===== الوضع الليلي لقسم القرآن (الرمادي الفحمي المحايد) ===== */
+:root[data-theme="dark"] .rbar { background: #1B1E23; border-bottom: 1px solid #2A2F37; color: #E6E2D8; }
+:root[data-theme="dark"] .rbtn { background: #22262D; border: 1px solid #2A2F37; }
+:root[data-theme="dark"] .rpill { background: #4F8A82; color: #ffffff; }
+:root[data-theme="dark"] .rsub small { color: #9BA1A6; }
+:root[data-theme="dark"] .srow,
+:root[data-theme="dark"] .rcard,
+:root[data-theme="dark"] .bmrow { background: #1B1E23; border: 1px solid #2A2F37; }
+:root[data-theme="dark"] .srow .icon { background: #22262D; color: #4F8A82; }
+:root[data-theme="dark"] .smeta img { filter: grayscale(1) brightness(1.3); }
+:root[data-theme="dark"] .sf .fr,
+:root[data-theme="dark"] .pnum img { filter: grayscale(1) brightness(1.35) opacity(.88); }
+:root[data-theme="dark"] .av img { filter: grayscale(1) invert(0.84) contrast(1.05); }
+:root[data-theme="dark"] .av b,
+:root[data-theme="dark"] .pnum span { color: #E6E2D8; }
+:root[data-theme="dark"] .ln .an { color: #4F8A82; }
+:root[data-theme="dark"] .sw { border-color: #1B1E23; }
+:root[data-theme="dark"] .bmfilter button { background: #121417; color: #9BA1A6; border-color: #2A2F37; }
+:root[data-theme="dark"] .bmfilter button.on { background: #4F8A82; color: #ffffff; border-color: #4F8A82; }
+:root[data-theme="dark"] .tf-tools button,
+:root[data-theme="dark"] .tf-tabs button { background: #121417; color: #9BA1A6; border-color: #2A2F37; }
+:root[data-theme="dark"] .tf-tabs button.on { background: #4F8A82; color: #ffffff; border-color: #4F8A82; box-shadow: none; }
+:root[data-theme="dark"] .tf-src { background: #22262D; color: #9BA1A6; border: 1px solid #2A2F37; }
+:root[data-theme="dark"] .rec-btn,
+:root[data-theme="dark"] .rec-drop { background: #121417; border-color: #2A2F37; color: #E6E2D8; }
+:root[data-theme="dark"] .rec-search-wrap { background: #1B1E23; border-color: #2A2F37; }
+:root[data-theme="dark"] .rec-search { background: #121417; border-color: #2A2F37; color: #E6E2D8; }
+:root[data-theme="dark"] .rec-opt { color: #E6E2D8; }
+:root[data-theme="dark"] .rec-opt:hover { background: #22262D; }
+:root[data-theme="dark"] .rec-opt.on { background: rgba(79, 138, 130, 0.22); color: #E6E2D8; }
+:root[data-theme="dark"] .t.aud { background: rgba(79, 138, 130, .24); box-shadow: inset 0 -0.14em 0 #4F8A82; }
+:root[data-theme="dark"] .t.tsel { background: rgba(230, 226, 216, .16); }
+:root[data-theme="dark"] .qabar { background: #1B1E23; color: #E6E2D8; border: 1px solid #2A2F37; box-shadow: 0 8px 24px rgba(0, 0, 0, .55); }
+:root[data-theme="dark"] .qabar button { background: #22262D; }
+:root[data-theme="dark"] .qabar .qa-main { background: #4F8A82; }
+:root[data-theme="dark"] .qabar .qa-main svg { stroke: #ffffff; fill: #ffffff; }
+:root[data-theme="dark"] .qa-info small { color: #9BA1A6; }
+:root[data-theme="dark"] .vs-dots i { background: #2A2F37; }
+:root[data-theme="dark"] .vs-dots i.on { background: #4F8A82; }
+:root[data-theme="dark"] .bmrow .x.confirm { background: #4F8A82; color: #ffffff; width: auto; padding: 0 10px; font-size: 12px; font-weight: 700; }
+
+

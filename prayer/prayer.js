@@ -48,7 +48,7 @@
   }
   window.openCities = function () { $("citiesModal").classList.add("show"); drawCities(""); $("csearch").value = ""; };
   window.closeCities = function () { $("citiesModal").classList.remove("show"); };
-  document.addEventListener("keydown", e => { if (e.key === "Escape") closeCities(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") { closeCities(); closeSettings(); } });
   $("csearch").addEventListener("input", e => drawCities(e.target.value));
   $("cities").addEventListener("click", e => {
     const b = e.target.closest("[data-c]");

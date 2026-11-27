@@ -5,8 +5,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#033649">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="قطر الندى">
   <title>الأدعية — قطر الندى</title>
-  <link rel="icon" href="../assets/img/logo.png">
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="icon" href="../assets/img/icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/img/icon-180.png">
   <link rel="stylesheet" href="../var.css">
   <link rel="stylesheet" href="../style.css">
   <link rel="stylesheet" href="style.css">
@@ -31,7 +37,7 @@
     </div>
     <label class="search">
       <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path class="fl" d="M11 4.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13z" /><circle cx="11" cy="11" r="6.5" /><path class="ac" d="M16 16l4.5 4.5" /></svg>
-      <input id="q" type="search" placeholder="ابحث في الأدعية والأدعية" autocomplete="off" enterkeyhint="search">
+      <input id="q" type="search" placeholder="ابحث في أبواب الأدعية" autocomplete="off" enterkeyhint="search">
     </label>
   </header>
 
@@ -44,10 +50,10 @@
     <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="sTitle">
       <h3 id="sTitle">الإعدادات</h3>
       <div class="setting">
-        <div><b>عدّاد اليوم</b><br><small class="setting-sub">يُصفَّر تلقائيًا كل يوم</small></div>
-        <button class="btn" style="padding:8px 16px" onclick="resetToday()">تصفير الآن</button>
+        <div><b>المظهر</b><br><small class="setting-sub">تبديل الوضع الليلي والنهاري</small></div>
+        <button class="btn" style="padding:8px 16px" onclick="toggleTheme()">تبديل المظهر</button>
       </div>
-      <button class="btn" onclick="closeSettings()">تم</button>
+      <button class="btn" style="width:100%;margin-top:14px" onclick="closeSettings()">تم</button>
     </div>
   </div>
 

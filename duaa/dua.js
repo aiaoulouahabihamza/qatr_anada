@@ -18,6 +18,7 @@
   window.setFs = function (k) { A.set("adkarFont", k); applyFs(); };
   window.openSettings = function () { applyFs(); document.getElementById("settingsModal").classList.add("show"); };
   window.closeSettings = function () { document.getElementById("settingsModal").classList.remove("show"); };
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeSettings(); });
 
   function plain(z) { return z.text.replace(/\s+/g, " ").trim(); }
 

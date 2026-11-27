@@ -1,0 +1,35 @@
+# ==============================================================================
+# قطر الندى — _headers (Cloudflare Pages)
+# ترويسات الأمان العامة والتحكم في التخزين المؤقت (Cache-Control)
+# ==============================================================================
+
+# ترويسات الأمان الأساسية لجميع المسارات
+/*
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()
+
+# ملف خدمة العامل وملف البيان: منع التخزين المؤقت لضمان التحديث الفوري
+/sw.js
+  Cache-Control: no-cache, no-store, must-revalidate
+
+/manifest.webmanifest
+  Cache-Control: no-cache, must-revalidate
+  Content-Type: application/manifest+json; charset=utf-8
+
+# الخطوط: تخزين مؤقت طويل الأمد غير قابل للتغيير (سنة كاملة)
+/assets/font/*
+  Cache-Control: public, max-age=31536000, immutable
+  Access-Control-Allow-Origin: *
+
+# الصور والأيقونات: تخزين مؤقت لمدة شهر
+/assets/img/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
+# ملفات التنسيق والبرمجة العامة
+/*.css
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/*.js
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800

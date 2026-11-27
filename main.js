@@ -120,7 +120,7 @@ function renderLastRead() {
   const b = document.getElementById("lastBtn");
   const badge = document.getElementById("lastBadge");
   if (t) t.textContent = last.name ? "سورة " + last.name : "المصحف الشريف";
-  if (s) s.textContent = "صفحة " + arNum(last.r === "warsh_ma" ? last.p - 1 : last.p) + (last.juz ? " · الجزء " + arNum(last.juz) : "") + " · برواية " + RIWAYA_NAMES[last.r];
+  if (s) s.textContent = "صفحة " + arNum(last.r === "warsh_ma" ? last.p - 1 : last.p) + (last.a ? " · الآية " + arNum(last.a) : "") + (last.juz ? " · الجزء " + arNum(last.juz) : "") + " · برواية " + RIWAYA_NAMES[last.r];
   if (b) b.textContent = "تابع القراءة";
   if (badge) badge.textContent = "حفظ تلقائي";
 }
@@ -135,11 +135,19 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("splash").addEventListener("click", hideSplash);
 });
 
+window.addEventListener("pageshow", () => {
+  applyRiwaya(storeGet("riwaya", "warsh"));
+  renderLastRead();
+  setFontSize(storeGet("fontSize", "medium"));
+});
+
 /* مفتاح Esc يغلق النافذة المفتوحة */
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     closeSettings();
     closeDrawer();
+    const iosM = document.getElementById("iosInstallModal");
+    if (iosM) iosM.classList.remove("show");
   }
 });
 

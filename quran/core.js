@@ -67,7 +67,9 @@
     } catch (e) { /* لا شيء */ }
     return null;
   };
-  Q.saveLast = function (r, p, s, name, juz) { Q.set("lastRead", JSON.stringify({ r: r, p: p, s: s || 0, name: name || "", juz: juz || 0, ts: Date.now() })); };
+  Q.saveLast = function (r, p, s, name, juz, a) {
+    Q.set("lastRead", JSON.stringify({ r: r, p: p, s: s || 0, name: name || "", juz: juz || 0, a: a || 0, ts: Date.now() }));
+  };
 
   /* ---------- العلامات المرجعية ---------- */
   Q.BM_COLORS = [
@@ -358,6 +360,93 @@
     return best || l[0];
   };
 
+  /* الصفحة التي تحتوي الآية (s:a) في الرواية r */
+  Q.pageOfVerse = async function (r, s, a) {
+    if (r === "hafs") {
+      const pj = await Q.json(BASE + "quran_hafs/page.json");
+      for (let i = 0; i < pj.length; i++) {
+        if (pj[i].some(e => e.surah === s && a >= e.start && a <= e.end)) return i + 1;
+      }
+      return Q.pageOfSurah(r, s);
+    }
+    if (r === "warsh") {
+      const wi = await warshIndex();
+      for (const pStr in wi) {
+        const rows = wi[pStr];
+        if (rows && rows.some(x => x.sura_no === s && x.aya_no === a)) return +pStr;
+      }
+      return Q.pageOfSurah(r, s);
+    }
+    /* warsh_ma: بحث ثنائي ذكي داخل مدى صفحات السورة */
+    const list = await Q.surahs("warsh_ma");
+    const idx = list.findIndex(x => x.n === s);
+    if (idx < 0) return Q.EDITIONS.warsh_ma.first;
+    const curS = list[idx];
+    const loStart = curS.page;
+    const hiEnd = idx + 1 < list.length ? Math.min(Q.EDITIONS.warsh_ma.last, list[idx + 1].page) : Q.EDITIONS.warsh_ma.last;
+    if (a <= 1) return loStart;
+
+    const rangeOfPage = async (p) => {
+      const pg = await maPage(p);
+      let minV = Infinity, maxV = -Infinity;
+      (pg.raw && pg.raw.lines || []).forEach(ln => {
+        (ln.words || []).forEach(w => {
+          if (+w.surah_number === s && w.verse && w.verse.verse_number != null) {
+            const vn = +w.verse.verse_number;
+            if (vn < minV) minV = vn;
+            if (vn > maxV) maxV = vn;
+          }
+        });
+      });
+      return { min: minV, max: maxV };
+    };
+
+    let lo = loStart, hi = hiEnd;
+    while (lo <= hi) {
+      const mid = Math.floor((lo + hi) / 2);
+      const rg = await rangeOfPage(mid);
+      if (rg.min === Infinity) { lo++; continue; }
+      if (a >= rg.min && a <= rg.max) return mid;
+      if (a < rg.min) hi = mid - 1;
+      else lo = mid + 1;
+    }
+    return loStart;
+  };
+
+  /* ---------- أوزان الآيات النطقية لمزامنة التلاوة عند غياب توقيت الخادم ---------- */
+  function verseWeight(txt) {
+    const clean = String(txt || "").replace(/\u00A0[\u0660-\u0669\u06F0-\u06F9]+$/g, "").replace(/[\s\u06DD۞۩﴾﴿]+/g, "");
+    let w = 6.5;
+    for (let i = 0; i < clean.length; i++) {
+      const c = clean.charCodeAt(i);
+      if (c === 0x0651) w += 0.55; /* شدة */
+      else if (c === 0x0670 || c === 0x0653 || c === 0x0622) w += 0.65; /* ألف خنجرية / مد */
+      else if (c >= 0x0621 && c <= 0x064A) w += (c === 0x0627 || c === 0x0648 || c === 0x0649 || c === 0x064A) ? 1.25 : 1;
+    }
+    return Math.max(8, w);
+  }
+  Q.surahVerseWeights = async function (r, s) {
+    if (r === "hafs") {
+      const [vs, sl] = await Promise.all([hafsVerses(), Q.surahs("hafs")]);
+      const curS = sl.find(x => x.n === s);
+      const total = curS ? curS.aya : 0;
+      const out = [];
+      for (let a = 1; a <= total; a++) out.push(verseWeight(vs[s + ":" + a]));
+      return out;
+    }
+    const wi = await warshIndex();
+    const map = {};
+    Object.values(wi).forEach(rows => (rows || []).forEach(x => {
+      if (x.sura_no === s && x.aya_no >= 1 && !map[x.aya_no]) map[x.aya_no] = verseWeight(x.aya_text);
+    }));
+    const sl = await Q.surahs(r);
+    const curS = sl.find(x => x.n === s);
+    const total = curS ? curS.aya : Object.keys(map).length;
+    const out = [];
+    for (let a = 1; a <= total; a++) out.push(map[a] || 20);
+    return out;
+  };
+
   /* ---------- الإعدادات: نافذة الرواية المشتركة ---------- */
   Q.markPills = function () {
     const r = Q.riwaya();
@@ -370,3 +459,4 @@
   const fs = Q.get("fontSize", "medium");
   document.documentElement.dataset.fontsize = fs;
 })();
+
