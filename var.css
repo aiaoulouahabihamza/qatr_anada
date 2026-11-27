@@ -1,6 +1,5 @@
 @font-face { font-family: "amiri"; src: url(assets/font/Amiri-Regular.ttf); font-display: swap; }
 @font-face { font-family: "cairo"; src: url(assets/font/Cairo-Regular.ttf); font-display: swap; }
-@font-face { font-family: "cario"; src: url(assets/font/Cairo-Regular.ttf); font-display: swap; }
 @font-face { font-family: "almarai"; src: url(assets/font/almarai-regular.ttf); font-display: swap; }
 @font-face { font-family: "tajawal"; font-weight: 300; src: url(assets/font/Tajawal-Light.ttf); font-display: swap; }
 @font-face { font-family: "tajawal"; font-weight: 400; src: url(assets/font/Tajawal-Regular.ttf); font-display: swap; }
@@ -82,7 +81,7 @@ button { cursor: pointer; border: none; background: none; }
 /* خط أسماء السور: يُكتب فيه رقم السورة بثلاثة أرقام، مثل 002 */
 @font-face {
   font-family: "surah-names";
-  src: url("/assets/font/surah-names.ttf"), url("assets/font/surah-names.ttf"), url("assets/font/%D8%AE%D8%B7%20%D8%A7%D8%B3%D9%85%D8%A7%D8%A1%20%D8%A7%D9%84%D8%B3%D9%88%D8%B1.ttf");
+  src: url("assets/font/surah-names.ttf"), url("assets/font/%D8%AE%D8%B7%20%D8%A7%D8%B3%D9%85%D8%A7%D8%A1%20%D8%A7%D9%84%D8%B3%D9%88%D8%B1.ttf");
   font-display: block;
 }
 

@@ -3,14 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "description": "قطر الندى — القرآن الكريم ومواقيت الصلاة والأذكار والأربعون النووية والأدعية",
-  "main": "server.js",
   "scripts": {
-    "dev": "node server.js",
-    "start": "node server.js",
-    "build": "node --check server.js",
-    "lint": "node --check server.js"
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
   },
-  "dependencies": {
-    "express": "^4.21.2"
+  "devDependencies": {
+    "wrangler": "^4.0.0"
   }
 }

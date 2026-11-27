@@ -1,22 +1,8 @@
-# ==============================================================================
 # قطر الندى — robots.txt
-# السماح لمحركات البحث بفهرسة صفحات المحتوى واستثناء البيانات الخام والخطوط
-# ==============================================================================
+# محتوى الصفحات يُحمَّل من ملفات JSON والخطوط داخل /assets/، لذلك نسمح بها
+# حتى يتمكن Googlebot من تنفيذ الصفحة وفهم محتواها.
 
 User-agent: *
 Allow: /
 
-# استثناء مجلدات البيانات الخام وملفات الخطوط
-Disallow: /assets/font/
-Disallow: /assets/json/
-Disallow: /assets/json-data/
-Disallow: /assets/quran_hafs/
-Disallow: /assets/quran_warsh/
-Disallow: /assets/quran_warsh_ma/
-Disallow: /server.js
-Disallow: /package.json
-Disallow: /bun.lock
-
-# رابط خريطة الموقع
 Sitemap: https://qatr-al-nada.pages.dev/sitemap.xml
-Sitemap: /sitemap.xml

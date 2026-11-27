@@ -2,6 +2,7 @@
   "name": "qatr-anada",
   "compatibility_date": "2026-11-27",
   "assets": {
-    "directory": "."
+    "directory": ".",
+    "not_found_handling": "404-page"
   }
 }

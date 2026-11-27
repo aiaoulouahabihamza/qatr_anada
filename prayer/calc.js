@@ -34,9 +34,8 @@
   /* lat, lon بالدرجات (شرقًا موجب)، tz ساعات عن UTC (المغرب الآن 0)، elev بالمتر */
   function times(y, m, d, lat, lon, tz, cfg, elev) {
     cfg = cfg || MOROCCO;
-    const jd = julian(y, m, d) + 0.5 - tz / 24 + 0; /* منتصف الظهر المحلي تقريبًا */
     const noonUT = 12 - lon / 15;
-    let s = sun(julian(y, m, d) + (noonUT / 24));
+    const s = sun(julian(y, m, d) + (noonUT / 24));
     const dhuhr = 12 - lon / 15 - s.eqt + tz; /* بالساعة المحلية */
     const hour = (alt, dec) => {
       const c = (Math.sin(alt * R) - Math.sin(lat * R) * Math.sin(dec * R)) / (Math.cos(lat * R) * Math.cos(dec * R));

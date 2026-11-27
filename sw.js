@@ -4,7 +4,7 @@
    مع التحديث التلقائي للكاش وحفظ الصفحات دون اتصال
    ========================================================================== */
 
-const SHELL_CACHE = "qatr-shell-v17";
+const SHELL_CACHE = "qatr-shell-v19";
 const DATA_CACHE = "qatr-data-v6";
 const AUDIO_CACHE = "qatr-audio-v2";
 
@@ -227,8 +227,10 @@ self.addEventListener("fetch", (event) => {
         }
         return res;
       } catch (e) {
+        const p = url.pathname;
         const cached = await shell.match(req, { ignoreSearch: true }) ||
-          await shell.match(url.pathname, { ignoreSearch: true });
+          await shell.match(p, { ignoreSearch: true }) ||
+          await shell.match(p.endsWith("/") ? p + "index.html" : p + ".html", { ignoreSearch: true });
         if (cached) return cached;
         return (await shell.match("/index.html")) || new Response("Offline", { status: 503 });
       }
@@ -236,19 +238,14 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  /* 4. ملفات CSS/JS الأساسية: Cache-First مع تحديث الخلفية */
+  /* 4. ملفات CSS/JS الأساسية: من الكاش فورًا مع تحديثها في الخلفية (stale-while-revalidate) */
   event.respondWith((async () => {
-    const cached = await caches.match(req, { ignoreSearch: true });
-    if (cached) return cached;
-    try {
-      const res = await fetch(req);
-      if (res && res.ok) {
-        const shell = await caches.open(SHELL_CACHE);
-        shell.put(req, res.clone());
-      }
-      return res;
-    } catch (e) {
-      return new Response("", { status: 504 });
-    }
+    const cache = await caches.open(SHELL_CACHE);
+    const cached = await cache.match(req, { ignoreSearch: true });
+    const network = fetch(req)
+      .then((res) => { if (res && res.ok) cache.put(req, res.clone()); return res; })
+      .catch(() => null);
+    if (cached) { event.waitUntil(network); return cached; }
+    return (await network) || new Response("", { status: 504 });
   })());
 });

@@ -444,7 +444,6 @@
   const elSub = document.getElementById("barSub");
   const elRw = document.getElementById("barRiwaya");
   if (elRw) elRw.textContent = ED.name;
-  let surahNames = null;
 
   async function updateBar(p) {
     const list = await Q.surahs(r);
