@@ -1,0 +1,8 @@
+*.zip
+*.tar.gz
+*.log
+*.bak
+*.tmp
+node_modules/
+.wrangler/
+bun.lock
