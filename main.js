@@ -88,15 +88,15 @@ function setFontSize(size) {
 function startReading() {
   const last = getLastRead();
   if (last) {
-    location.href = "quran/page.html?r=" + last.r + "&p=" + last.p;
+    go("quran/page.html?r=" + last.r + "&p=" + last.p);
   } else {
-    location.href = "quran/index.html";
+    go("quran/index.html");
   }
 }
 
 /* فتح فهرس السور */
 function openQuran() {
-  location.href = "quran/index.html";
+  go("quran/index.html");
 }
 
 /* آخر قراءة: يكتبها قارئ المصحف في localStorage تحت المفتاح lastRead */
@@ -143,9 +143,14 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
+/* فتح قسم الأدعية */
+function openDuaa() {
+  go("duaa/index.html");
+}
+
 /* فتح قسم الأذكار */
 function openAdkar() {
-  location.href = "adkar/index.html";
+  go("adkar/index.html");
 }
 
 /* بطاقة أوقات الصلاة في الرئيسية (من قسم prayer) */
@@ -168,10 +173,10 @@ function openAdkar() {
 
 /* فتح صفحة مواقيت الصلاة */
 function openPrayer() {
-  location.href = "prayer/index.html";
+  go("prayer/index.html");
 }
 
 /* فتح قسم الحديث (الأربعون النووية) */
 function openHadith() {
-  location.href = "hadith/index.html";
+  go("hadith/index.html");
 }

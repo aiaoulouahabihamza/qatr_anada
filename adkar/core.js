@@ -11,7 +11,7 @@
   A.esc = function (s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); };
 
   A.load = function () {
-    if (!cache) cache = fetch(SRC).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); });
+    if (!cache) cache = fetch(SRC).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(d => window.cleanDeep ? cleanDeep(d) : d);
     return cache;
   };
 

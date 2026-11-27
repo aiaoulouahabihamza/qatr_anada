@@ -10,13 +10,14 @@
   <link rel="stylesheet" href="../var.css">
   <link rel="stylesheet" href="../style.css">
   <link rel="stylesheet" href="style.css">
+  <script src="../nav.js"></script>
 </head>
 
 <body class="reader">
 
   <!-- شريط الأعلى: يظهر ويختفي بالنقر على الصفحة -->
   <header class="rbar">
-    <button class="rbtn" onclick="location.href='index.html'" aria-label="فهرس السور">
+    <button class="rbtn" onclick="go('index.html')" aria-label="فهرس السور">
       <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M10 6l6 6-6 6" /></svg>
     </button>
     <div class="rtitle">
@@ -72,6 +73,45 @@
     </div>
   </div>
 
+  <!-- قائمة الآية: تفسير | صوت | علامة -->
+  <div id="vsSheet" class="modal vsmodal">
+    <div class="modal-content vsbox" role="dialog" aria-modal="true" aria-labelledby="vsWhere">
+      <div class="tf-grab"></div>
+      <h3 id="vsWhere">الآية</h3>
+      <div id="vsPages" class="vs-pages">
+        <section class="vs-pg" data-k="tf">
+          <div class="vs-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path class="fl" d="M12 7c-2-1.6-5-2-8-1.5V18c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5V5.5c-3-.5-6-.1-8 1.5z" /><path d="M12 7c-2-1.6-5-2-8-1.5V18c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5V5.5c-3-.5-6-.1-8 1.5z" /><path class="ac" d="M12 7v12.5" /></svg></div>
+          <b>التفسير</b>
+          <p>ثمانية تفاسير لهذه الآية: الميسر، الجلالين، السعدي، ابن كثير وغيرها</p>
+          <button class="btn" onclick="vsDo('tf')">اقرأ التفسير</button>
+        </section>
+        <section class="vs-pg" data-k="au">
+          <div class="vs-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path class="fl" d="M4 10v4h3.5l4.5 3.5v-11L7.5 10z" /><path d="M4 10v4h3.5l4.5 3.5v-11L7.5 10z" /><path class="ac" d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" /></svg></div>
+          <b>الاستماع</b>
+          <select id="vsRec" class="vs-sel" aria-label="القارئ"></select>
+          <p id="vsNote" class="vs-note"></p>
+          <button id="vsPlay" class="btn" onclick="vsDo('au')">شغّل من هذه الآية</button>
+        </section>
+        <section class="vs-pg" data-k="bm">
+          <div class="vs-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path class="fl" d="M6.5 3.5h11v17l-5.5-4-5.5 4z" /><path d="M6.5 3.5h11v17l-5.5-4-5.5 4z" /><path class="ac" d="M12 7.5v4M10 9.5h4" /></svg></div>
+          <b>العلامة المرجعية</b>
+          <p id="vsBmNote">احفظ موضعك في هذه الآية باسم ولون</p>
+          <button class="btn" onclick="vsDo('bm')">علامة مرجعية</button>
+        </section>
+      </div>
+      <div id="vsDots" class="vs-dots"><i></i><i></i><i></i></div>
+    </div>
+  </div>
+
+  <!-- شريط التشغيل -->
+  <div id="qaBar" class="qabar" hidden>
+    <button id="qaPrev" aria-label="الآية السابقة"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 6l6 6-6 6" /></svg></button>
+    <button id="qaToggle" class="qa-main" aria-label="تشغيل / إيقاف"></button>
+    <button id="qaNext" aria-label="الآية التالية"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M15 6l-6 6 6 6" /></svg></button>
+    <div class="qa-info"><b id="qaTitle"></b><small id="qaSub"></small></div>
+    <button id="qaStop" aria-label="إيقاف"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M6 6l12 12M18 6L6 18" /></svg></button>
+  </div>
+
   <!-- الإعدادات -->
   <div id="settingsModal" class="modal" onclick="if(event.target===this) closeSettings()">
     <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
@@ -98,6 +138,7 @@
     document.addEventListener("keydown", e => { if (e.key === "Escape") closeSettings(); });
   </script>
   <script src="tafsir.js"></script>
+  <script src="audio.js"></script>
   <script src="page.js"></script>
 </body>
 

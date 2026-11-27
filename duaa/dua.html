@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#033649">
+  <title>الأدعية — قطر الندى</title>
+  <link rel="icon" href="../assets/img/logo.png">
+  <link rel="stylesheet" href="../var.css">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="../nav.js"></script>
+</head>
+
+<body class="areader">
+  <header class="abar">
+    <div class="abar-row">
+      <button class="abtn" onclick="go('index.html')" aria-label="فهرس الأدعية">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M10 6l6 6-6 6" /></svg>
+      </button>
+      <div class="atitle"><b id="barTitle">الأدعية</b><small id="barSub"></small></div>
+      <button class="abtn" onclick="openSettings()" aria-label="الإعدادات">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path class="fl" d="M10.37 2.74L13.63 2.74L14.20 5.04L15.37 5.52L17.39 4.30L19.70 6.61L18.48 8.63L18.96 9.80L21.26 10.37L21.26 13.63L18.96 14.20L18.48 15.37L19.70 17.39L17.39 19.70L15.37 18.48L14.20 18.96L13.63 21.26L10.37 21.26L9.80 18.96L8.63 18.48L6.61 19.70L4.30 17.39L5.52 15.37L5.04 14.20L2.74 13.63L2.74 10.37L5.04 9.80L5.52 8.63L4.30 6.61L6.61 4.30L8.63 5.52L9.80 5.04z" /><path d="M10.37 2.74L13.63 2.74L14.20 5.04L15.37 5.52L17.39 4.30L19.70 6.61L18.48 8.63L18.96 9.80L21.26 10.37L21.26 13.63L18.96 14.20L18.48 15.37L19.70 17.39L17.39 19.70L15.37 18.48L14.20 18.96L13.63 21.26L10.37 21.26L9.80 18.96L8.63 18.48L6.61 19.70L4.30 17.39L5.52 15.37L5.04 14.20L2.74 13.63L2.74 10.37L5.04 9.80L5.52 8.63L4.30 6.61L6.61 4.30L8.63 5.52L9.80 5.04z" /><circle class="ac" cx="12" cy="12" r="3" /></svg>
+      </button>
+    </div>
+    
+  </header>
+
+  <main id="alist" class="alist" aria-live="polite"></main>
+    <div id="toast" class="toast" role="status"></div>
+
+  <div id="settingsModal" class="modal" onclick="if(event.target===this) closeSettings()">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="sTitle">
+      <h3 id="sTitle">الإعدادات</h3>
+      <div class="setting">
+        <div><b>حجم الخط</b></div>
+        <div class="fs-pills">
+          <button data-fs="small" onclick="setFs('small')">صغير</button>
+          <button data-fs="medium" onclick="setFs('medium')">متوسط</button>
+          <button data-fs="large" onclick="setFs('large')">كبير</button>
+        </div>
+      </div>
+      <div class="setting">
+        <div><b>عدّاد هذا الباب</b></div>
+        <button class="btn" style="padding:8px 16px" onclick="resetCat()">إعادة من البداية</button>
+      </div>
+      <button class="btn" onclick="closeSettings()">تم</button>
+    </div>
+  </div>
+
+  <script src="core.js"></script>
+  <script src="dua.js"></script>
+</body>
+
+</html>

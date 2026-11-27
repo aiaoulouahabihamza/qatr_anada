@@ -27,7 +27,7 @@
   /* يحوّل قائمة الأسطر إلى خريطة { "h1_hadith": "..." } */
   H.load = function () {
     if (!cache) cache = fetch(SRC).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
-      .then(a => { const m = {}; a.forEach(x => { m[x.number] = x.text; }); return m; });
+      .then(a => { const m = {}; a.forEach(x => { m[x.number] = window.cleanText ? cleanText(x.text) : x.text; }); return m; });
     return cache;
   };
 

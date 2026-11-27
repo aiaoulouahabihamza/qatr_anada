@@ -172,6 +172,7 @@ body.immersive .rbar { transform: translateY(-110%); }
   overscroll-behavior-x: contain;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-x;
+  -webkit-tap-highlight-color: transparent;
 }
 .pager::-webkit-scrollbar { display: none; }
 .pager.drag { cursor: grabbing; }
@@ -274,7 +275,7 @@ body.immersive .rbar { transform: translateY(-110%); }
 .t.bm { background: color-mix(in srgb, var(--bm) 16%, transparent); box-shadow: inset 0 -0.14em 0 var(--bm); border-radius: 3px; }
 .bm-where { font-size: 13px; color: var(--text-light, var(--muted)); margin: -8px 0 14px; }
 .bm-lab { display: block; font-size: 12px; margin: 10px 0 6px; color: var(--text-light, var(--muted)); }
-.bm-input { width: 100%; padding: 11px 12px; border: 1px solid var(--border); border-radius: 12px; font-size: 15px; background: #fff; font-family: inherit; }
+.bm-input { width: 100%; padding: 11px 12px; border: 1px solid var(--border); border-radius: 12px; font-size: 15px; background: var(--paper, #fff); font-family: inherit; }
 .bm-colors { display: flex; gap: 12px; margin-bottom: 18px; }
 .sw { width: 34px; height: 34px; border-radius: 50%; background: var(--c); border: 3px solid #fff; box-shadow: 0 0 0 1.5px var(--border); }
 .sw.on { box-shadow: 0 0 0 2.5px var(--c); }
@@ -282,7 +283,7 @@ body.immersive .rbar { transform: translateY(-110%); }
 .bm-actions .btn { flex: 1; }
 .btn.ghost { background: transparent; color: var(--primary); border: 1px solid var(--border); }
 .hbtn-bm { position: relative; }
-.bmrow { display: flex; align-items: center; gap: 12px; background: #fff; border-radius: 14px; padding: 12px 14px; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.05); color: inherit; text-decoration: none; }
+.bmrow { display: flex; align-items: center; gap: 12px; background: var(--paper, #fff); border-radius: 14px; padding: 12px 14px; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.05); color: inherit; text-decoration: none; }
 .bmrow .dot { width: 14px; height: 36px; border-radius: 7px; background: var(--c); flex: none; }
 .bmrow .bmi { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
 .bmrow b { font-size: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -290,7 +291,7 @@ body.immersive .rbar { transform: translateY(-110%); }
 .bmrow .x { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; color: var(--muted); }
 .bmrow .x svg { width: 18px; height: 18px; stroke: currentColor; }
 .bmfilter { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
-.bmfilter button { padding: 6px 12px; border-radius: 16px; border: 1px solid var(--border); font-size: 12px; background: #fff; display: flex; align-items: center; gap: 6px; }
+.bmfilter button { padding: 6px 12px; border-radius: 16px; border: 1px solid var(--border); font-size: 12px; background: var(--paper, #fff); display: flex; align-items: center; gap: 6px; }
 .bmfilter button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
 .bmfilter i { width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
 
@@ -320,3 +321,35 @@ body.immersive .rbar { transform: translateY(-110%); }
 .tf-tabs::-webkit-scrollbar { display: none; }
 .tf-tabs button { flex: 0 0 auto; padding: 0 var(--f21); }
 .tf-wait small { font-size: 12px; }
+
+/* ===== قائمة الآية السفلية: ثلاث صفحات مصغّرة ===== */
+.vsmodal .vsbox { max-width: 520px; padding: var(--f13) 0 var(--f21); text-align: center; }
+.vsbox h3 { margin: 4px 0 10px; }
+.vs-pages { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; direction: rtl; gap: 0; overscroll-behavior-x: contain; }
+.vs-pages::-webkit-scrollbar { display: none; }
+.vs-pg { flex: 0 0 100%; scroll-snap-align: center; padding: 6px var(--f21) 4px; display: flex; flex-direction: column; align-items: center; gap: 8px; min-height: 210px; justify-content: center; }
+.vs-pg b { font-size: var(--t1); color: var(--primary); }
+.vs-pg p { margin: 0; color: var(--muted); font-size: var(--t-1); line-height: 1.8; max-width: 30ch; }
+.vs-pg .btn { margin-top: 6px; min-width: 190px; }
+.vs-ic { width: 56px; height: 56px; border-radius: 34px 34px 13px 13px; background: var(--tint); display: grid; place-items: center; }
+.vs-ic svg { width: 30px; height: 30px; }
+.vs-sel { width: min(100%, 320px); height: 44px; border-radius: 12px; border: 1px solid var(--border); background: var(--paper, #fff); color: var(--text); font: 400 15px "tajawal", sans-serif; padding: 0 10px; }
+.vs-dots { display: flex; justify-content: center; gap: 8px; margin-top: 10px; direction: rtl; }
+.vs-dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--border); transition: background .2s, width .2s; }
+.vs-dots i.on { background: var(--accent); width: 22px; border-radius: 4px; }
+.vs-note { min-height: 1.4em; }
+
+/* الآية الجارية في التلاوة */
+.t.aud { background: color-mix(in srgb, var(--accent) 24%, transparent); border-radius: 6px; box-shadow: inset 0 -0.14em 0 var(--accent); }
+
+/* شريط التشغيل */
+.qabar { position: fixed; z-index: 40; inset-inline: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); max-width: 480px; margin-inline: auto; display: flex; align-items: center; gap: 6px; padding: 8px 10px; border-radius: 28px; background: var(--primary); color: #fff; box-shadow: 0 6px 22px rgba(3,22,52,.35); border-bottom: 2px solid var(--gold); }
+.qabar[hidden] { display: none; }
+.qabar button { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; flex-shrink: 0; background: rgba(255,255,255,.12); }
+.qabar button svg { width: 20px; height: 20px; stroke: #fff; fill: none; }
+.qabar .qa-main { background: var(--gold); width: 46px; height: 46px; }
+.qabar .qa-main svg { stroke: var(--navy); fill: var(--navy); }
+.qa-info { flex: 1; min-width: 0; display: flex; flex-direction: column; text-align: start; padding-inline: 6px; }
+.qa-info b { font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.qa-info small { font-size: 12px; color: var(--gold); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+body.immersive .qabar { opacity: .92; }

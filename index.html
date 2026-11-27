@@ -8,6 +8,7 @@
   <link rel="icon" href="assets/img/logo.png">
   <link rel="stylesheet" href="var.css">
   <link rel="stylesheet" href="style.css">
+  <script src="nav.js"></script>
 </head>
 
 <body>
@@ -26,6 +27,11 @@
     </div>
   </div>
   
+  <script>
+    /* شاشة البداية تظهر عند الدخول الأول فقط، لا كلما عدتَ إلى الرئيسية */
+    try { if (sessionStorage.getItem("splashSeen")) document.getElementById("splash").style.display = "none"; else sessionStorage.setItem("splashSeen", "1"); } catch (e) {}
+  </script>
+
   <!-- الهيدر -->
   <header class="header">
     <div class="header-top">
@@ -34,6 +40,9 @@
         <small>QATR AL NADA</small>
       </div>
       <div class="header-btns">
+        <button id="themeBtn" onclick="toggleTheme()" aria-label="الوضع الليلي">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path class="fl" d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z" /><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z" /><circle class="ac" cx="17" cy="6" r="1" /></svg>
+        </button>
         <button onclick="openSettings()">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path class="fl" d="M10.37 2.74L13.63 2.74L14.20 5.04L15.37 5.52L17.39 4.30L19.70 6.61L18.48 8.63L18.96 9.80L21.26 10.37L21.26 13.63L18.96 14.20L18.48 15.37L19.70 17.39L17.39 19.70L15.37 18.48L14.20 18.96L13.63 21.26L10.37 21.26L9.80 18.96L8.63 18.48L6.61 19.70L4.30 17.39L5.52 15.37L5.04 14.20L2.74 13.63L2.74 10.37L5.04 9.80L5.52 8.63L4.30 6.61L6.61 4.30L8.63 5.52L9.80 5.04z" /><path d="M10.37 2.74L13.63 2.74L14.20 5.04L15.37 5.52L17.39 4.30L19.70 6.61L18.48 8.63L18.96 9.80L21.26 10.37L21.26 13.63L18.96 14.20L18.48 15.37L19.70 17.39L17.39 19.70L15.37 18.48L14.20 18.96L13.63 21.26L10.37 21.26L9.80 18.96L8.63 18.48L6.61 19.70L4.30 17.39L5.52 15.37L5.04 14.20L2.74 13.63L2.74 10.37L5.04 9.80L5.52 8.63L4.30 6.61L6.61 4.30L8.63 5.52L9.80 5.04z" /><circle class="ac" cx="12" cy="12" r="3" /></svg>
         </button>
@@ -67,7 +76,7 @@
     </section>
     
     <!-- أوقات الصلاة -->
-    <section class="card2" id="prayerCard" onclick="location.href='prayer/index.html'" style="cursor:pointer">
+    <section class="card2" id="prayerCard" onclick="go('prayer/index.html')" style="cursor:pointer">
       <div class="prayer-head">
         <h3>أوقات الصلاة</h3>
         <span id="prayerNext">—</span>
@@ -105,7 +114,7 @@
       <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path class="fl" d="M6 3h8l4 4v14H6z" /><path d="M6 3h8l4 4v14H6zM14 3v4h4" /><path class="ac" d="M9 12h6M9 16h4" /></svg></div>
       <div><b>الحديث</b><span>الأربعون النووية</span></div>
     </div>
-        <div class="item">
+    <div class="item" onclick="openDuaa()" style="cursor:pointer">
       <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path class="fl" d="M3.5 13.5c0 3.8 3.8 6.8 8.5 6.8s8.5-3 8.5-6.8z" /><path d="M3.5 13.5c0 3.8 3.8 6.8 8.5 6.8s8.5-3 8.5-6.8M3.5 13.5l1.6-4M20.5 13.5l-1.6-4" /><path class="ac" d="M12 3.5l1.2 2.9 2.9 1.2-2.9 1.2L12 11.7l-1.2-2.9-2.9-1.2 2.9-1.2z" /></svg></div>
       <div><b>الأدعية</b><span>من الكتاب والسنة</span></div>
     </div>
@@ -136,6 +145,8 @@
       <button onclick="openQuran()">القرآن الكريم <span>›</span></button>
       <button onclick="openPrayer()">مواقيت الصلاة <span>›</span></button>
       <button onclick="openAdkar()">الأذكار <span>›</span></button>
+      <button onclick="openDuaa()">الأدعية <span>›</span></button>
+      <button onclick="toggleTheme()">الوضع الليلي <span>◐</span></button>
       <button onclick="openHadith()">الحديث <span>›</span></button>
       <button>الأدعية <span>›</span></button>
       <button onclick="openSettings()">الإعدادات <span>›</span></button>

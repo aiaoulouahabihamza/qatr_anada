@@ -20,7 +20,7 @@
 
   function setN(k) {
     n = k; H.set("hadithLast", n);
-    history.replaceState(null, "", "?n=" + n);
+    history.replaceState(history.state, "", "?n=" + n);
     document.getElementById("barTitle").textContent = "الحديث " + H.ORD[n - 1];
     document.getElementById("barSub").textContent = H.ar(n) + " من " + H.ar(H.TOTAL);
     document.title = "الحديث " + H.ORD[n - 1] + " — قطر الندى";

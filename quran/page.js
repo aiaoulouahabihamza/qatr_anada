@@ -20,7 +20,7 @@
   let r = params.get("r");
   if (!Q.EDITIONS[r]) r = Q.riwaya();
   if (params.get("r") && Q.EDITIONS[params.get("r")]) Q.choose(r);
-  if (!Q.chosen() && !params.get("r")) { location.replace("index.html"); return; }
+  if (!Q.chosen() && !params.get("r")) { go("index.html"); return; }
 
   const ED = Q.EDITIONS[r];
   const FONT = ED.font;
@@ -483,7 +483,7 @@
     saveTimer = setTimeout(async () => {
       const s = await updateBar(p);
       Q.saveLast(r, p, s ? s.n : 0, s ? s.ar : "", s ? s.juz : 0);
-      history.replaceState(null, "", "page.html?r=" + r + "&p=" + p);
+      history.replaceState(history.state, "", "page.html?r=" + r + "&p=" + p);
     }, 350);
     updateBar(p);
   }
@@ -605,33 +605,153 @@
       sx = e.clientX; sy = e.clientY; fired = false;
       const sec = t.closest("section");
       timer = setTimeout(() => {
-        timer = null; fired = true;
+        timer = null; fired = true; pager.dataset.lp = "1";
         if (navigator.vibrate) { try { navigator.vibrate(18); } catch (x) { /* لا شيء */ } }
-        openBm(t.dataset.v, sec ? +sec.dataset.p : cur);
-      }, 550);
+        openVs(t.dataset.v, sec ? +sec.dataset.p : cur);
+      }, 450);
     });
     pager.addEventListener("pointermove", e => { if (timer && Math.hypot(e.clientX - sx, e.clientY - sy) > 9) cancel(); });
     ["pointerup", "pointercancel", "pointerleave"].forEach(n => pager.addEventListener(n, cancel));
     pager.addEventListener("scroll", cancel, { passive: true });
     pager.addEventListener("contextmenu", e => e.preventDefault());
     /* بعد الضغطة المطوّلة لا نعدّها نقرة (لا يُخفى الشريط) */
-    pager.addEventListener("click", e => { if (fired) { fired = false; e.stopImmediatePropagation(); } }, true);
+    pager.addEventListener("pointerdown", () => { pager.dataset.lp = ""; }, true);
   })();
 
-  /* ---------- إخفاء/إظهار الشريط عند النقر ---------- */
-  /* نقرة على آية = تفسيرها، نقرتان = العلامة المرجعية، نقرة خارج الآيات = إخفاء الشريط */
+  /* ---------- النقر: آية = تفسير، نقرتان = علامة، خارج الآيات = إخفاء الشريط ---------- */
+  /* يعتمد على pointerup (لا click) فلا يتأخر ولا يضيع، ويختار أقرب كلمة
+     إلى إصبعك ضمن مسافة معقولة، فلا حاجة لإصابة الحرف بدقة. */
   QTafsir.onBookmark = (v, p) => openBm(v, p);
-  let tapTimer = null, lastTap = null;
-  pager.addEventListener("click", e => {
-    if (pager.dataset.moved === "1") { pager.dataset.moved = ""; return; }
-    const t = e.target.closest(".t[data-v]");
+  const REACH = 26;                       /* أقصى مسافة (px) إلى أقرب كلمة */
+  let tapTimer = null, lastTap = null, down = null;
+
+  function nearestToken(x, y) {
+    let el = document.elementFromPoint(x, y);
+    const direct = el && el.closest(".t[data-v]");
+    if (direct) return direct;
+    const sec = el && el.closest("section.pg");
+    if (!sec) return null;
+    let best = null, bd = REACH;
+    sec.querySelectorAll(".t[data-v]").forEach(t => {
+      const b = t.getBoundingClientRect();
+      const dx = x < b.left ? b.left - x : x > b.right ? x - b.right : 0;
+      const dy = y < b.top ? b.top - y : y > b.bottom ? y - b.bottom : 0;
+      const d = Math.hypot(dx, dy * 0.8);
+      if (d < bd) { bd = d; best = t; }
+    });
+    return best;
+  }
+  function lit(v, on) {
+    document.querySelectorAll('.t[data-v="' + v + '"]').forEach(n => n.classList.toggle("tsel", on));
+  }
+  function handleTap(x, y) {
+    const t = nearestToken(x, y);
     if (!t) { document.body.classList.toggle("immersive"); return; }
-    const v = t.dataset.v, sec = t.closest("section"), p = sec ? +sec.dataset.p : cur, now = Date.now();
-    clearTimeout(tapTimer);
-    if (lastTap && lastTap.v === v && now - lastTap.t < 320) { lastTap = null; openBm(v, p); return; }
-    lastTap = { v: v, t: now };
-    tapTimer = setTimeout(() => { lastTap = null; QTafsir.open(r, v, p); }, 300);
+    const sec = t.closest("section");
+    openVs(t.dataset.v, sec ? +sec.dataset.p : cur);     /* نقرة واحدة ← القائمة فورًا */
+  }
+  pager.addEventListener("pointerdown", e => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    down = { x: e.clientX, y: e.clientY, t: Date.now(), id: e.pointerId };
   });
+  pager.addEventListener("pointerup", e => {
+    const d = down; down = null;
+    if (!d || d.id !== e.pointerId) return;
+    if (Math.hypot(e.clientX - d.x, e.clientY - d.y) > 10 || Date.now() - d.t > 480) return;
+    if (pager.dataset.lp === "1") { pager.dataset.lp = ""; return; }   /* بعد ضغطة مطوّلة */
+    handleTap(e.clientX, e.clientY);
+  });
+  pager.addEventListener("pointercancel", () => { down = null; });
+  /* مسح أي علامة عالقة بعد الإغلاق */
+  window.addEventListener("pagehide", () => document.querySelectorAll(".t.tsel").forEach(n => n.classList.remove("tsel")));
+
+  /* ---------- قائمة الآية + التلاوة ---------- */
+  const $ = id => document.getElementById(id);
+  const vsSheet = $("vsSheet"), vsPages = $("vsPages");
+  let vs = null, recList = [];
+  const ICO_PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" /></svg>';
+  const ICO_PAUSE = '<svg viewBox="0 0 24 24"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" /></svg>';
+
+  async function openVs(v, p) {
+    const [s, a] = v.split(":").map(Number);
+    const list = await Q.surahs(r), sl = list.find(x => x.n === s);
+    if (vs) lit(vs.v, false);
+    vs = { v: v, p: p, s: s, a: a, sname: sl ? sl.ar : "", total: sl ? sl.aya : a };
+    lit(v, true);
+    $("vsWhere").textContent = "سورة " + vs.sname + " · الآية " + Q.ar(a);
+    $("vsBmNote").textContent = Q.bmFind(r, v) ? "هذه الآية عليها علامة، يمكنك تعديلها أو حذفها" : "احفظ موضعك في هذه الآية باسم ولون";
+    vsPages.scrollLeft = 0; dots();
+    vsSheet.classList.add("show");
+    fillReciters();
+  }
+  function closeVs() { vsSheet.classList.remove("show"); if (vs) lit(vs.v, false); }
+  vsSheet.addEventListener("click", e => { if (e.target === vsSheet) closeVs(); });
+  function dots() {
+    const w = vsPages.clientWidth || 1, i = Math.min(2, Math.round(Math.abs(vsPages.scrollLeft) / w));
+    document.querySelectorAll("#vsDots i").forEach((d, k) => d.classList.toggle("on", k === i));
+  }
+  vsPages.addEventListener("scroll", dots, { passive: true });
+
+  async function fillReciters() {
+    const sel = $("vsRec"), note = $("vsNote"), btn = $("vsPlay");
+    btn.disabled = true; note.textContent = "جارٍ جلب القرّاء…"; sel.innerHTML = "";
+    try {
+      recList = await QAudio.reciters(r);
+      const mine = recList.filter(x => x.surahs.includes(vs.s));
+      if (!mine.length) { note.textContent = "لا يوجد قارئ لهذه السورة في هذه الرواية"; return; }
+      const saved = QAudio.choice(r);
+      sel.innerHTML = mine.map(x => '<option value="' + x.mid + '"' + (String(x.mid) === saved ? " selected" : "") + ">" + Q.esc(x.name + (x.mname ? " — " + x.mname : "")) + "</option>").join("");
+      note.textContent = ""; btn.disabled = false;
+    } catch (e) { note.textContent = "تعذّر جلب القرّاء، يلزم اتصال بالإنترنت أول مرة"; }
+  }
+  $("vsRec").addEventListener("change", e => QAudio.setChoice(r, e.target.value));
+
+  window.vsDo = async function (k) {
+    if (!vs) return;
+    const cur0 = vs; 
+    if (k === "tf") { closeVs(); QTafsir.open(r, cur0.v, cur0.p); }
+    else if (k === "bm") { closeVs(); openBm(cur0.v, cur0.p); }
+    else if (k === "au") {
+      const rc = recList.find(x => String(x.mid) === $("vsRec").value);
+      if (!rc) return;
+      QAudio.setChoice(r, rc.mid);
+      $("vsNote").textContent = "جارٍ التشغيل…";
+      try {
+        await QAudio.play({ r: r, s: cur0.s, a: cur0.a, sname: cur0.sname, total: cur0.total, rc: rc });
+        closeVs();
+      } catch (e) { $("vsNote").textContent = "تعذّر التشغيل، تأكد من الاتصال أو جرّب قارئًا آخر"; }
+    }
+  };
+
+  /* شريط التشغيل وتظليل الآية الجارية */
+  function clearAud() { document.querySelectorAll(".t.aud").forEach(n => n.classList.remove("aud")); }
+  function follow(s, a, tries) {
+    const toks = document.querySelectorAll('.t[data-v="' + s + ":" + a + '"]');
+    clearAud();
+    if (toks.length) {
+      toks.forEach(n => n.classList.add("aud"));
+      const sec = toks[0].closest("section"), p = sec ? +sec.dataset.p : cur;
+      if (p !== cur) goTo(p, true);
+    } else if ((tries || 0) < 4) {
+      goTo(cur + 1, true);                       /* الآية في صفحة تالية: نتقدّم ثم نعيد المحاولة */
+      setTimeout(() => { const st = QAudio.state(); if (st && st.s === s && st.a === a) follow(s, a, (tries || 0) + 1); }, 500);
+    }
+  }
+  QAudio.onVerse = (s, a) => follow(s, a, 0);
+  QAudio.onStop = () => clearAud();
+  QAudio.onError = () => { $("qaSub").textContent = "تعذّر تحميل الصوت"; };
+  document.addEventListener("qaudio", e => {
+    const st = e.detail, bar = $("qaBar");
+    bar.hidden = !st;
+    if (!st) return;
+    $("qaTitle").textContent = "سورة " + st.sname + " · الآية " + Q.ar(st.a);
+    $("qaSub").textContent = st.name + (st.hasTiming ? "" : " · بلا تتبّع للآيات");
+    $("qaToggle").innerHTML = st.playing ? ICO_PAUSE : ICO_PLAY;
+  });
+  $("qaToggle").addEventListener("click", () => QAudio.toggle());
+  $("qaStop").addEventListener("click", () => QAudio.stop());
+  $("qaNext").addEventListener("click", () => QAudio.step(1));
+  $("qaPrev").addEventListener("click", () => QAudio.step(-1));
 
   /* ---------- لوحة المفاتيح ---------- */
   document.addEventListener("keydown", e => {
@@ -644,7 +764,7 @@
     if (!Q.EDITIONS[id] || id === r) { closeSettings(); return; }
     const s = await Q.surahAtPage(r, cur);
     Q.choose(id);
-    location.replace("page.html?r=" + id + (s ? "&s=" + s.n : ""));
+    go("page.html?r=" + id + (s ? "&s=" + s.n : ""));
   };
 
   /* ---------- البدء ---------- */

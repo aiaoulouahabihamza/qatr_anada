@@ -142,3 +142,51 @@ svg .fl { fill: color-mix(in srgb, var(--sand) 40%, transparent) !important; str
 .item .icon svg .fl, .arow .icon svg .fl, .empty-box svg .fl { fill: color-mix(in srgb, var(--sand) 55%, transparent) !important; }
 .header-btns svg .fl, .abtn svg .fl, .rbtn svg .fl, .citybtn svg .fl, .featured svg .fl { fill: rgba(255,255,255,.16) !important; }
 .item .icon svg, .arow .icon svg { width: 30px; height: 30px; }
+
+/* ===== استجابة اللمس والشاشات (كل الأقسام) ===== */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; -webkit-tap-highlight-color: transparent; }
+a, button, .item, .arow, .card1, .card2, .hcard, .dcard, .qcard, .abtn, .rbtn, [onclick], summary, label, input, select {
+  touch-action: manipulation;              /* يلغي تأخير النقر المزدوج ويجعل أول لمسة تُحتسب فورًا */
+  -webkit-tap-highlight-color: transparent;
+}
+button, .item, .arow, .card1, .card2, .hcard, .dcard, .qcard, .abtn, .rbtn { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+button, .item, .arow, .card1, .card2, .abtn, .rbtn { transition: transform .12s ease, filter .12s ease, background-color .12s ease; }
+button:active, .item:active, .arow:active, .card1:active, .card2:active, .abtn:active, .rbtn:active { transform: scale(.97); filter: brightness(.95); }
+.modal-content { padding-bottom: max(16px, env(safe-area-inset-bottom, 0px)); overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+/* قوائم طويلة: لا يرسم المتصفح إلا ما يظهر */
+.arow, .hcard, .dcard { content-visibility: auto; contain-intrinsic-size: auto 84px; }
+img { max-width: 100%; }
+/* اللوحات الكبيرة: لا يتمدد المحتوى بلا حدّ */
+@media (min-width: 760px) {
+  .content, .list, .alist, .hlist, .wrap { max-width: 720px; margin-inline: auto; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }
+
+/* ===== الوضع الليلي: نفس الألوان الخمسة بأدوار مقلوبة ===== */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg:       #04101f;
+  --card:     color-mix(in srgb, var(--navy) 70%, var(--petrol));
+  --sage:     color-mix(in srgb, var(--navy) 55%, var(--petrol));
+  --tint:     color-mix(in srgb, var(--teal) 22%, var(--card));
+  --text:     var(--cream);
+  --ink:      var(--cream);
+  --border:   color-mix(in srgb, var(--sand) 22%, var(--navy));
+  --muted:    color-mix(in srgb, var(--cream) 62%, var(--navy));
+  --gold-ink: var(--sand);
+  --primary:  color-mix(in srgb, var(--teal) 80%, var(--petrol));
+  --accent:   color-mix(in srgb, var(--teal) 70%, var(--cream));
+}
+:root[data-theme="dark"] body { background: var(--bg); color: var(--text); }
+:root[data-theme="dark"] .header, :root[data-theme="dark"] .abar { background-image: linear-gradient(var(--angle,137.5deg), #021022, var(--petrol)); }
+:root[data-theme="dark"] .item .icon svg .ac, :root[data-theme="dark"] .arow .icon svg .ac, :root[data-theme="dark"] .empty-box svg .ac { stroke: var(--sand) !important; }
+:root[data-theme="dark"] .modal-content, :root[data-theme="dark"] .drawer { background: var(--card); color: var(--text); }
+:root[data-theme="dark"] input, :root[data-theme="dark"] select, :root[data-theme="dark"] textarea { background: var(--sage); color: var(--text); border-color: var(--border); }
+:root[data-theme="dark"] img.logo-img, :root[data-theme="dark"] .splash img { filter: none; }
+:root { --paper: #fff; }
+:root[data-theme="dark"] { --paper: var(--card); }
+:root[data-theme="dark"] .toast { color: var(--navy); }
+:root[data-theme="dark"] .prayer-row, :root[data-theme="dark"] .arow:active { background: var(--sage); }
+:root[data-theme="dark"] .htxt .c-q, :root[data-theme="dark"] .htxt .c-h { color: #7fd6cf; }
+:root[data-theme="dark"] .htxt .c-t, :root[data-theme="dark"] .htxt .c-r, :root[data-theme="dark"] .htxt .hh, :root[data-theme="dark"] .arow .aname { color: var(--cream); }
+:root[data-theme="dark"] .htxt .c-a { color: var(--sand); }
