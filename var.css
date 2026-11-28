@@ -81,7 +81,7 @@ button { cursor: pointer; border: none; background: none; }
 /* خط أسماء السور: يُكتب فيه رقم السورة بثلاثة أرقام، مثل 002 */
 @font-face {
   font-family: "surah-names";
-  src: url("assets/font/surah-names.ttf"), url("assets/font/%D8%AE%D8%B7%20%D8%A7%D8%B3%D9%85%D8%A7%D8%A1%20%D8%A7%D9%84%D8%B3%D9%88%D8%B1.ttf");
+  src: url("assets/font/surah-names.ttf");
   font-display: block;
 }
 

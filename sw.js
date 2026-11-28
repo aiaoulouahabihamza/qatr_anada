@@ -1,12 +1,12 @@
 /* ==========================================================================
    قطر الندى — sw.js : خدمة العمل دون اتصال (PWA Service Worker)
-   استراتيجية تخزين مؤقت ذكية: Cache-First للخطوط والصور، Network-First للصفحات والبيانات
-   مع التحديث التلقائي للكاش وحفظ الصفحات دون اتصال
+   Cache-First للخطوط والصور وبيانات JSON، Network-First للصفحات وجداول المواقيت الشهرية،
+   Stale-While-Revalidate لملفات CSS/JS، مع حذف الكاش القديم تلقائيًا والعمل دون اتصال
    ========================================================================== */
 
 /* زِد رقم الإصدار عند تعديل صفحات HTML أو الصور أو الخطوط ليتحدث الكاش عند المستخدمين */
-const SHELL_CACHE = "qatr-shell-v21";
-const DATA_CACHE = "qatr-data-v6";
+const SHELL_CACHE = "qatr-shell-v23";
+const DATA_CACHE = "qatr-data-v7";
 const AUDIO_CACHE = "qatr-audio-v2";
 
 /* مسار المجلد الذي يوجد فيه sw.js: "/" على نطاق رئيسي، و"/اسم-المستودع/" على GitHub Pages */
@@ -56,14 +56,11 @@ const SHELL_ASSETS = abs([
   "/prayer/calc.js",
   "/prayer/core.js",
   "/prayer/prayer.js",
-  "/assets/img/logo.png",
-  "/assets/img/logo-s.png",
-  "/assets/img/logo.svg",
+  "/assets/img/logo.webp",
+  "/assets/img/logo-s.webp",
   "/assets/img/icon-180.png",
   "/assets/img/icon-192.png",
   "/assets/img/icon-512.png",
-  "/assets/img/icon-192.svg",
-  "/assets/img/icon-512.svg",
   "/assets/img/icon-maskable-512.png",
   "/assets/img/ayah_frame_brown.svg",
   "/assets/img/surah_frame_brown.svg",
@@ -86,7 +83,6 @@ const SHELL_ASSETS = abs([
   "/assets/font/warsh.ttf",
   "/assets/font/aalmaghrabi.ttf",
   "/assets/font/surah-names.ttf",
-  "/assets/font/%D8%AE%D8%B7%20%D8%A7%D8%B3%D9%85%D8%A7%D8%A1%20%D8%A7%D9%84%D8%B3%D9%88%D8%B1.ttf"
 ]);
 
 const CORE_DATA_ASSETS = abs([
@@ -198,6 +194,22 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
+  /* 2أ. جداول المواقيت الشهرية (horaires-YYYY-MM.js): Network-First، فتظهر الأشهر الجديدة والتصحيحات فورًا
+        وتُحفظ للاستخدام دون اتصال. لا حاجة لتعديل هذا الملف عند إضافة شهر جديد. */
+  if (url.pathname.startsWith(BASE + "assets/json/horaires-")) {
+    event.respondWith((async () => {
+      const cache = await caches.open(DATA_CACHE);
+      try {
+        const res = await fetch(req);
+        if (res && res.ok) cache.put(req, res.clone());
+        return res;
+      } catch (e) {
+        return (await cache.match(req, { ignoreSearch: true })) || new Response("", { status: 503 });
+      }
+    })());
+    return;
+  }
+
   /* 2. ملفات JSON والبيانات: Cache-First ذكي مع الحفظ عند التصفح لأول مرة */
   if (isJsonData(url)) {
     event.respondWith((async () => {
@@ -254,3 +266,4 @@ self.addEventListener("fetch", (event) => {
     return (await network) || new Response("", { status: 504 });
   })());
 });
+
