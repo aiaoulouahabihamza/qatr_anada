@@ -1,8 +1,1 @@
-# قطر الندى — robots.txt
-# محتوى الصفحات يُحمَّل من ملفات JSON والخطوط داخل /assets/، لذلك نسمح بها
-# حتى يتمكن Googlebot من تنفيذ الصفحة وفهم محتواها.
 
-User-agent: *
-Allow: /
-
-Sitemap: https://qatrnada.surge.sh/sitemap.xml
